@@ -195,9 +195,12 @@ async function handleApplicationInteraction(i){
   }
 
   if(i.isModalSubmit()&&i.customId.startsWith("apply-modal:")){
-    if(!i.guild)return i.reply({content:"This application can only be submitted inside the server.",flags:MessageFlags.Ephemeral});
     await i.deferReply({flags:MessageFlags.Ephemeral});
-    const type=i.customId.split(":")[1];
+    const parts=i.customId.split(":");
+    const guildId=parts[1];
+    const type=parts[2];
+    const guild=await i.client.guilds.fetch(guildId).catch(()=>null);
+    if(!guild)return i.editReply("❌ Application submission failed: the Brandon Books & Stories server could not be found.");
     const answers={
       why:i.fields.getTextInputValue("why"),
       experience:i.fields.getTextInputValue("experience"),
@@ -205,7 +208,7 @@ async function handleApplicationInteraction(i){
       extra:i.fields.getTextInputValue("extra")||"None provided."
     };
     try{
-      const result=await createApplicationChannel(i,type,answers);
+      const result=await createApplicationChannel({...i,guild},type,answers);
       if(result.existing){
        const typeName=TYPES[type]||"Application";
        await sendApplicationDM(i.user,new EmbedBuilder().setTitle("📋 Application Already Open").setDescription("You already have an open **"+typeName+"** application.").addFields({name:"Status",value:"🟡 Awaiting staff review",inline:true},{name:"Application",value:"<#"+result.existing.id+">",inline:true}).setFooter({text:"📖 Real Stories • Bigger Purpose"}));
