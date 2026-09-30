@@ -40,7 +40,7 @@ const structure={
 "📚 BOOKS":["📖・my-life-story-with-grandma","📕・part-2","🛒・where-to-buy","⭐・reader-reviews"],
 "✍️ THE AUTHOR":["👤・about-brandon","✍️・writing-journey","🌅・family-and-memories","📸・behind-the-books"],
 "💬 COMMUNITY":["💬・general","📚・book-discussion","❤️・memories","💡・reader-ideas","🎉・community"],
-"📺 MEDIA":["▶️・youtube","📸・instagram","📘・facebook","🎵・music-projects"],
+"📺 MEDIA":["📱・social-media","▶️・youtube","📸・instagram","📘・facebook","🎵・music-projects"],
 "🤖 BOT":["🤖・bot-commands","📋・bot-updates"],
 "🔒 STAFF":["🔒・staff","🛠️・staff-logs","📊・server-logs"]
 };
