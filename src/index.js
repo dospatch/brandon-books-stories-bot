@@ -3,14 +3,17 @@ const PORT=process.env.PORT||8080;
 http.createServer((req,res)=>{res.writeHead(200,{"Content-Type":"text/plain"});res.end("Brandon Books & Stories bot is online.\n");}).listen(PORT,"0.0.0.0",()=>console.log("Health server listening on "+PORT));
 require("dotenv").config();
 const {Client,GatewayIntentBits,ChannelType,EmbedBuilder,ActivityType,REST,Routes,SlashCommandBuilder,PermissionFlagsBits}=require("discord.js");
+
 const token=process.env.DISCORD_TOKEN;
 if(!token){console.error("STARTUP FAILED: DISCORD_TOKEN is missing.");process.exit(1);}
 
 const client=new Client({intents:[GatewayIntentBits.Guilds]});
+let discordReady=false;
 
 client.on("error",e=>console.error("DISCORD CLIENT ERROR:",e));
 client.on("warn",m=>console.warn("DISCORD WARNING:",m));
 client.on("shardError",e=>console.error("DISCORD SHARD ERROR:",e));
+client.on("debug",m=>console.log("DISCORD DEBUG:",m));
 
 const commands=[
  new SlashCommandBuilder().setName("setup-author-server").setDescription("Create or repair the Books & Stories server structure."),
@@ -33,65 +36,40 @@ const structure={
 const roles=["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team","📚 Reader","⭐ VIP Reader","🤖 Bot"];
 
 function allowed(i){return i.guild.ownerId===i.user.id || (process.env.OWNER_ID && i.user.id===process.env.OWNER_ID);}
-
 function explainDiscordError(e,context){
  const code=e?.code||e?.rawError?.code||"unknown";
  const status=e?.status||e?.httpStatus||e?.rawError?.status||"unknown";
- const api=e?.method&&e?.url ? " | "+e.method+" "+e.url : "";
- return "Discord access failure at "+context+" | code="+code+" | status="+status+" | message="+(e?.message||"Unknown Discord error")+api;
+ return "Discord access failure at "+context+" | code="+code+" | status="+status+" | message="+(e?.message||"Unknown Discord error");
 }
-
-async function withTimeout(promise,label,ms=12000){
- const timeout=new Promise((_,reject)=>setTimeout(()=>reject(new Error("Timed out while "+label+" after "+ms+"ms. Discord did not complete the request.")),ms));
+async function withTimeout(promise,label,ms=120000){
+ const timeout=new Promise((_,reject)=>setTimeout(()=>reject(new Error("Timed out while "+label+" after "+ms+"ms.")),ms));
  return Promise.race([promise,timeout]);
 }
 
 async function setup(guild){
- let step="checking bot permissions";
  const me=guild.members.me || await guild.members.fetchMe();
  const needed=[[PermissionFlagsBits.ViewChannel,"View Channel"],[PermissionFlagsBits.ManageChannels,"Manage Channels"],[PermissionFlagsBits.ManageRoles,"Manage Roles"],[PermissionFlagsBits.SendMessages,"Send Messages"],[PermissionFlagsBits.EmbedLinks,"Embed Links"],[PermissionFlagsBits.ReadMessageHistory,"Read Message History"]];
  const missing=needed.filter(x=>!me.permissions.has(x[0])).map(x=>x[1]);
- if(missing.length)throw new Error("Missing bot server permissions: "+missing.join(", ")+" | Add these permissions to the bot's managed role.");
- if(!me.permissions.has(PermissionFlagsBits.Administrator)){
-  const everyone=guild.roles.everyone;
-  console.log("SETUP PREFLIGHT: Bot role="+me.roles.highest.name+" position="+me.roles.highest.position+" | @everyone position="+everyone.position);
- }
+ if(missing.length)throw new Error("Missing bot server permissions: "+missing.join(", "));
  const roleMap={};
  for(const name of roles){
-  step="creating/checking role "+name;
   let r=guild.roles.cache.find(x=>x.name===name);
-  if(!r){
-   try{r=await guild.roles.create({name,reason:"Books & Stories bot setup"});}
-   catch(e){throw new Error(explainDiscordError(e,"creating role "+name+" | requires Manage Roles"));}
-  } else if(r.managed){
-   throw new Error("Cannot use role "+name+" because it is a managed/integration role. Create a normal Discord role with this name instead.");
-  }
+  if(!r){try{r=await guild.roles.create({name,reason:"Books & Stories bot setup"});}catch(e){throw new Error(explainDiscordError(e,"creating role "+name));}}
+  if(r.managed)throw new Error("Cannot use managed role "+name+".");
   roleMap[name]=r;
  }
  for(const [catName,names] of Object.entries(structure)){
-  step="creating/checking category "+catName;
   let cat=guild.channels.cache.find(x=>x.type===ChannelType.GuildCategory&&x.name===catName);
-  if(!cat){
-   try{cat=await guild.channels.create({name:catName,type:ChannelType.GuildCategory,reason:"Books & Stories bot setup"});}
-   catch(e){throw new Error(explainDiscordError(e,"creating category "+catName+" | requires Manage Channels"));}
-  }
+  if(!cat){try{cat=await guild.channels.create({name:catName,type:ChannelType.GuildCategory,reason:"Books & Stories bot setup"});}catch(e){throw new Error(explainDiscordError(e,"creating category "+catName));}}
   for(const name of names){
-   step="creating/checking channel "+name;
    let ch=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name===name&&x.parentId===cat.id);
-   if(!ch){
-    try{ch=await guild.channels.create({name,type:ChannelType.GuildText,parent:cat.id,reason:"Books & Stories bot setup"});}
-    catch(e){throw new Error(explainDiscordError(e,"creating channel "+name+" in category "+catName+" | requires Manage Channels"));}
-   }
+   if(!ch){try{ch=await guild.channels.create({name,type:ChannelType.GuildText,parent:cat.id,reason:"Books & Stories bot setup"});}catch(e){throw new Error(explainDiscordError(e,"creating channel "+name));}}
    if(catName==="🔒 STAFF"){
-    step="configuring staff permissions for "+name;
-    try{await ch.permissionOverwrites.edit(guild.roles.everyone,{ViewChannel:false});}
-    catch(e){throw new Error(explainDiscordError(e,"denying @everyone access to staff channel "+name+" | requires Manage Channels"));}
+    try{await ch.permissionOverwrites.edit(guild.roles.everyone,{ViewChannel:false});}catch(e){throw new Error(explainDiscordError(e,"hiding staff channel "+name));}
     for(const rn of ["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team"]){
      const role=roleMap[rn];
-     if(!role)throw new Error("Staff role was not created: "+rn);
-     if(role.position>=me.roles.highest.position)throw new Error("Cannot manage permission for role "+rn+" because it is at/above the bot highest role.");
-     try{await ch.permissionOverwrites.edit(role,{ViewChannel:true,SendMessages:true,ReadMessageHistory:true});}
-     catch(e){throw new Error(explainDiscordError(e,"granting "+rn+" access to staff channel "+name+" | requires Manage Channels"));}
+     if(role.position>=me.roles.highest.position)throw new Error("Bot role must be above "+rn+" in the Discord role list.");
+     try{await ch.permissionOverwrites.edit(role,{ViewChannel:true,SendMessages:true,ReadMessageHistory:true});}catch(e){throw new Error(explainDiscordError(e,"granting staff access to "+name));}
     }
    }
   }
@@ -103,53 +81,44 @@ async function setup(guild){
 }
 
 client.once("ready",async()=>{
+ discordReady=true;
  console.log("BOOKS & STORIES READY: "+client.user.tag+" | Guilds: "+client.guilds.cache.size);
  client.user.setPresence({activities:[{name:"Books & Stories 📖",type:ActivityType.Watching}],status:"online"});
  try{
   const rest=new REST({version:"10"}).setToken(token);
-  console.log("Registering "+commands.length+" global slash commands...");
   await rest.put(Routes.applicationCommands(client.user.id),{body:commands});
-  console.log("SLASH COMMANDS REGISTERED SUCCESSFULLY.");
+  console.log("GLOBAL SLASH COMMANDS REGISTERED.");
   for(const guild of client.guilds.cache.values()){
-   try{
-    await rest.put(Routes.applicationGuildCommands(client.user.id,guild.id),{body:commands});
-    console.log("GUILD COMMANDS REGISTERED: "+guild.name+" ("+guild.id+")");
-   }catch(e){console.error("GUILD COMMAND REGISTRATION FAILED: "+guild.name+":",e.code||"unknown",e.message||e);}
+   try{await rest.put(Routes.applicationGuildCommands(client.user.id,guild.id),{body:commands});console.log("GUILD COMMANDS REGISTERED: "+guild.name+" ("+guild.id+")");}
+   catch(e){console.error("GUILD COMMAND REGISTRATION FAILED:",e.code||"unknown",e.message||e);}
   }
- }catch(e){
-  console.error("SLASH COMMAND REGISTRATION FAILED:",e.code||"unknown",e.message||e);
- }
+ }catch(e){console.error("SLASH COMMAND REGISTRATION FAILED:",e.code||"unknown",e.message||e);}
 });
 
 client.on("interactionCreate",async i=>{
+ console.log("INTERACTION EVENT: "+(i.type||"unknown")+" / "+(i.commandName||"non-command")+" guild="+(i.guildId||"DM"));
  if(!i.isChatInputCommand())return;
- console.log("INTERACTION RECEIVED: /"+i.commandName+" by "+i.user.tag);
- if(!i.guild)return i.reply({content:"This command can only be used in a server.",ephemeral:true}).catch(()=>{});
  try{
+  if(!i.guild)return i.reply({content:"This command can only be used in a server.",ephemeral:true});
+  if(i.commandName==="ping")return i.reply({content:"🏓 Pong! The bot is online and responding.",ephemeral:true});
   if(i.commandName==="setup-author-server"){
    if(!allowed(i))return i.reply({content:"🔒 Only the server owner or configured bot owner can run setup.",ephemeral:true});
-   await i.reply({content:"🔎 **Books & Stories setup starting...** I’m checking Discord access and will report the exact problem if anything fails.",ephemeral:true});
-   try{
-    await withTimeout(setup(i.guild),"setting up the server",120000);
-    await i.editReply("✅ **Books & Stories server setup is complete.** You can safely run setup again to repair the structure.");
-   }catch(e){
-    console.error("SETUP FAILED at setup step:",e);
-    const detail=e.message||String(e);
-    await i.editReply("❌ **Setup failed**\\n\\n**What failed:** "+detail+"\\n\\nCheck the FadeHost logs for the full diagnostic.").catch(()=>{});
-   }
+   await i.reply({content:"🔎 **Books & Stories setup starting...**",ephemeral:true});
+   try{await withTimeout(setup(i.guild),"setting up the server");await i.editReply("✅ **Books & Stories server setup is complete.**");}
+   catch(e){console.error("SETUP FAILED:",e);await i.editReply("❌ **Setup failed:** "+(e.message||String(e))).catch(()=>{});}
    return;
   }
-  if(i.commandName==="ping")return i.reply({content:"🏓 Pong! The bot is online and responding.",ephemeral:true});
   if(i.commandName==="help")return i.reply({content:"📖 **Books & Stories Bot**\n\n/setup-author-server — Build the server\n/books — Show books\n/website — Show website\n/serverinfo — Server info\n/ping — Test the bot\n/help — Help",ephemeral:true});
   if(i.commandName==="books")return i.reply({embeds:[new EmbedBuilder().setTitle("📚 Brandon D. Coleman Jr. — Books").setDescription("📖 My Life Story With Grandma\n"+(process.env.BOOK_1_URL||"Book link coming soon.")+"\n\n📕 Part 2: Continuing the Journey, Memories, and the Road Ahead\n"+(process.env.PART_2_URL||"Part 2 link coming soon."))]});
   if(i.commandName==="website")return i.reply({content:"🌐 **Brandon D. Coleman Jr. — Books & Stories**\n"+(process.env.WEBSITE_URL||"https://brandon-books-stories-bot-website-3n7hbjx9r-dospatchs-projects.vercel.app")});
   if(i.commandName==="serverinfo")return i.reply({content:"🖥️ **"+i.guild.name+"**\nMembers: "+i.guild.memberCount+"\nChannels: "+i.guild.channels.cache.size,ephemeral:true});
  }catch(e){
   console.error("INTERACTION FAILED:",e);
-  const msg="❌ Command failed: "+(e.message||String(e));
-  if(i.deferred||i.replied)await i.editReply(msg).catch(()=>{});
-  else await i.reply({content:msg,ephemeral:true}).catch(()=>{});
+  if(i.deferred||i.replied)await i.editReply("❌ Command failed: "+(e.message||String(e))).catch(()=>{});
+  else await i.reply({content:"❌ Command failed: "+(e.message||String(e)),ephemeral:true}).catch(()=>{});
  }
 });
 
-client.login(token).then(()=>console.log("Discord login initiated.")).catch(e=>{console.error("DISCORD LOGIN FAILED:",e.code||"unknown",e.message||e);process.exit(1);});
+process.on("unhandledRejection",e=>console.error("UNHANDLED REJECTION:",e));
+process.on("uncaughtException",e=>{console.error("UNCAUGHT EXCEPTION:",e);});
+client.login(token).then(()=>console.log("DISCORD LOGIN INITIATED.")).catch(e=>{console.error("DISCORD LOGIN FAILED:",e.code||"unknown",e.message||e);process.exit(1);});
