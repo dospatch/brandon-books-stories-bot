@@ -46,20 +46,39 @@ async function createApplicationChannel(i,type,answers){
     {id:i.client.user.id,allow:[PermissionFlagsBits.ViewChannel,PermissionFlagsBits.SendMessages,PermissionFlagsBits.ReadMessageHistory,PermissionFlagsBits.ManageChannels]}
   ];
 
+  // Only include staff roles the bot is actually allowed to manage.
+  // Discord rejects permission overwrites for roles at/above the bot's highest role.
+  const botMember=i.guild.members.me || await i.guild.members.fetchMe();
   for(const name of ["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team"]){
     const role=i.guild.roles.cache.find(r=>r.name===name);
-    if(role)overwrites.push({id:role.id,allow:[PermissionFlagsBits.ViewChannel,PermissionFlagsBits.SendMessages,PermissionFlagsBits.ReadMessageHistory]});
+    if(role && !role.managed && role.position<botMember.roles.highest.position){
+      overwrites.push({id:role.id,allow:[PermissionFlagsBits.ViewChannel,PermissionFlagsBits.SendMessages,PermissionFlagsBits.ReadMessageHistory]});
+    }else if(role){
+      console.warn("APPLICATION ROLE SKIPPED: "+name+" is managed or not below the bot's highest role.");
+    }
   }
 
   const safeName=i.user.username.toLowerCase().replace(/[^a-z0-9-]/g,"-").slice(0,40)||"user";
-  const channel=await i.guild.channels.create({
+  let channel;
+  try{
+   channel=await i.guild.channels.create({
     name:"application-"+safeName,
     type:ChannelType.GuildText,
     parent:staff.id,
     topic:"books-application:"+i.user.id,
     permissionOverwrites:overwrites,
     reason:"Books & Stories application"
-  });
+   });
+  }catch(e){
+   const code=e?.code||e?.rawError?.code||"unknown";
+   const status=e?.status||e?.httpStatus||e?.rawError?.status||"unknown";
+   console.error("APPLICATION CHANNEL CREATE FAILED:",{
+    code,status,message:e?.message||String(e),
+    botHighestRole:botMember.roles.highest?.name,
+    botHighestRolePosition:botMember.roles.highest?.position
+   });
+   throw new Error("Discord denied application channel creation | code="+code+" | status="+status+" | message="+(e?.message||String(e)));
+  }
 
   const typeName=TYPES[type]||"Application";
   await channel.send({
