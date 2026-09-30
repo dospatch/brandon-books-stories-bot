@@ -186,7 +186,11 @@ async function setup(guild){
 
  const categoryMap={};
  for(const [catName,names] of Object.entries(structure)){
-  let cat=guild.channels.cache.find(x=>x.type===ChannelType.GuildCategory&&x.name===catName);
+  // Consolidate duplicate categories created by previous setup/recovery runs.
+  // Keep one category, move unique channels into it, and remove duplicate
+  // channels/categories when the bot has permission to do so.
+  const matchingCategories=guild.channels.cache.filter(x=>x.type===ChannelType.GuildCategory&&x.name===catName);
+  let cat=matchingCategories.find(x=>x.permissionsFor(me)?.has(PermissionFlagsBits.ViewChannel))||matchingCategories.first();
   if(!cat){
    try{
     cat=await guild.channels.create({
@@ -199,6 +203,30 @@ async function setup(guild){
    }
   }
   categoryMap[catName]=cat;
+
+  if(matchingCategories.size>1){
+   for(const duplicate of matchingCategories.values()){
+    if(duplicate.id===cat.id)continue;
+    const duplicateChannels=guild.channels.cache.filter(x=>x.type===ChannelType.GuildText&&x.parentId===duplicate.id);
+    for(const duplicateChannel of duplicateChannels.values()){
+     const target=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name===duplicateChannel.name&&x.parentId===cat.id);
+     try{
+      if(target){
+       await duplicateChannel.delete("Books & Stories duplicate channel cleanup");
+      }else{
+       await duplicateChannel.setParent(cat.id,{lockPermissions:false,reason:"Books & Stories duplicate category cleanup"});
+      }
+     }catch(e){
+      console.warn("DUPLICATE CHANNEL CLEANUP WARNING:",explainDiscordError(e,"cleaning duplicate channel "+duplicateChannel.name));
+     }
+    }
+    try{
+     if(duplicate.deletable)await duplicate.delete("Books & Stories duplicate category cleanup");
+    }catch(e){
+     console.warn("DUPLICATE CATEGORY CLEANUP WARNING:",explainDiscordError(e,"cleaning duplicate category "+catName));
+    }
+   }
+  }
 
   // Reconcile category visibility and staff access every time setup runs.
   if(catName==="🔒 STAFF"){
@@ -261,9 +289,20 @@ async function setup(guild){
   }
 
   for(const name of names){
-   // First look for the exact channel anywhere, so an existing channel is
-   // repaired/moved instead of creating a duplicate in the correct category.
+   // Prefer the intended category. If a duplicate channel exists elsewhere,
+   // move it into the intended category instead of creating another copy.
    let ch=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name===name&&x.parentId===cat.id);
+   if(!ch){
+    const elsewhere=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name===name&&x.parentId!==cat.id);
+    if(elsewhere){
+     try{
+      await elsewhere.setParent(cat.id,{lockPermissions:false,reason:"Books & Stories duplicate channel repair"});
+      ch=elsewhere;
+     }catch(e){
+      console.warn("CHANNEL MOVE WARNING:",explainDiscordError(e,"moving duplicate channel "+name));
+     }
+    }
+   }
    if(!ch){
     try{
      ch=await guild.channels.create({
@@ -274,12 +313,6 @@ async function setup(guild){
      });
     }catch(e){
      throw new Error(explainDiscordError(e,"creating channel "+name));
-    }
-   }else if(ch.parentId!==cat.id){
-    try{
-     await ch.setParent(cat.id,{lockPermissions:false,reason:"Books & Stories channel structure repair"});
-    }catch(e){
-     throw new Error(explainDiscordError(e,"moving channel "+name+" into "+catName));
     }
    }
 
