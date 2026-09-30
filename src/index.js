@@ -3,6 +3,7 @@ const PORT=process.env.PORT||8080;
 http.createServer((req,res)=>{res.writeHead(200,{"Content-Type":"text/plain"});res.end("Brandon Books & Stories bot is online.\n");}).listen(PORT,"0.0.0.0",()=>console.log("Health server listening on "+PORT));
 require("dotenv").config();
 const {Client,GatewayIntentBits,ChannelType,EmbedBuilder,ActivityType,REST,Routes,SlashCommandBuilder,PermissionFlagsBits,MessageFlags}=require("discord.js");
+const {applicationMenu,handleApplicationInteraction}=require("./applications");
 
 const token=process.env.DISCORD_TOKEN;
 if(!token){console.error("STARTUP FAILED: DISCORD_TOKEN is missing.");process.exit(1);}
@@ -21,7 +22,8 @@ const commands=[
  new SlashCommandBuilder().setName("books").setDescription("Show the author's books."),
  new SlashCommandBuilder().setName("website").setDescription("Show the author website."),
  new SlashCommandBuilder().setName("serverinfo").setDescription("Show server information."),
- new SlashCommandBuilder().setName("ping").setDescription("Check whether the bot is responding.")
+ new SlashCommandBuilder().setName("ping").setDescription("Check whether the bot is responding."),
+ new SlashCommandBuilder().setName("apply").setDescription("Submit a private Books & Stories community application.")
 ].map(x=>x.toJSON());
 
 const structure={
@@ -97,10 +99,14 @@ client.once("ready",async()=>{
 
 client.on("interactionCreate",async i=>{
  console.log("INTERACTION EVENT: "+(i.type||"unknown")+" / "+(i.commandName||"non-command")+" guild="+(i.guildId||"DM"));
- if(!i.isChatInputCommand())return;
  try{
+  if(!i.isChatInputCommand()){
+   await handleApplicationInteraction(i);
+   return;
+  }
   if(!i.guild)return i.reply({content:"This command can only be used in a server.",flags:MessageFlags.Ephemeral});
   if(i.commandName==="ping")return i.reply({content:"🏓 Pong! The bot is online and responding.",flags:MessageFlags.Ephemeral});
+  if(i.commandName==="apply")return i.reply({content:"📋 **Brandon Books & Stories Applications**\n\nChoose the type of application you want to submit below. Your application will be sent to a private staff review channel.",components:[applicationMenu()],flags:MessageFlags.Ephemeral});
   if(i.commandName==="setup-author-server"){
    if(!allowed(i))return i.reply({content:"🔒 Only the server owner or configured bot owner can run setup.",flags:MessageFlags.Ephemeral});
    await i.reply({content:"🔎 **Books & Stories setup starting...**",flags:MessageFlags.Ephemeral});
@@ -108,7 +114,7 @@ client.on("interactionCreate",async i=>{
    catch(e){console.error("SETUP FAILED:",e);await i.editReply("❌ **Setup failed:** "+(e.message||String(e))).catch(()=>{});}
    return;
   }
-  if(i.commandName==="help")return i.reply({content:"📖 **Books & Stories Bot**\n\n/setup-author-server — Build the server\n/books — Show books\n/website — Show website\n/serverinfo — Server info\n/ping — Test the bot\n/help — Help",flags:MessageFlags.Ephemeral});
+  if(i.commandName==="help")return i.reply({content:"📖 **Books & Stories Bot**\n\n/setup-author-server — Build the server\n/apply — Submit an application\n/books — Show books\n/website — Show website\n/serverinfo — Server info\n/ping — Test the bot\n/help — Help",flags:MessageFlags.Ephemeral});
   if(i.commandName==="books")return i.reply({embeds:[new EmbedBuilder().setTitle("📚 Brandon D. Coleman Jr. — Books").setDescription("📖 My Life Story With Grandma\n"+(process.env.BOOK_1_URL||"Book link coming soon.")+"\n\n📕 Part 2: Continuing the Journey, Memories, and the Road Ahead\n"+(process.env.PART_2_URL||"Part 2 link coming soon."))]});
   if(i.commandName==="website")return i.reply({content:"🌐 **Brandon D. Coleman Jr. — Books & Stories**\n"+(process.env.WEBSITE_URL||"https://brandon-books-stories-bot-website-3n7hbjx9r-dospatchs-projects.vercel.app")});
   if(i.commandName==="serverinfo")return i.reply({content:"🖥️ **"+i.guild.name+"**\nMembers: "+i.guild.memberCount+"\nChannels: "+i.guild.channels.cache.size,flags:MessageFlags.Ephemeral});
