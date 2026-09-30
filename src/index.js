@@ -48,6 +48,17 @@ async function withTimeout(promise,label,ms=120000){
  return Promise.race([promise,timeout]);
 }
 
+async function upsertEmbedMessage(channel, marker, embed){
+ const messages=await channel.messages.fetch({limit:50}).catch(()=>null);
+ if(!messages)return null;
+ const existing=messages.find(m=>m.author?.id===client.user.id && m.embeds?.some(e=>e.footer?.text===marker));
+ if(existing){
+  await existing.edit({embeds:[embed]});
+  return existing;
+ }
+ return channel.send({embeds:[embed]});
+}
+
 async function announceDeploymentSuccess(guild){
  try{
   const channelId=process.env.BOT_UPDATES_CHANNEL_ID;
@@ -242,7 +253,7 @@ async function setup(guild){
     "❤️ **Our Goal**\\nThese rules aren't here to make the community feel strict. They're here to help protect the people, conversations, stories, and memories that make this community special.\\n\\n"+
     "Thank you for being part of Brandon Books & Stories! 📚❤️"
    );
-  await rules.send({embeds:[rulesEmbed]}).catch(e=>console.warn("RULES MESSAGE FAILED:",e.message));
+  rulesEmbed.setFooter({text:"BBS:AUTO:RULES"});\n  await upsertEmbedMessage(rules,"BBS:AUTO:RULES",rulesEmbed).catch(e=>console.warn("RULES MESSAGE FAILED:",e.message));
  }
 }
 
@@ -303,7 +314,7 @@ client.on("interactionCreate",async i=>{
    }
    return;
   }
-  if(i.commandName==="help")return i.reply({content:"📖 **Books & Stories Bot**\n\n/setup-author-server — Build the server\n/apply — Submit an application\n/books — Show books\n/website — Show website\n/serverinfo — Server info\n/ping — Test the bot\n/help — Help",flags:MessageFlags.Ephemeral});
+  if(i.commandName==="help")return i.reply({embeds:[new EmbedBuilder().setTitle("📖 Brandon Books & Stories").setDescription("**Community & Information**\n📚 `/books` — View the books and purchase links\n🌐 `/website` — Open the author website\n🖥️ `/serverinfo` — View server information\n\n**Community**\n📋 `/apply` — Submit a private application\n🛠️ `/setup-author-server` — Repair the server structure *(owner/staff setup only)*\n\n**Bot**\n🏓 `/ping` — Check bot response\n❓ `/help` — Show this help menu").setFooter({text:"📖 Real Stories • Bigger Purpose"})],flags:MessageFlags.Ephemeral});
   if(i.commandName==="books")return i.reply({embeds:[new EmbedBuilder().setTitle("📚 Brandon D. Coleman Jr. — Books").setDescription("📖 My Life Story With Grandma\n"+(process.env.BOOK_1_URL||"Book link coming soon.")+"\n\n📕 Part 2: Continuing the Journey, Memories, and the Road Ahead\n"+(process.env.PART_2_URL||"Part 2 link coming soon."))]});
   if(i.commandName==="website")return i.reply({content:"🌐 **Brandon D. Coleman Jr. — Books & Stories**\n"+(process.env.WEBSITE_URL||"https://brandon-books-stories-bot-website-3n7hbjx9r-dospatchs-projects.vercel.app")});
   if(i.commandName==="serverinfo")return i.reply({content:"🖥️ **"+i.guild.name+"**\nMembers: "+i.guild.memberCount+"\nChannels: "+i.guild.channels.cache.size,flags:MessageFlags.Ephemeral});
