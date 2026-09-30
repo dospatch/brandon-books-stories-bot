@@ -75,8 +75,8 @@ async function announceDeploymentSuccess(guild){
     {name:"Hosting",value:"FadeHost",inline:true},
     {name:"Source",value:"GitHub → FadeHost",inline:true}
    )
-   .setFooter({text:"📖 Real Stories • Bigger Purpose"});
-  await channel.send({embeds:[embed]});
+   .setFooter({text:"BBS:AUTO:DEPLOY"});
+  await upsertEmbedMessage(channel,"BBS:AUTO:DEPLOY",embed);
  }catch(e){
   console.warn("DEPLOYMENT STATUS MESSAGE FAILED:",e.message||e);
  }
