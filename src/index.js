@@ -2,7 +2,7 @@ const http=require("http");
 const PORT=process.env.PORT||8080;
 http.createServer((req,res)=>{res.writeHead(200,{"Content-Type":"text/plain"});res.end("Brandon Books & Stories bot is online.\n");}).listen(PORT,"0.0.0.0",()=>console.log("Health server listening on "+PORT));
 require("dotenv").config();
-const {Client,GatewayIntentBits,ChannelType,EmbedBuilder,ActivityType,REST,Routes,SlashCommandBuilder}=require("discord.js");
+const {Client,GatewayIntentBits,ChannelType,EmbedBuilder,ActivityType,REST,Routes,SlashCommandBuilder,PermissionFlagsBits}=require("discord.js");
 const token=process.env.DISCORD_TOKEN;
 if(!token){console.error("DISCORD_TOKEN is missing.");process.exit(1);}
 const client=new Client({intents:[GatewayIntentBits.Guilds]});
@@ -28,22 +28,33 @@ const roles=["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Au
 function allowed(i){return i.guild.ownerId===i.user.id || (process.env.OWNER_ID && i.user.id===process.env.OWNER_ID);}
 
 async function setup(guild){
+ let step="checking bot permissions";
+ const me=guild.members.me || await guild.members.fetchMe();
+ const needed=[[PermissionFlagsBits.ViewChannel,"View Channel"],[PermissionFlagsBits.ManageChannels,"Manage Channels"],[PermissionFlagsBits.ManageRoles,"Manage Roles"],[PermissionFlagsBits.SendMessages,"Send Messages"],[PermissionFlagsBits.EmbedLinks,"Embed Links"],[PermissionFlagsBits.ReadMessageHistory,"Read Message History"]];
+ const missing=needed.filter(function(x){return !me.permissions.has(x[0]);}).map(function(x){return x[1];});
+ if(missing.length)throw new Error("Missing bot permissions: "+missing.join(", "));
  const roleMap={};
  for(const name of roles){
+  step="creating/checking role "+name;
   let r=guild.roles.cache.find(x=>x.name===name);
   if(!r) r=await guild.roles.create({name,reason:"Books & Stories bot setup"});
   roleMap[name]=r;
  }
  for(const [catName,names] of Object.entries(structure)){
+  step="creating/checking category "+catName;
   let cat=guild.channels.cache.find(x=>x.type===ChannelType.GuildCategory&&x.name===catName);
   if(!cat) cat=await guild.channels.create({name:catName,type:ChannelType.GuildCategory,reason:"Books & Stories bot setup"});
   for(const name of names){
+   step="creating/checking channel "+name;
    let ch=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name===name&&x.parentId===cat.id);
    if(!ch) ch=await guild.channels.create({name,type:ChannelType.GuildText,parent:cat.id,reason:"Books & Stories bot setup"});
    if(catName==="🔒 STAFF"){
+    step="configuring staff permissions for "+name;
     await ch.permissionOverwrites.edit(guild.roles.everyone,{ViewChannel:false});
     for(const rn of ["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team"])
-     await ch.permissionOverwrites.edit(roleMap[rn],{ViewChannel:true,SendMessages:true,ReadMessageHistory:true});
+     const role=roleMap[rn];
+     if(role.position>=me.roles.highest.position)throw new Error("Cannot manage permission for role "+rn+" because it is at/above the bot highest role.");
+     await ch.permissionOverwrites.edit(role,{ViewChannel:true,SendMessages:true,ReadMessageHistory:true});
    }
   }
  }
@@ -72,7 +83,7 @@ client.on("interactionCreate",async i=>{
   if(!allowed(i))return i.reply({content:"🔒 Only the server owner or configured bot owner can run setup.",ephemeral:true});
   await i.deferReply({ephemeral:true});
   try{await setup(i.guild);await i.editReply("✅ **Books & Stories server setup is complete.** You can safely run setup again to repair the structure.");}
-  catch(e){console.error(e);await i.editReply("❌ Setup failed. Check the bot's Discord permissions.");}
+  catch(e){console.error("SETUP FAILED:",e);await i.editReply("❌ Setup failed. Error: "+(e.code||"unknown")+" — "+(e.message||String(e)));}
  }
  if(i.commandName==="help")return i.reply({content:"📖 **Books & Stories Bot**\n\n/setup-author-server — Build the server\n/books — Show books\n/website — Show website\n/serverinfo — Server info\n/help — Help",ephemeral:true});
  if(i.commandName==="books")return i.reply({embeds:[new EmbedBuilder().setTitle("📚 Brandon D. Coleman Jr. — Books").setDescription("📖 My Life Story With Grandma\n"+(process.env.BOOK_1_URL||"Book link coming soon.")+"\n\n📕 Part 2: Continuing the Journey, Memories, and the Road Ahead\n"+(process.env.PART_2_URL||"Part 2 link coming soon."))]});
