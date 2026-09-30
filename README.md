@@ -249,3 +249,35 @@ The project is intentionally organized so Discord commands, application handling
 📖 Real Stories • Bigger Purpose
 
 The goal of this project is to create a welcoming community around books, stories, memories, writing, and creative projects.
+
+
+## Automatic social-media feed
+
+The bot can automatically publish new social and website updates into **📱・social-media** without a Discord command.
+
+Webhook endpoint:
+
+`POST https://brandon-books-stories.fadehost.app/social/webhook`
+
+Required header:
+
+`X-Social-Webhook-Secret: <SOCIAL_WEBHOOK_SECRET>`
+
+Example payload:
+
+```json
+{
+  "source": "instagram",
+  "id": "unique-post-id",
+  "title": "New Instagram Post",
+  "description": "A new post is live.",
+  "url": "https://www.instagram.com/",
+  "image": "https://example.com/image.jpg"
+}
+```
+
+Supported sources: `instagram`, `facebook`, `tiktok`, `youtube`, `website`, and `book`.
+
+The bot checks recent messages before posting so the same source item is not announced twice.
+
+For social accounts, Metricool supports Instagram Business/Creator, Facebook Pages, TikTok, and YouTube connections, and its Zapier integration provides a **New Published Post** trigger. Use the connected social automation service to send the published-post event to the webhook.
