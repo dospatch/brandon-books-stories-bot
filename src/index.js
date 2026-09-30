@@ -82,6 +82,53 @@ async function announceDeploymentSuccess(guild){
  }
 }
 
+async function cleanupDuplicateStructure(guild,me){
+ const cleanupErrors=[];
+ for(const [catName,names] of Object.entries(structure)){
+  const categories=[...guild.channels.cache.filter(x=>x.type===ChannelType.GuildCategory&&x.name===catName).values()];
+  if(categories.length===0)continue;
+  const accessible=categories.filter(x=>x.permissionsFor(me)?.has(PermissionFlagsBits.ViewChannel));
+  const keep=accessible[0]||categories[0];
+  // Remove duplicate channels with the same name, preferring the channel
+  // already inside the kept category.
+  for(const name of names){
+   const matches=[...guild.channels.cache.filter(x=>x.type===ChannelType.GuildText&&x.name===name).values()];
+   if(matches.length<=1)continue;
+   let keeper=matches.find(x=>x.parentId===keep.id)||matches[0];
+   for(const ch of matches){
+    if(ch.id===keeper.id)continue;
+    try{
+     await ch.delete("Books & Stories duplicate channel cleanup");
+    }catch(e){
+     cleanupErrors.push(explainDiscordError(e,"deleting duplicate channel "+name));
+    }
+   }
+  }
+  // Move any required channels from duplicate categories into the kept
+  // category, then remove the now-empty duplicate categories.
+  for(const duplicate of categories){
+   if(duplicate.id===keep.id)continue;
+   for(const name of names){
+    const ch=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name===name&&x.parentId===duplicate.id);
+    if(!ch)continue;
+    const target=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name===name&&x.parentId===keep.id);
+    try{
+     if(target && target.id!==ch.id)await ch.delete("Books & Stories duplicate channel cleanup");
+     else await ch.setParent(keep.id,{lockPermissions:false,reason:"Books & Stories duplicate category cleanup"});
+    }catch(e){
+     cleanupErrors.push(explainDiscordError(e,"moving duplicate channel "+name));
+    }
+   }
+   try{
+    if(duplicate.deletable)await duplicate.delete("Books & Stories duplicate category cleanup");
+   }catch(e){
+    cleanupErrors.push(explainDiscordError(e,"deleting duplicate category "+catName));
+   }
+  }
+ }
+ if(cleanupErrors.length)console.warn("STRUCTURE CLEANUP WARNINGS:",cleanupErrors.join(" || "));
+}
+
 async function setup(guild){
  const me=guild.members.me || await guild.members.fetchMe();
  const needed=[
@@ -183,6 +230,8 @@ async function setup(guild){
   SendMessages:true,
   EmbedLinks:true
  };
+
+ await cleanupDuplicateStructure(guild,me);
 
  const categoryMap={};
  for(const [catName,names] of Object.entries(structure)){
@@ -341,6 +390,8 @@ async function setup(guild){
    }
   }
  }
+
+ await cleanupDuplicateStructure(guild,me);
 
  // Keep the intended category order.
  const categoryOrder=Object.keys(structure);
