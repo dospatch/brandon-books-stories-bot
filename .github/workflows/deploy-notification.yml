@@ -12,16 +12,15 @@ jobs:
       - name: Notify Discord that deployment started
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_DEPLOY_WEBHOOK_URL }}
+          COMMIT: ${{ github.sha }}
+          MESSAGE: ${{ github.event.head_commit.message }}
+          AUTHOR: ${{ github.actor }}
+          REPO: ${{ github.repository }}
         run: |
           if [ -z "$DISCORD_WEBHOOK" ]; then
             echo "DISCORD_DEPLOY_WEBHOOK_URL is not configured; skipping push notification."
             exit 0
           fi
-
-          COMMIT="${GITHUB_SHA:0:7}"
-          MESSAGE="${{ github.event.head_commit.message }}"
-          AUTHOR="${{ github.actor }}"
-          REPO="${{ github.repository }}"
 
           python - <<'PY'
           import json, os, urllib.request
