@@ -51,10 +51,11 @@ async function setup(guild){
    if(catName==="🔒 STAFF"){
     step="configuring staff permissions for "+name;
     await ch.permissionOverwrites.edit(guild.roles.everyone,{ViewChannel:false});
-    for(const rn of ["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team"])
-     const role=roleMap[rn];
-     if(role.position>=me.roles.highest.position)throw new Error("Cannot manage permission for role "+rn+" because it is at/above the bot highest role.");
-     await ch.permissionOverwrites.edit(role,{ViewChannel:true,SendMessages:true,ReadMessageHistory:true});
+     for(const rn of ["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team"]){
+      const role=roleMap[rn];
+      if(role.position>=me.roles.highest.position)throw new Error("Cannot manage permission for role "+rn+" because it is at/above the bot highest role.");
+      await ch.permissionOverwrites.edit(role,{ViewChannel:true,SendMessages:true,ReadMessageHistory:true});
+     }
    }
   }
  }
