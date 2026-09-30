@@ -34,35 +34,60 @@ const roles=["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Au
 
 function allowed(i){return i.guild.ownerId===i.user.id || (process.env.OWNER_ID && i.user.id===process.env.OWNER_ID);}
 
+function explainDiscordError(e,context){
+ const code=e?.code||e?.rawError?.code||"unknown";
+ const status=e?.status||e?.httpStatus||e?.rawError?.status||"unknown";
+ const api=e?.method&&e?.url ? " | "+e.method+" "+e.url : "";
+ return "Discord access failure at "+context+" | code="+code+" | status="+status+" | message="+(e?.message||"Unknown Discord error")+api;
+}
+
 async function setup(guild){
  let step="checking bot permissions";
  const me=guild.members.me || await guild.members.fetchMe();
  const needed=[[PermissionFlagsBits.ViewChannel,"View Channel"],[PermissionFlagsBits.ManageChannels,"Manage Channels"],[PermissionFlagsBits.ManageRoles,"Manage Roles"],[PermissionFlagsBits.SendMessages,"Send Messages"],[PermissionFlagsBits.EmbedLinks,"Embed Links"],[PermissionFlagsBits.ReadMessageHistory,"Read Message History"]];
  const missing=needed.filter(x=>!me.permissions.has(x[0])).map(x=>x[1]);
- if(missing.length)throw new Error("Missing bot permissions: "+missing.join(", "));
+ if(missing.length)throw new Error("Missing bot server permissions: "+missing.join(", ")+" | Add these permissions to the bot's managed role.");
+ if(!me.permissions.has(PermissionFlagsBits.Administrator)){
+  const everyone=guild.roles.everyone;
+  console.log("SETUP PREFLIGHT: Bot role="+me.roles.highest.name+" position="+me.roles.highest.position+" | @everyone position="+everyone.position);
+ }
+ const roleMap={};
  const roleMap={};
  for(const name of roles){
   step="creating/checking role "+name;
   let r=guild.roles.cache.find(x=>x.name===name);
-  if(!r)r=await guild.roles.create({name,reason:"Books & Stories bot setup"});
+  if(!r){
+   try{r=await guild.roles.create({name,reason:"Books & Stories bot setup"});}
+   catch(e){throw new Error(explainDiscordError(e,"creating role "+name+" | requires Manage Roles"));}
+  } else if(r.managed){
+   throw new Error("Cannot use role "+name+" because it is a managed/integration role. Create a normal Discord role with this name instead.");
+  }
   roleMap[name]=r;
  }
  for(const [catName,names] of Object.entries(structure)){
   step="creating/checking category "+catName;
   let cat=guild.channels.cache.find(x=>x.type===ChannelType.GuildCategory&&x.name===catName);
-  if(!cat)cat=await guild.channels.create({name:catName,type:ChannelType.GuildCategory,reason:"Books & Stories bot setup"});
+  if(!cat){
+   try{cat=await guild.channels.create({name:catName,type:ChannelType.GuildCategory,reason:"Books & Stories bot setup"});}
+   catch(e){throw new Error(explainDiscordError(e,"creating category "+catName+" | requires Manage Channels"));}
+  }
   for(const name of names){
    step="creating/checking channel "+name;
    let ch=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name===name&&x.parentId===cat.id);
-   if(!ch)ch=await guild.channels.create({name,type:ChannelType.GuildText,parent:cat.id,reason:"Books & Stories bot setup"});
+   if(!ch){
+    try{ch=await guild.channels.create({name,type:ChannelType.GuildText,parent:cat.id,reason:"Books & Stories bot setup"});}
+    catch(e){throw new Error(explainDiscordError(e,"creating channel "+name+" in category "+catName+" | requires Manage Channels"));}
+   }
    if(catName==="🔒 STAFF"){
     step="configuring staff permissions for "+name;
-    await ch.permissionOverwrites.edit(guild.roles.everyone,{ViewChannel:false});
+    try{await ch.permissionOverwrites.edit(guild.roles.everyone,{ViewChannel:false});}
+    catch(e){throw new Error(explainDiscordError(e,"denying @everyone access to staff channel "+name+" | requires Manage Channels"));}
     for(const rn of ["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team"]){
      const role=roleMap[rn];
      if(!role)throw new Error("Staff role was not created: "+rn);
      if(role.position>=me.roles.highest.position)throw new Error("Cannot manage permission for role "+rn+" because it is at/above the bot highest role.");
-     await ch.permissionOverwrites.edit(role,{ViewChannel:true,SendMessages:true,ReadMessageHistory:true});
+     try{await ch.permissionOverwrites.edit(role,{ViewChannel:true,SendMessages:true,ReadMessageHistory:true});}
+     catch(e){throw new Error(explainDiscordError(e,"granting "+rn+" access to staff channel "+name+" | requires Manage Channels"));}
     }
    }
   }
@@ -99,7 +124,8 @@ client.on("interactionCreate",async i=>{
     await i.editReply("✅ **Books & Stories server setup is complete.** You can safely run setup again to repair the structure.");
    }catch(e){
     console.error("SETUP FAILED at setup step:",e);
-    await i.editReply("❌ Setup failed. Error: "+(e.code||"unknown")+" — "+(e.message||String(e))).catch(()=>{});
+    const detail=e.message||String(e);
+    await i.editReply("❌ **Setup failed**\\n\\n**What failed:** "+detail+"\\n\\nCheck the FadeHost logs for the full diagnostic.").catch(()=>{});
    }
    return;
   }
