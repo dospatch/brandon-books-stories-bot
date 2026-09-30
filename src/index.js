@@ -202,6 +202,14 @@ async function setup(guild){
 
   // Reconcile category visibility and staff access every time setup runs.
   if(catName==="🔒 STAFF"){
+   // If an existing Staff category is inaccessible to the bot, create a fresh
+   // managed Staff category so setup can recover without manual permission repair.
+   if(!cat.permissionsFor(me)?.has(PermissionFlagsBits.ViewChannel)){
+    try{
+     cat=await guild.channels.create({name:"🔒 STAFF",type:ChannelType.GuildCategory,reason:"Books & Stories staff access recovery"});
+     categoryMap[catName]=cat;
+    }catch(e){throw new Error(explainDiscordError(e,"recovering inaccessible staff category"));}
+   }
    try{
     // Restore bot access FIRST. If @everyone is denied first, Discord can
     // immediately remove the bot's channel access and return 50001.
@@ -235,7 +243,7 @@ async function setup(guild){
   for(const name of names){
    // First look for the exact channel anywhere, so an existing channel is
    // repaired/moved instead of creating a duplicate in the correct category.
-   let ch=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name===name);
+   let ch=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name===name&&x.parentId===cat.id);
    if(!ch){
     try{
      ch=await guild.channels.create({
