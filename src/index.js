@@ -96,89 +96,144 @@ async function setup(guild){
  if(missing.length)throw new Error("Missing bot server permissions: "+missing.join(", "));
 
  const roleMap={};
+ const rolePermissions={
+  "👑 Owner":[PermissionFlagsBits.Administrator],
+  "🛠️ Administrator":[
+   PermissionFlagsBits.ManageGuild,
+   PermissionFlagsBits.ManageChannels,
+   PermissionFlagsBits.ManageRoles,
+   PermissionFlagsBits.ManageMessages,
+   PermissionFlagsBits.ViewAuditLog,
+   PermissionFlagsBits.KickMembers,
+   PermissionFlagsBits.BanMembers,
+   PermissionFlagsBits.ManageWebhooks
+  ],
+  "🛡️ Moderator":[
+   PermissionFlagsBits.ManageMessages,
+   PermissionFlagsBits.KickMembers,
+   PermissionFlagsBits.ModerateMembers,
+   PermissionFlagsBits.ViewAuditLog
+  ],
+  "✍️ Author Team":[],
+  "📚 Reader":[],
+  "⭐ VIP Reader":[],
+  "🤖 Bot":[]
+ };
+
  for(const name of roles){
   let r=guild.roles.cache.find(x=>x.name===name);
   if(!r){
-   try{r=await guild.roles.create({name,reason:"Books & Stories bot setup"});}
+   try{r=await guild.roles.create({name,permissions:rolePermissions[name]||[],reason:"Books & Stories bot setup"});}
    catch(e){throw new Error(explainDiscordError(e,"creating role "+name));}
   }
   if(r.managed)throw new Error("Cannot use managed role "+name+".");
   roleMap[name]=r;
+  try{
+   const desired=rolePermissions[name]||[];
+   if(!r.permissions.equals(desired) && r.editable){
+    await r.setPermissions(desired,"Books & Stories role configuration");
+   }
+  }catch(e){
+   console.warn("ROLE PERMISSION WARNING:",explainDiscordError(e,"configuring role "+name));
+  }
  }
 
+ // Keep the Books & Stories roles below the bot's highest manageable role.
+ // Discord will not allow a bot to manage roles at/above its own highest role.
+ const hierarchy=["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team","⭐ VIP Reader","📚 Reader","🤖 Bot"];
+ for(const name of hierarchy){
+  const role=roleMap[name];
+  if(!role || role.managed || !role.editable)continue;
+  const target=Math.max(1,me.roles.highest.position-1);
+  if(role.position>target){
+   try{await role.setPosition(target,"Books & Stories role hierarchy repair");}
+   catch(e){console.warn("ROLE HIERARCHY WARNING:",explainDiscordError(e,"moving role "+name));}
+  }
+ }
+ await me.fetch();
+ if(roleMap["🤖 Bot"] && roleMap["🤖 Bot"].editable && !me.roles.cache.has(roleMap["🤖 Bot"].id)){
+  try{await me.roles.add(roleMap["🤖 Bot"],"Books & Stories bot role");}
+  catch(e){console.warn("BOT ROLE ASSIGNMENT WARNING:",explainDiscordError(e,"assigning 🤖 Bot role"));}
+ }
+
+ const staffRoleNames=["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team"];
+ const readOnlyChannels=new Set([
+  "👋・welcome","📜・rules","📢・announcements","📰・latest-updates",
+  "📖・my-life-story-with-grandma","📕・part-2","🛒・where-to-buy",
+  "👤・about-brandon","✍️・writing-journey","🌅・family-and-memories","📸・behind-the-books",
+  "▶️・youtube","📸・instagram","📘・facebook","🎵・music-projects",
+  "📋・bot-updates"
+ ]);
+
+ const publicAllow={
+  ViewChannel:true,
+  ReadMessageHistory:true,
+  SendMessages:true,
+  EmbedLinks:true
+ };
+ const publicReadOnly={
+  ViewChannel:true,
+  ReadMessageHistory:true,
+  SendMessages:false,
+  EmbedLinks:true
+ };
+ const botAllow={
+  ViewChannel:true,
+  ReadMessageHistory:true,
+  SendMessages:true,
+  EmbedLinks:true
+ };
+
+ const categoryMap={};
  for(const [catName,names] of Object.entries(structure)){
   let cat=guild.channels.cache.find(x=>x.type===ChannelType.GuildCategory&&x.name===catName);
-
   if(!cat){
    try{
-    const permissionOverwrites=[];
-    if(catName==="🔒 STAFF"){
-     permissionOverwrites.push({
-      id:guild.roles.everyone.id,
-      deny:[PermissionFlagsBits.ViewChannel]
-     });
-     permissionOverwrites.push({
-      id:me.id,
-      allow:[
-       PermissionFlagsBits.ViewChannel,
-       PermissionFlagsBits.SendMessages,
-       PermissionFlagsBits.ReadMessageHistory,
-       PermissionFlagsBits.ManageChannels
-      ]
-     });
-     for(const rn of ["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team"]){
-      const role=roleMap[rn];
-      if(role && role.position<me.roles.highest.position){
-       permissionOverwrites.push({
-        id:role.id,
-        allow:[
-         PermissionFlagsBits.ViewChannel,
-         PermissionFlagsBits.SendMessages,
-         PermissionFlagsBits.ReadMessageHistory
-        ]
-       });
-      }
-     }
-    }
     cat=await guild.channels.create({
      name:catName,
      type:ChannelType.GuildCategory,
-     permissionOverwrites,
      reason:"Books & Stories bot setup"
     });
    }catch(e){
     throw new Error(explainDiscordError(e,"creating category "+catName));
    }
-  }else if(catName==="🔒 STAFF"){
-   // Repair the staff category itself so child channels inherit privacy.
+  }
+  categoryMap[catName]=cat;
+
+  // Reconcile category visibility and staff access every time setup runs.
+  if(catName==="🔒 STAFF"){
    try{
     await cat.permissionOverwrites.edit(guild.roles.everyone.id,{ViewChannel:false});
     await cat.permissionOverwrites.edit(me.id,{
-     ViewChannel:true,
-     SendMessages:true,
-     ReadMessageHistory:true,
-     ManageChannels:true
+     ViewChannel:true,SendMessages:true,ReadMessageHistory:true,ManageChannels:true
     });
    }catch(e){
-    console.warn("STAFF CATEGORY PRIVACY WARNING:",explainDiscordError(e,"securing staff category"));
+    throw new Error(explainDiscordError(e,"securing staff category"));
    }
-   for(const rn of ["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team"]){
+   for(const rn of staffRoleNames){
     const role=roleMap[rn];
     if(!role || role.position>=me.roles.highest.position)continue;
     try{
      await cat.permissionOverwrites.edit(role.id,{
-      ViewChannel:true,
-      SendMessages:true,
-      ReadMessageHistory:true
+      ViewChannel:true,SendMessages:true,ReadMessageHistory:true
      });
     }catch(e){
-     console.warn("STAFF CATEGORY ROLE WARNING:",explainDiscordError(e,"granting staff category access to "+rn));
+     console.warn("STAFF CATEGORY ROLE WARNING:",explainDiscordError(e,"granting staff access to "+rn));
     }
+   }
+  }else{
+   try{
+    await cat.permissionOverwrites.edit(guild.roles.everyone.id,publicAllow);
+    await cat.permissionOverwrites.edit(me.id,botAllow);
+   }catch(e){
+    console.warn("PUBLIC CATEGORY WARNING:",explainDiscordError(e,"configuring category "+catName));
    }
   }
 
   for(const name of names){
-   let ch=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name===name&&x.parentId===cat.id);
+   // First look for the exact channel anywhere, so an existing channel is
+   // repaired/moved instead of creating a duplicate in the correct category.
+   let ch=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name===name);
    if(!ch){
     try{
      ch=await guild.channels.create({
@@ -190,23 +245,45 @@ async function setup(guild){
     }catch(e){
      throw new Error(explainDiscordError(e,"creating channel "+name));
     }
-   }
-
-   if(catName==="🔒 STAFF"){
-    // Child channels inherit the private category. Explicitly repair only
-    // when needed, without denying the bot during its own setup.
+   }else if(ch.parentId!==cat.id){
     try{
-     await ch.permissionOverwrites.edit(me.id,{
-      ViewChannel:true,
-      SendMessages:true,
-      ReadMessageHistory:true,
-      ManageChannels:true
-     });
+     await ch.setParent(cat.id,{lockPermissions:false,reason:"Books & Stories channel structure repair"});
     }catch(e){
-     console.warn("STAFF BOT ACCESS WARNING:",explainDiscordError(e,"granting bot access to "+name));
+     throw new Error(explainDiscordError(e,"moving channel "+name+" into "+catName));
     }
    }
+
+   try{
+    if(catName==="🔒 STAFF"){
+     await ch.permissionOverwrites.edit(guild.roles.everyone.id,{ViewChannel:false});
+     await ch.permissionOverwrites.edit(me.id,{
+      ViewChannel:true,SendMessages:true,ReadMessageHistory:true,ManageChannels:true
+     });
+     for(const rn of staffRoleNames){
+      const role=roleMap[rn];
+      if(!role || role.position>=me.roles.highest.position)continue;
+      await ch.permissionOverwrites.edit(role.id,{
+       ViewChannel:true,SendMessages:true,ReadMessageHistory:true
+      });
+     }
+    }else{
+     const memberPermissions=readOnlyChannels.has(name)?publicReadOnly:publicAllow;
+     await ch.permissionOverwrites.edit(guild.roles.everyone.id,memberPermissions);
+     await ch.permissionOverwrites.edit(me.id,botAllow);
+    }
+   }catch(e){
+    console.warn("CHANNEL PERMISSION WARNING:",explainDiscordError(e,"configuring channel "+name));
+   }
   }
+ }
+
+ // Keep the intended category order.
+ const categoryOrder=Object.keys(structure);
+ for(let index=categoryOrder.length-1;index>=0;index--){
+  const cat=categoryMap[categoryOrder[index]];
+  if(!cat)continue;
+  try{await cat.setPosition(index,"Books & Stories category order");}
+  catch(e){console.warn("CATEGORY ORDER WARNING:",explainDiscordError(e,"ordering "+cat.name));}
  }
 
  const welcome=guild.channels.cache.find(x=>x.name==="👋・welcome");
@@ -214,20 +291,20 @@ async function setup(guild){
   const welcomeEmbed=new EmbedBuilder()
    .setTitle("📚 Welcome to Brandon Books & Stories! ❤️")
    .setDescription(
-    "I’m truly glad you’re here.\\n\\n"+
-    "This community is a place where I can share the books, stories, memories, ideas, and creative projects that mean something to me — and where I hope we can build a community around them together.\\n\\n"+
-    "📚 Books\\n✍️ Stories & Writing\\n❤️ Memories & Personal Moments\\n🎨 Creative Projects\\n📝 Writing & Publishing Updates\\n📢 News & Announcements\\n💬 Community Conversations\\n\\n"+
-    "Some of the stories shared here may be personal, some may be creative, and others may simply be little updates from along the journey. My goal is to make this a place where people can read, connect, share, encourage, and enjoy.\\n\\n"+
-    "Whether you've been following my work for a while or you’re just discovering it for the first time, you’re welcome here. ❤️\\n\\n"+
-    "🌟 **What You Can Expect**\\n\\n"+
-    "You'll find updates about my books and writing, new projects, behind-the-scenes moments, memories, announcements, and other creative things I’m working on.\\n\\n"+
-    "I also want this to be more than just a place where I post updates. Your support, conversations, and participation are what help make a community feel like a community.\\n\\n"+
-    "Feel free to join the conversation, share your thoughts, and support fellow members — while always remembering that everyone here deserves to be treated with kindness and respect.\\n\\n"+
-    "📌 **Before You Get Started**\\n\\n"+
-    "Please take a moment to read the community rules before posting or participating.\\n\\n"+
-    "The rules are here to help keep this a positive, respectful, welcoming, and enjoyable space for everyone.\\n\\n"+
-    "Thank you for taking the time to be here and for supporting my books, stories, and creative journey.\\n\\n"+
-    "I’m excited to have you along for the journey. 📚❤️\\n\\n— Brandon"
+    "I’m truly glad you’re here.\n\n"+
+    "This community is a place where I can share the books, stories, memories, ideas, and creative projects that mean something to me — and where I hope we can build a community around them together.\n\n"+
+    "📚 Books\n✍️ Stories & Writing\n❤️ Memories & Personal Moments\n🎨 Creative Projects\n📝 Writing & Publishing Updates\n📢 News & Announcements\n💬 Community Conversations\n\n"+
+    "Some of the stories shared here may be personal, some may be creative, and others may simply be little updates from along the journey. My goal is to make this a place where people can read, connect, share, encourage, and enjoy.\n\n"+
+    "Whether you've been following my work for a while or you’re just discovering it for the first time, you’re welcome here. ❤️\n\n"+
+    "🌟 **What You Can Expect**\n\n"+
+    "You'll find updates about my books and writing, new projects, behind-the-scenes moments, memories, announcements, and other creative things I’m working on.\n\n"+
+    "I also want this to be more than just a place where I post updates. Your support, conversations, and participation are what help make a community feel like a community.\n\n"+
+    "Feel free to join the conversation, share your thoughts, and support fellow members — while always remembering that everyone here deserves to be treated with kindness and respect.\n\n"+
+    "📌 **Before You Get Started**\n\n"+
+    "Please take a moment to read the community rules before posting or participating.\n\n"+
+    "The rules are here to help keep this a positive, respectful, welcoming, and enjoyable space for everyone.\n\n"+
+    "Thank you for taking the time to be here and for supporting my books, stories, and creative journey.\n\n"+
+    "I’m excited to have you along for the journey. 📚❤️\n\n— Brandon"
    )
    .setFooter({text:"BBS:AUTO:WELCOME"});
   await upsertEmbedMessage(welcome,"BBS:AUTO:WELCOME",welcomeEmbed).catch(e=>console.warn("WELCOME MESSAGE FAILED:",e.message));
@@ -238,25 +315,25 @@ async function setup(guild){
   const rulesEmbed=new EmbedBuilder()
    .setTitle("📜 Brandon Books & Stories — Community Rules")
    .setDescription(
-    "Welcome! ❤️ These simple rules help keep our community friendly, respectful, and enjoyable for everyone.\\n\\n"+
-    "**1. 🤝 Be Respectful**\\nTreat everyone with kindness. Disagreements are okay; harassment, insults, bullying, and personal attacks are not.\\n\\n"+
-    "**2. ❤️ Keep It Welcoming**\\nHelp create a positive environment where everyone feels comfortable participating.\\n\\n"+
-    "**3. 🚫 No Harassment or Spam**\\nNo harassment, threats, excessive tagging, spam, scams, or unwanted promotional messages.\\n\\n"+
-    "**4. 💬 Keep Discussions Constructive**\\nShare your opinions and feedback respectfully. Keep conversations relevant and avoid unnecessary arguments.\\n\\n"+
-    "**5. 🔒 Respect Privacy**\\nNever share someone else's private or personal information without permission.\\n\\n"+
-    "**6. 📢 No Unapproved Promotion**\\nDon't advertise, promote, or post unrelated links without permission.\\n\\n"+
-    "**7. 🛡️ Follow Discord's Rules**\\nYou must follow the Discord Terms of Service and Community Guidelines as well as these community rules.\\n\\n"+
-    "📩 **Need Help?**\\nIf you have a question, concern, or need to report a problem, contact the community staff through the designated support/contact method rather than starting an argument publicly.\\n\\n"+
-    "⚖️ **Appeals**\\nIf you believe you received a warning, restriction, or removal unfairly, you may contact community staff privately to request an appeal.\\n\\n"+
-    "Please include:\\n• Your Discord username\\n• What happened\\n• Any relevant details or screenshots\\n• Why you believe the action should be reconsidered\\n\\n"+
-    "Appeals will be reviewed based on the information available. Please do not repeatedly submit the same appeal or harass staff about a decision.\\n\\n"+
-    "❤️ **Our Goal**\\nThese rules aren't here to make the community feel strict. They're here to help protect the people, conversations, stories, and memories that make this community special.\\n\\n"+
+    "Welcome! ❤️ These simple rules help keep our community friendly, respectful, and enjoyable for everyone.\n\n"+
+    "**1. 🤝 Be Respectful**\nTreat everyone with kindness. Disagreements are okay; harassment, insults, bullying, and personal attacks are not.\n\n"+
+    "**2. ❤️ Keep It Welcoming**\nHelp create a positive environment where everyone feels comfortable participating.\n\n"+
+    "**3. 🚫 No Harassment or Spam**\nNo harassment, threats, excessive tagging, spam, scams, or unwanted promotional messages.\n\n"+
+    "**4. 💬 Keep Discussions Constructive**\nShare your opinions and feedback respectfully. Keep conversations relevant and avoid unnecessary arguments.\n\n"+
+    "**5. 🔒 Respect Privacy**\nNever share someone else's private or personal information without permission.\n\n"+
+    "**6. 📢 No Unapproved Promotion**\nDon't advertise, promote, or post unrelated links without permission.\n\n"+
+    "**7. 🛡️ Follow Discord's Rules**\nYou must follow the Discord Terms of Service and Community Guidelines as well as these community rules.\n\n"+
+    "📩 **Need Help?**\nIf you have a question, concern, or need to report a problem, contact the community staff through the designated support/contact method rather than starting an argument publicly.\n\n"+
+    "⚖️ **Appeals**\nIf you believe you received a warning, restriction, or removal unfairly, you may contact community staff privately to request an appeal.\n\n"+
+    "Please include:\n• Your Discord username\n• What happened\n• Any relevant details or screenshots\n• Why you believe the action should be reconsidered\n\n"+
+    "Appeals will be reviewed based on the information available. Please do not repeatedly submit the same appeal or harass staff about a decision.\n\n"+
+    "❤️ **Our Goal**\nThese rules aren't here to make the community feel strict. They're here to help protect the people, conversations, stories, and memories that make this community special.\n\n"+
     "Thank you for being part of Brandon Books & Stories! 📚❤️"
-   );
-  rulesEmbed.setFooter({text:"BBS:AUTO:RULES"});\n  await upsertEmbedMessage(rules,"BBS:AUTO:RULES",rulesEmbed).catch(e=>console.warn("RULES MESSAGE FAILED:",e.message));
+   )
+   .setFooter({text:"BBS:AUTO:RULES"});
+  await upsertEmbedMessage(rules,"BBS:AUTO:RULES",rulesEmbed).catch(e=>console.warn("RULES MESSAGE FAILED:",e.message));
  }
 }
-
 client.once("ready",async()=>{
  discordReady=true;
  console.log("BOOKS & STORIES READY: "+client.user.tag+" | Guilds: "+client.guilds.cache.size);
