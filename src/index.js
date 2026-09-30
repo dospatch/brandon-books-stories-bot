@@ -4,6 +4,7 @@ http.createServer((req,res)=>{res.writeHead(200,{"Content-Type":"text/plain"});r
 require("dotenv").config();
 const {Client,GatewayIntentBits,ChannelType,EmbedBuilder,ActivityType,REST,Routes,SlashCommandBuilder,PermissionFlagsBits,MessageFlags}=require("discord.js");
 const {applicationMenu,handleApplicationInteraction}=require("./applications");
+const {reviewMenu,feedbackModal,handleReviewInteraction}=require("./reviews");
 
 const token=process.env.DISCORD_TOKEN;
 if(!token){console.error("STARTUP FAILED: DISCORD_TOKEN is missing.");process.exit(1);}
@@ -26,7 +27,9 @@ const commands=[
  new SlashCommandBuilder().setName("website").setDescription("Show the author website."),
  new SlashCommandBuilder().setName("serverinfo").setDescription("Show server information."),
  new SlashCommandBuilder().setName("ping").setDescription("Check whether the bot is responding."),
- new SlashCommandBuilder().setName("apply").setDescription("Submit a private Books & Stories community application.")
+ new SlashCommandBuilder().setName("apply").setDescription("Submit a private Books & Stories community application."),
+ new SlashCommandBuilder().setName("review").setDescription("Submit a reader review for one of Brandon's books."),
+ new SlashCommandBuilder().setName("feedback").setDescription("Send private feedback to the Books & Stories staff.")
 ].map(x=>x.toJSON());
 
 const structure={
@@ -482,6 +485,7 @@ client.on("interactionCreate",async i=>{
  console.log("INTERACTION EVENT: "+(i.type||"unknown")+" / "+(i.commandName||"non-command")+" guild="+(i.guildId||"DM"));
  try{
   if(!i.isChatInputCommand()){
+   if(await handleReviewInteraction(i))return;
    await handleApplicationInteraction(i);
    return;
   }
@@ -489,6 +493,16 @@ client.on("interactionCreate",async i=>{
   if(i.commandName==="ping"){
    await i.deferReply({flags:MessageFlags.Ephemeral});
    return i.editReply("🏓 Pong! The bot is online and responding.");
+  }
+  if(i.commandName==="review"){
+   return i.reply({
+    content:"⭐ **Reader Reviews**\\n\\nChoose the book you want to review. Your review will be posted in ⭐・reader-reviews for the community.",
+    components:[reviewMenu()],
+    flags:MessageFlags.Ephemeral
+   });
+  }
+  if(i.commandName==="feedback"){
+   return i.showModal(feedbackModal());
   }
   if(i.commandName==="apply"){
    await i.deferReply({flags:MessageFlags.Ephemeral});
