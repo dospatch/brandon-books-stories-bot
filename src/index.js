@@ -67,11 +67,25 @@ async function setup(guild){
    let ch=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name===name&&x.parentId===cat.id);
    if(!ch){try{ch=await guild.channels.create({name,type:ChannelType.GuildText,parent:cat.id,reason:"Books & Stories bot setup"});}catch(e){throw new Error(explainDiscordError(e,"creating channel "+name));}}
    if(catName==="🔒 STAFF"){
-    try{await ch.permissionOverwrites.edit(guild.roles.everyone,{ViewChannel:false});}catch(e){throw new Error(explainDiscordError(e,"hiding staff channel "+name));}
+    // Apply staff privacy one permission at a time. A permission-overwrite
+    // failure should not abort the entire server setup.
+    try{
+     await ch.permissionOverwrites.edit(guild.roles.everyone.id,{ViewChannel:false});
+    }catch(e){
+     console.warn("STAFF PRIVACY WARNING:",explainDiscordError(e,"hiding staff channel "+name));
+    }
     for(const rn of ["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team"]){
      const role=roleMap[rn];
-     if(role.position>=me.roles.highest.position)throw new Error("Bot role must be above "+rn+" in the Discord role list.");
-     try{await ch.permissionOverwrites.edit(role,{ViewChannel:true,SendMessages:true,ReadMessageHistory:true});}catch(e){throw new Error(explainDiscordError(e,"granting staff access to "+name));}
+     if(!role)continue;
+     if(role.position>=me.roles.highest.position){
+      console.warn("STAFF ROLE HIERARCHY WARNING: Bot role must be above "+rn+" in the Discord role list.");
+      continue;
+     }
+     try{
+      await ch.permissionOverwrites.edit(role.id,{ViewChannel:true,SendMessages:true,ReadMessageHistory:true});
+     }catch(e){
+      console.warn("STAFF ROLE ACCESS WARNING:",explainDiscordError(e,"granting staff access to "+name+" for "+rn));
+     }
     }
    }
   }
