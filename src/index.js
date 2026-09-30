@@ -19,7 +19,9 @@ client.on("debug",m=>console.log("DISCORD DEBUG:",m));
 const commands=[
  new SlashCommandBuilder().setName("setup-author-server").setDescription("Create or repair the Books & Stories server structure."),
  new SlashCommandBuilder().setName("help").setDescription("Show bot commands."),
- new SlashCommandBuilder().setName("books").setDescription("Show the author's books."),
+ new SlashCommandBuilder().setName("books").setDescription("Show Brandon's books and reading information."),
+ new SlashCommandBuilder().setName("about").setDescription("Learn about Brandon and Books & Stories."),
+ new SlashCommandBuilder().setName("community").setDescription("Show what you can do in the Books & Stories community."),
  new SlashCommandBuilder().setName("website").setDescription("Show the author website."),
  new SlashCommandBuilder().setName("serverinfo").setDescription("Show server information."),
  new SlashCommandBuilder().setName("ping").setDescription("Check whether the bot is responding."),
@@ -513,7 +515,37 @@ client.on("interactionCreate",async i=>{
    return;
   }
   if(i.commandName==="help")return i.reply({embeds:[new EmbedBuilder().setTitle("📖 Brandon Books & Stories").setDescription("**Community & Information**\n📚 `/books` — View the books and purchase links\n🌐 `/website` — Open the author website\n🖥️ `/serverinfo` — View server information\n\n**Community**\n📋 `/apply` — Submit a private application\n🛠️ `/setup-author-server` — Repair the server structure *(owner/staff setup only)*\n\n**Bot**\n🏓 `/ping` — Check bot response\n❓ `/help` — Show this help menu").setFooter({text:"📖 Real Stories • Bigger Purpose"})],flags:MessageFlags.Ephemeral});
-  if(i.commandName==="books")return i.reply({embeds:[new EmbedBuilder().setTitle("📚 Brandon D. Coleman Jr. — Books").setDescription("📖 My Life Story With Grandma\n"+(process.env.BOOK_1_URL||"Book link coming soon.")+"\n\n📕 Part 2: Continuing the Journey, Memories, and the Road Ahead\n"+(process.env.PART_2_URL||"Part 2 link coming soon."))]});
+  if(i.commandName==="books"){
+   const embed=new EmbedBuilder()
+    .setTitle("📚 Brandon D. Coleman Jr. — Books")
+    .setDescription("Explore the books, stories, memories, and continuing journey behind **Brandon Books & Stories**.")
+    .addFields(
+     {name:"📖 My Life Story With Grandma",value:process.env.BOOK_1_URL||"Purchase link coming soon."},
+     {name:"📕 Part 2",value:"**My Life Story With Grandma — Part 2: Continuing the Journey, Memories, and the Road Ahead**\\n"+(process.env.PART_2_URL||"Purchase link coming soon.")},
+     {name:"❤️ The Heart Behind the Books",value:"These books are part of a larger journey of family, memories, storytelling, and preserving meaningful moments."}
+    )
+    .setFooter({text:"📖 Real Stories • Bigger Purpose"});
+   return i.reply({embeds:[embed]});
+  }
+  if(i.commandName==="about")return i.reply({embeds:[new EmbedBuilder()
+   .setTitle("👤 About Brandon D. Coleman Jr.")
+   .setDescription("Welcome to **Brandon Books & Stories** — a creative community centered around books, personal stories, memories, writing, and new projects.")
+   .addFields(
+    {name:"📖 Author & Storyteller",value:"Sharing books, memories, life experiences, and stories through writing and creative projects."},
+    {name:"❤️ What Matters Here",value:"Family, memories, creativity, community, and giving readers a place to connect with the stories behind the work."},
+    {name:"🌟 Community Vision",value:"A welcoming place where readers can discover new work, follow the writing journey, share thoughts, and be part of what comes next."}
+   )
+   .setFooter({text:"📖 Real Stories • Bigger Purpose"})],flags:MessageFlags.Ephemeral});
+  if(i.commandName==="community")return i.reply({embeds:[new EmbedBuilder()
+   .setTitle("💬 Brandon Books & Stories Community")
+   .setDescription("There is more to the community than announcements. You can take part in the conversation and follow the creative journey.")
+   .addFields(
+    {name:"📚 Read & Discuss",value:"Talk about the books, stories, memories, and themes shared in the community."},
+    {name:"❤️ Share Memories",value:"Share thoughtful memories and experiences while respecting everyone's privacy."},
+    {name:"💡 Reader Ideas",value:"Share constructive ideas, feedback, and suggestions for future projects."},
+    {name:"✍️ Get Involved",value:"Use /apply when applications are open for Author Team, Moderator, or Book Reviewer roles."}
+   )
+   .setFooter({text:"📖 Real Stories • Bigger Purpose"})],flags:MessageFlags.Ephemeral});
   if(i.commandName==="website")return i.reply({content:"🌐 **Brandon D. Coleman Jr. — Books & Stories**\n"+(process.env.WEBSITE_URL||"https://brandon-books-stories-bot-website-3n7hbjx9r-dospatchs-projects.vercel.app")});
   if(i.commandName==="serverinfo")return i.reply({content:"🖥️ **"+i.guild.name+"**\nMembers: "+i.guild.memberCount+"\nChannels: "+i.guild.channels.cache.size,flags:MessageFlags.Ephemeral});
  }catch(e){
