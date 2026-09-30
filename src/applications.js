@@ -36,7 +36,8 @@ async function sendApplicationDM(user,embed){
 }
 
 function staffCategory(guild){
-  return guild.channels.cache.find(c=>c.type===ChannelType.GuildCategory&&c.name==="🔒 STAFF");
+  const me=guild.members.me;
+  return guild.channels.cache.find(c=>c.type===ChannelType.GuildCategory&&c.name==="🔒 STAFF"&&(!me||c.permissionsFor(me)?.has(PermissionFlagsBits.ViewChannel)));
 }
 
 async function createApplicationChannel(i,type,answers){
