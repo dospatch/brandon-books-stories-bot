@@ -7,7 +7,10 @@ const {
   EmbedBuilder,
   ChannelType,
   PermissionFlagsBits,
-  MessageFlags
+  MessageFlags,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle
 }=require("discord.js");
 
 const TYPES={
@@ -82,6 +85,10 @@ async function createApplicationChannel(i,type,answers){
 
   const typeName=TYPES[type]||"Application";
   await channel.send({
+    components:[new ActionRowBuilder().addComponents(
+      new ButtonBuilder().setCustomId("application-approve:"+i.user.id).setLabel("Approve").setStyle(ButtonStyle.Success).setEmoji("✅"),
+      new ButtonBuilder().setCustomId("application-reject:"+i.user.id).setLabel("Reject").setStyle(ButtonStyle.Danger).setEmoji("❌")
+    )],
     embeds:[
       new EmbedBuilder()
         .setTitle("📋 Books & Stories Application")
@@ -100,7 +107,37 @@ async function createApplicationChannel(i,type,answers){
   return {channel};
 }
 
+function isStaffReviewer(i){
+ if(!i.guild||!i.member?.roles?.cache)return false;
+ if(i.guild.ownerId===i.user.id)return true;
+ return i.member.roles.cache.some(r=>["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team"].includes(r.name));
+}
+
+async function handleApplicationReview(i){
+ if(!i.isButton())return false;
+ if(!i.customId.startsWith("application-approve:")&&!i.customId.startsWith("application-reject:"))return false;
+ if(!i.guild)return i.reply({content:"This action can only be used inside the server.",flags:MessageFlags.Ephemeral});
+ if(!isStaffReviewer(i))return i.reply({content:"🔒 Only authorized staff can review applications.",flags:MessageFlags.Ephemeral});
+ const applicantId=i.customId.split(":")[1];
+ const approved=i.customId.startsWith("application-approve:");
+ const status=approved?"Approved":"Rejected";
+ const embed=i.message.embeds?.[0];
+ const updated=EmbedBuilder.from(embed||{}).setColor(approved?0x57F287:0xED4245).setFooter({text:"Brandon Books & Stories • "+status});
+ await i.update({embeds:[updated],components:[]});
+ const applicant=await i.client.users.fetch(applicantId).catch(()=>null);
+ if(applicant){
+  await applicant.send({
+   embeds:[new EmbedBuilder()
+    .setTitle((approved?"✅":"❌")+" Application "+status)
+    .setDescription("Your **Brandon Books & Stories** application has been **"+status.toLowerCase()+"** by the staff team.\n\nIf you have questions, please contact the community staff.")
+    .setFooter({text:"📖 Real Stories • Bigger Purpose"})]
+  }).catch(()=>{});
+ }
+ return true;
+}
+
 async function handleApplicationInteraction(i){
+  if(await handleApplicationReview(i))return true;
   if(i.isStringSelectMenu()&&i.customId==="apply-type"){
     if(!i.guild)return i.reply({content:"This application can only be started inside the server.",flags:MessageFlags.Ephemeral});
     const type=i.values[0];
