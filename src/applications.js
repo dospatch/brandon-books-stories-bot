@@ -124,6 +124,7 @@ async function handleApplicationReview(i){
  const applicantId=i.customId.split(":")[1];
  const approved=i.customId.startsWith("application-approve:");
  const status=approved?"Approved":"Rejected";
+ const typeName=(i.message.embeds?.[0]?.description||"").match(/\*\*Type:\*\* ([^\n]+)/)?.[1]||"Application";
  const embed=i.message.embeds?.[0];
  const updated=EmbedBuilder.from(embed||{}).setColor(approved?0x57F287:0xED4245).setFooter({text:"Brandon Books & Stories • "+status});
  await i.update({embeds:[updated],components:[]});
@@ -180,7 +181,7 @@ async function handleApplicationInteraction(i){
       const result=await createApplicationChannel(i,type,answers);
       if(result.existing){
        const typeName=TYPES[type]||"Application";
-       await sendApplicationDM(i.user,new EmbedBuilder().setTitle("📋 Application Already Open").setDescription("You already have an open **"+typeName+"** application.").addFields({name:"Status",value:"🟡 Awaiting staff review",inline:true},{name:"Application",value:"< #"+result.existing.id+">".replace("< ","<"),inline:true}).setFooter({text:"📖 Real Stories • Bigger Purpose"}));
+       await sendApplicationDM(i.user,new EmbedBuilder().setTitle("📋 Application Already Open").setDescription("You already have an open **"+typeName+"** application.").addFields({name:"Status",value:"🟡 Awaiting staff review",inline:true},{name:"Application",value:"<#"+result.existing.id+">",inline:true}).setFooter({text:"📖 Real Stories • Bigger Purpose"}));
        return i.editReply("📋 You already have an open application: <#"+result.existing.id+">");
       }
       const typeName=TYPES[type]||"Application";
