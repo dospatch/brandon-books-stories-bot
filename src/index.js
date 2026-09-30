@@ -5,6 +5,7 @@ require("dotenv").config();
 const {Client,GatewayIntentBits,ChannelType,EmbedBuilder,ActivityType,REST,Routes,SlashCommandBuilder,PermissionFlagsBits,MessageFlags}=require("discord.js");
 const {applicationMenu,handleApplicationInteraction}=require("./applications");
 const {reviewMenu,feedbackModal,handleReviewInteraction}=require("./reviews");
+const {handleSocialWebhook}=require("./socialFeed");
 
 const token=process.env.DISCORD_TOKEN;
 if(!token){console.error("STARTUP FAILED: DISCORD_TOKEN is missing.");process.exit(1);}
