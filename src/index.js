@@ -5,7 +5,7 @@ require("dotenv").config();
 const {Client,GatewayIntentBits,ChannelType,EmbedBuilder,ActivityType,REST,Routes,SlashCommandBuilder}=require("discord.js");
 const token=process.env.DISCORD_TOKEN;
 if(!token){console.error("DISCORD_TOKEN is missing.");process.exit(1);}
-const client=new Client({intents:[GatewayIntentBits.Guilds,GatewayIntentBits.GuildMembers]});
+const client=new Client({intents:[GatewayIntentBits.Guilds]});
 const commands=[
  new SlashCommandBuilder().setName("setup-author-server").setDescription("Create or repair the Books & Stories server structure."),
  new SlashCommandBuilder().setName("help").setDescription("Show bot commands."),
@@ -65,10 +65,6 @@ client.once("ready",async()=>{
  console.log("Slash commands registered.");
 });
 
-client.on("guildMemberAdd",async member=>{
- const ch=member.guild.channels.cache.find(x=>x.name==="👋・welcome");
- if(ch) await ch.send({content:"👋 Welcome "+member+" to **Brandon D. Coleman Jr. — Books & Stories**! 📖❤️"}).catch(()=>{});
-});
 
 client.on("interactionCreate",async i=>{
  if(!i.isChatInputCommand()||!i.guild)return;
