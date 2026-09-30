@@ -229,8 +229,8 @@ async function setup(guild){
     "Thank you for taking the time to be here and for supporting my books, stories, and creative journey.\\n\\n"+
     "I’m excited to have you along for the journey. 📚❤️\\n\\n— Brandon"
    )
-   .setFooter({text:"📖 Real Stories • Bigger Purpose"});
-  await welcome.send({embeds:[welcomeEmbed]}).catch(e=>console.warn("WELCOME MESSAGE FAILED:",e.message));
+   .setFooter({text:"BBS:AUTO:WELCOME"});
+  await upsertEmbedMessage(welcome,"BBS:AUTO:WELCOME",welcomeEmbed).catch(e=>console.warn("WELCOME MESSAGE FAILED:",e.message));
  }
 
  const rules=guild.channels.cache.find(x=>x.name==="📜・rules");
