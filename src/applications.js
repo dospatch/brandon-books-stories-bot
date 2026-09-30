@@ -8,7 +8,6 @@ const {
   ChannelType,
   PermissionFlagsBits,
   MessageFlags,
-  ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle
 }=require("discord.js");
@@ -30,6 +29,10 @@ function applicationMenu(){
         {label:"Book Reviewer",value:"book-reviewer",description:"Share thoughtful reader reviews.",emoji:"📚"}
       )
   );
+}
+
+async function sendApplicationDM(user,embed){
+ try{await user.send({embeds:[embed]});return true;}catch(e){console.warn("APPLICATION DM FAILED:",e.message||e);return false;}
 }
 
 function staffCategory(guild){
@@ -129,7 +132,8 @@ async function handleApplicationReview(i){
   await applicant.send({
    embeds:[new EmbedBuilder()
     .setTitle((approved?"✅":"❌")+" Application "+status)
-    .setDescription("Your **Brandon Books & Stories** application has been **"+status.toLowerCase()+"** by the staff team.\n\nIf you have questions, please contact the community staff.")
+    .setDescription("Your **"+typeName+"** application has been **"+status.toLowerCase()+"** by the Brandon Books & Stories staff team.\n\nIf you have questions, please contact the community staff.")
+    .addFields({name:"Application Type",value:typeName,inline:true},{name:"Status",value:status,inline:true})
     .setFooter({text:"📖 Real Stories • Bigger Purpose"})]
   }).catch(()=>{});
  }
@@ -141,6 +145,12 @@ async function handleApplicationInteraction(i){
   if(i.isStringSelectMenu()&&i.customId==="apply-type"){
     if(!i.guild)return i.reply({content:"This application can only be started inside the server.",flags:MessageFlags.Ephemeral});
     const type=i.values[0];
+    const typeName=TYPES[type]||"Application";
+    await sendApplicationDM(i.user,new EmbedBuilder()
+      .setTitle("📋 Application Started")
+      .setDescription("You selected **"+typeName+"** for your Brandon Books & Stories application.\n\nComplete the application form in Discord. Your answers will be sent privately to the staff review team.")
+      .addFields({name:"Application Type",value:typeName,inline:true},{name:"Status",value:"🟡 Form in progress",inline:true})
+      .setFooter({text:"📖 Real Stories • Bigger Purpose"}));
     const modal=new ModalBuilder().setCustomId("apply-modal:"+type).setTitle((TYPES[type]||"Application")+" Application");
     const why=new TextInputBuilder().setCustomId("why").setLabel("Why are you applying?").setStyle(TextInputStyle.Paragraph).setRequired(true).setMaxLength(1000);
     const experience=new TextInputBuilder().setCustomId("experience").setLabel("Relevant experience").setStyle(TextInputStyle.Paragraph).setRequired(true).setMaxLength(1000);
@@ -168,7 +178,17 @@ async function handleApplicationInteraction(i){
     };
     try{
       const result=await createApplicationChannel(i,type,answers);
-      if(result.existing)return i.editReply("📋 You already have an open application: <#"+result.existing.id+">");
+      if(result.existing){
+       const typeName=TYPES[type]||"Application";
+       await sendApplicationDM(i.user,new EmbedBuilder().setTitle("📋 Application Already Open").setDescription("You already have an open **"+typeName+"** application.").addFields({name:"Status",value:"🟡 Awaiting staff review",inline:true},{name:"Application",value:"< #"+result.existing.id+">".replace("< ","<"),inline:true}).setFooter({text:"📖 Real Stories • Bigger Purpose"}));
+       return i.editReply("📋 You already have an open application: <#"+result.existing.id+">");
+      }
+      const typeName=TYPES[type]||"Application";
+      await sendApplicationDM(i.user,new EmbedBuilder()
+       .setTitle("✅ Application Submitted")
+       .setDescription("Your **"+typeName+"** application has been submitted privately to the Brandon Books & Stories staff team.")
+       .addFields({name:"Application Type",value:typeName,inline:true},{name:"Status",value:"🟡 Awaiting staff review",inline:true})
+       .setFooter({text:"📖 Real Stories • Bigger Purpose"}));
       return i.editReply("✅ Your application has been submitted privately to the staff team: <#"+result.channel.id+">");
     }catch(e){
       console.error("APPLICATION FAILED:",e);
