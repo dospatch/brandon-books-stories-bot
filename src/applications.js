@@ -212,7 +212,7 @@ async function handleApplicationInteraction(i){
 
     const dm=await sendApplicationDM(i.user,welcome,[applicationControlRow(i.guild.id,type)]);
     await i.editReply(dm.ok
-      ?"📩 Check your Discord direct messages for the application welcome message."
+      ?"📩 **Application Started**\n\nCheck your Discord direct messages for the private application welcome message.\n\n**Type:** "+typeName+"\n**Status:** 🟡 Ready to begin\n\nSelect **Start Application** in your DM when you're ready."
       :"❌ I couldn't send you a DM. Please enable direct messages for this server and try /apply again."
     );
     return true;
@@ -263,7 +263,7 @@ async function handleApplicationInteraction(i){
           .setFooter({text:"📖 Real Stories • Bigger Purpose"})
       );
 
-      await i.editReply("✅ Your application has been submitted privately to the staff team: <#"+result.channel.id+">"+(dm.ok?"":"\n⚠️ Your application was submitted, but I couldn't send the confirmation DM."));
+      await i.editReply("✅ **Application Submitted**\n\nYour application has been sent privately to the Brandon Books & Stories staff team.\n\n**Type:** "+typeName+"\n**Status:** 🟡 Awaiting staff review\n\nYou will receive a Discord DM when staff makes a decision."+(!dm.ok?"\n\n⚠️ Your application was submitted, but I couldn't send the confirmation DM.":""));
       return true;
     }catch(e){
       console.error("APPLICATION FAILED:",e);
