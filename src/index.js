@@ -472,11 +472,13 @@ client.once("ready",async()=>{
     console.error("GUILD COMMAND REGISTRATION FAILED:",e.code||"unknown",e.message||e);
    }
   }
+  // This bot is intended for the Brandon Books & Stories server.
+  // Clear any older global commands so they do not appear alongside the guild commands.
   try{
-   await rest.put(Routes.applicationCommands(client.user.id),{body:commands});
-   console.log("GLOBAL SLASH COMMANDS REGISTERED.");
+   await rest.put(Routes.applicationCommands(client.user.id),{body:[]});
+   console.log("OLD GLOBAL SLASH COMMANDS CLEARED.");
   }catch(e){
-   console.error("GLOBAL COMMAND REGISTRATION FAILED:",e.code||"unknown",e.message||e);
+   console.error("GLOBAL COMMAND CLEANUP FAILED:",e.code||"unknown",e.message||e);
   }
  }catch(e){console.error("SLASH COMMAND REGISTRATION FAILED:",e.code||"unknown",e.message||e);}
 });
