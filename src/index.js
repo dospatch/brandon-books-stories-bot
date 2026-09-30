@@ -52,7 +52,6 @@ async function setup(guild){
   console.log("SETUP PREFLIGHT: Bot role="+me.roles.highest.name+" position="+me.roles.highest.position+" | @everyone position="+everyone.position);
  }
  const roleMap={};
- const roleMap={};
  for(const name of roles){
   step="creating/checking role "+name;
   let r=guild.roles.cache.find(x=>x.name===name);
