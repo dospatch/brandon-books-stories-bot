@@ -48,3 +48,50 @@ jobs:
           )
           urllib.request.urlopen(req, timeout=10).read()
           PY
+
+      - name: Publish changelog update
+        env:
+          CHANGELOG_WEBHOOK: ${{ secrets.DISCORD_CHANGELOG_WEBHOOK_URL }}
+          MESSAGE: ${{ github.event.head_commit.message }}
+          COMMIT: ${{ github.sha }}
+          AUTHOR: ${{ github.actor }}
+        run: |
+          if [ -z "$CHANGELOG_WEBHOOK" ]; then
+            echo "DISCORD_CHANGELOG_WEBHOOK_URL is not configured; skipping changelog notification."
+            exit 0
+          fi
+
+          python - <<'PY'
+          import json, os, re, urllib.request
+          message=os.environ["MESSAGE"].splitlines()[0].strip()
+          lower=message.lower()
+
+          if re.search(r'add|create|build|introduce|new', lower):
+              category="✨ Added"
+          elif re.search(r'improv|enhanc|harden|strengthen|refin|consolidat|repair|fix|correct', lower):
+              category="🔧 Improved"
+          elif re.search(r'change|update|rename|move|switch|replace|rework|rebuild', lower):
+              category="🛠️ Changed"
+          else:
+              category="📋 Updated"
+
+          payload={
+            "username":"Brandon Books & Stories",
+            "embeds":[{
+              "title":"📋 Brandon Books & Stories — Changelog",
+              "description":f"**{category}**\n{message}",
+              "fields":[
+                {"name":"Commit","value":os.environ["COMMIT"][:7],"inline":True},
+                {"name":"Author","value":os.environ["AUTHOR"],"inline":True}
+              ],
+              "footer":{"text":"Automatic changelog • GitHub → Discord"}
+            }]
+          }
+          req=urllib.request.Request(
+            os.environ["CHANGELOG_WEBHOOK"],
+            data=json.dumps(payload).encode(),
+            headers={"Content-Type":"application/json"},
+            method="POST"
+          )
+          urllib.request.urlopen(req, timeout=10).read()
+          PY
