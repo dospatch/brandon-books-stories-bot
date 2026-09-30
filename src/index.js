@@ -21,7 +21,7 @@ const commands=[
  new SlashCommandBuilder().setName("help").setDescription("Show bot commands."),
  new SlashCommandBuilder().setName("books").setDescription("Show Brandon's books and reading information."),
  new SlashCommandBuilder().setName("about").setDescription("Learn about Brandon and Books & Stories."),
- new SlashCommandBuilder().setName("community").setDescription("Show what you can do in the Books & Stories community."),
+ new SlashCommandBuilder().setName("community").setDescription("Show what you can do in the Books & Stories community."),\n new SlashCommandBuilder().setName("announce").setDescription("Post an official community announcement."),
  new SlashCommandBuilder().setName("website").setDescription("Show the author website."),
  new SlashCommandBuilder().setName("serverinfo").setDescription("Show server information."),
  new SlashCommandBuilder().setName("ping").setDescription("Check whether the bot is responding."),
@@ -546,6 +546,18 @@ client.on("interactionCreate",async i=>{
     {name:"✍️ Get Involved",value:"Use /apply when applications are open for Author Team, Moderator, or Book Reviewer roles."}
    )
    .setFooter({text:"📖 Real Stories • Bigger Purpose"})],flags:MessageFlags.Ephemeral});
+  if(i.commandName==="announce"){
+   if(!allowed(i))return i.reply({content:"🔒 Only the server owner or configured bot owner can post official announcements.",flags:MessageFlags.Ephemeral});
+   const channel=i.guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name==="📢・announcements");
+   if(!channel)return i.reply({content:"❌ The 📢・announcements channel could not be found.",flags:MessageFlags.Ephemeral});
+   await i.deferReply({flags:MessageFlags.Ephemeral});
+   const embed=new EmbedBuilder()
+    .setTitle("📢 Brandon Books & Stories")
+    .setDescription("A new official update is available.\\n\\nFollow this channel for books, stories, writing updates, community news, and important announcements.")
+    .setFooter({text:"📖 Real Stories • Bigger Purpose"});
+   await channel.send({content:"📢 **New Brandon Books & Stories Update**",embeds:[embed]});
+   return i.editReply("✅ Official announcement posted in <#"+channel.id+">.");
+  }
   if(i.commandName==="website")return i.reply({content:"🌐 **Brandon D. Coleman Jr. — Books & Stories**\n"+(process.env.WEBSITE_URL||"https://brandon-books-stories-bot-website-3n7hbjx9r-dospatchs-projects.vercel.app")});
   if(i.commandName==="serverinfo")return i.reply({content:"🖥️ **"+i.guild.name+"**\nMembers: "+i.guild.memberCount+"\nChannels: "+i.guild.channels.cache.size,flags:MessageFlags.Ephemeral});
  }catch(e){
