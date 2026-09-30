@@ -176,19 +176,51 @@ async function setup(guild){
  }
 
  const welcome=guild.channels.cache.find(x=>x.name==="👋・welcome");
- if(welcome)await welcome.send({
-  embeds:[new EmbedBuilder()
-   .setTitle("📖 Welcome to Brandon D. Coleman Jr. — Books & Stories")
-   .setDescription("Welcome to the community for books, stories, memories, writing updates, and creative projects.\\n\\n📚 Books • ✍️ Stories • ❤️ Memories\\n\\nPlease read the rules and introduce yourself!")
-   .setFooter({text:"📖 Real Stories • Bigger Purpose"})]
- }).catch(e=>console.warn("WELCOME MESSAGE FAILED:",e.message));
+ if(welcome){
+  const welcomeEmbed=new EmbedBuilder()
+   .setTitle("📚 Welcome to Brandon Books & Stories! ❤️")
+   .setDescription(
+    "I’m truly glad you’re here.\\n\\n"+
+    "This community is a place where I can share the books, stories, memories, ideas, and creative projects that mean something to me — and where I hope we can build a community around them together.\\n\\n"+
+    "📚 Books\\n✍️ Stories & Writing\\n❤️ Memories & Personal Moments\\n🎨 Creative Projects\\n📝 Writing & Publishing Updates\\n📢 News & Announcements\\n💬 Community Conversations\\n\\n"+
+    "Some of the stories shared here may be personal, some may be creative, and others may simply be little updates from along the journey. My goal is to make this a place where people can read, connect, share, encourage, and enjoy.\\n\\n"+
+    "Whether you've been following my work for a while or you’re just discovering it for the first time, you’re welcome here. ❤️\\n\\n"+
+    "🌟 **What You Can Expect**\\n\\n"+
+    "You'll find updates about my books and writing, new projects, behind-the-scenes moments, memories, announcements, and other creative things I’m working on.\\n\\n"+
+    "I also want this to be more than just a place where I post updates. Your support, conversations, and participation are what help make a community feel like a community.\\n\\n"+
+    "Feel free to join the conversation, share your thoughts, and support fellow members — while always remembering that everyone here deserves to be treated with kindness and respect.\\n\\n"+
+    "📌 **Before You Get Started**\\n\\n"+
+    "Please take a moment to read the community rules before posting or participating.\\n\\n"+
+    "The rules are here to help keep this a positive, respectful, welcoming, and enjoyable space for everyone.\\n\\n"+
+    "Thank you for taking the time to be here and for supporting my books, stories, and creative journey.\\n\\n"+
+    "I’m excited to have you along for the journey. 📚❤️\\n\\n— Brandon"
+   )
+   .setFooter({text:"📖 Real Stories • Bigger Purpose"});
+  await welcome.send({embeds:[welcomeEmbed]}).catch(e=>console.warn("WELCOME MESSAGE FAILED:",e.message));
+ }
 
  const rules=guild.channels.cache.find(x=>x.name==="📜・rules");
- if(rules)await rules.send({
-  embeds:[new EmbedBuilder()
-   .setTitle("📜 Community Rules")
-   .setDescription("1. Be respectful.\\n2. Keep the community welcoming.\\n3. No harassment or spam.\\n4. Keep discussions constructive.\\n5. Follow Discord Terms and Community Guidelines.")]
- }).catch(e=>console.warn("RULES MESSAGE FAILED:",e.message));
+ if(rules){
+  const rulesEmbed=new EmbedBuilder()
+   .setTitle("📜 Brandon Books & Stories — Community Rules")
+   .setDescription(
+    "Welcome! ❤️ These simple rules help keep our community friendly, respectful, and enjoyable for everyone.\\n\\n"+
+    "**1. 🤝 Be Respectful**\\nTreat everyone with kindness. Disagreements are okay; harassment, insults, bullying, and personal attacks are not.\\n\\n"+
+    "**2. ❤️ Keep It Welcoming**\\nHelp create a positive environment where everyone feels comfortable participating.\\n\\n"+
+    "**3. 🚫 No Harassment or Spam**\\nNo harassment, threats, excessive tagging, spam, scams, or unwanted promotional messages.\\n\\n"+
+    "**4. 💬 Keep Discussions Constructive**\\nShare your opinions and feedback respectfully. Keep conversations relevant and avoid unnecessary arguments.\\n\\n"+
+    "**5. 🔒 Respect Privacy**\\nNever share someone else's private or personal information without permission.\\n\\n"+
+    "**6. 📢 No Unapproved Promotion**\\nDon't advertise, promote, or post unrelated links without permission.\\n\\n"+
+    "**7. 🛡️ Follow Discord's Rules**\\nYou must follow the Discord Terms of Service and Community Guidelines as well as these community rules.\\n\\n"+
+    "📩 **Need Help?**\\nIf you have a question, concern, or need to report a problem, contact the community staff through the designated support/contact method rather than starting an argument publicly.\\n\\n"+
+    "⚖️ **Appeals**\\nIf you believe you received a warning, restriction, or removal unfairly, you may contact community staff privately to request an appeal.\\n\\n"+
+    "Please include:\\n• Your Discord username\\n• What happened\\n• Any relevant details or screenshots\\n• Why you believe the action should be reconsidered\\n\\n"+
+    "Appeals will be reviewed based on the information available. Please do not repeatedly submit the same appeal or harass staff about a decision.\\n\\n"+
+    "❤️ **Our Goal**\\nThese rules aren't here to make the community feel strict. They're here to help protect the people, conversations, stories, and memories that make this community special.\\n\\n"+
+    "Thank you for being part of Brandon Books & Stories! 📚❤️"
+   );
+  await rules.send({embeds:[rulesEmbed]}).catch(e=>console.warn("RULES MESSAGE FAILED:",e.message));
+ }
 }
 
 client.once("ready",async()=>{
