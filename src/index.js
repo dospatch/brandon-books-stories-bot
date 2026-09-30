@@ -41,6 +41,11 @@ function explainDiscordError(e,context){
  return "Discord access failure at "+context+" | code="+code+" | status="+status+" | message="+(e?.message||"Unknown Discord error")+api;
 }
 
+async function withTimeout(promise,label,ms=12000){
+ const timeout=new Promise((_,reject)=>setTimeout(()=>reject(new Error("Timed out while "+label+" after "+ms+"ms. Discord did not complete the request.")),ms));
+ return Promise.race([promise,timeout]);
+}
+
 async function setup(guild){
  let step="checking bot permissions";
  const me=guild.members.me || await guild.members.fetchMe();
@@ -105,6 +110,12 @@ client.once("ready",async()=>{
   console.log("Registering "+commands.length+" global slash commands...");
   await rest.put(Routes.applicationCommands(client.user.id),{body:commands});
   console.log("SLASH COMMANDS REGISTERED SUCCESSFULLY.");
+  for(const guild of client.guilds.cache.values()){
+   try{
+    await rest.put(Routes.applicationGuildCommands(client.user.id,guild.id),{body:commands});
+    console.log("GUILD COMMANDS REGISTERED: "+guild.name+" ("+guild.id+")");
+   }catch(e){console.error("GUILD COMMAND REGISTRATION FAILED: "+guild.name+":",e.code||"unknown",e.message||e);}
+  }
  }catch(e){
   console.error("SLASH COMMAND REGISTRATION FAILED:",e.code||"unknown",e.message||e);
  }
@@ -119,7 +130,7 @@ client.on("interactionCreate",async i=>{
    if(!allowed(i))return i.reply({content:"🔒 Only the server owner or configured bot owner can run setup.",ephemeral:true});
    await i.reply({content:"🔎 **Books & Stories setup starting...** I’m checking Discord access and will report the exact problem if anything fails.",ephemeral:true});
    try{
-    await setup(i.guild);
+    await withTimeout(setup(i.guild),"setting up the server",120000);
     await i.editReply("✅ **Books & Stories server setup is complete.** You can safely run setup again to repair the structure.");
    }catch(e){
     console.error("SETUP FAILED at setup step:",e);
