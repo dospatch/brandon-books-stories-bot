@@ -15,7 +15,10 @@ let discordReady=false;
 client.on("error",e=>console.error("DISCORD CLIENT ERROR:",e));
 client.on("warn",m=>console.warn("DISCORD WARNING:",m));
 client.on("shardError",e=>console.error("DISCORD SHARD ERROR:",e));
-client.on("debug",m=>console.log("DISCORD DEBUG:",m));
+client.on("debug",m=>{
+ if(typeof m==="string" && /token/i.test(m))return;
+ console.log("DISCORD DEBUG:",m);
+});
 
 const commands=[
  new SlashCommandBuilder().setName("setup-author-server").setDescription("Create or repair the Books & Stories server structure."),
