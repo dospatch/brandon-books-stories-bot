@@ -67,12 +67,18 @@ async function setup(guild){
    let ch=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name===name&&x.parentId===cat.id);
    if(!ch){try{ch=await guild.channels.create({name,type:ChannelType.GuildText,parent:cat.id,reason:"Books & Stories bot setup"});}catch(e){throw new Error(explainDiscordError(e,"creating channel "+name));}}
    if(catName==="🔒 STAFF"){
-    // Apply staff privacy one permission at a time. A permission-overwrite
-    // failure should not abort the entire server setup.
+    // Keep the bot explicitly allowed before denying @everyone. Otherwise
+    // the @everyone deny can remove the bot's channel access mid-setup.
     try{
+     await ch.permissionOverwrites.edit(me.id,{
+      ViewChannel:true,
+      SendMessages:true,
+      ReadMessageHistory:true,
+      ManageChannels:true
+     });
      await ch.permissionOverwrites.edit(guild.roles.everyone.id,{ViewChannel:false});
     }catch(e){
-     console.warn("STAFF PRIVACY WARNING:",explainDiscordError(e,"hiding staff channel "+name));
+     throw new Error(explainDiscordError(e,"securing staff channel "+name));
     }
     for(const rn of ["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team"]){
      const role=roleMap[rn];
