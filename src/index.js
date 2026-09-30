@@ -50,25 +50,117 @@ async function withTimeout(promise,label,ms=120000){
 
 async function setup(guild){
  const me=guild.members.me || await guild.members.fetchMe();
- const needed=[[PermissionFlagsBits.ViewChannel,"View Channel"],[PermissionFlagsBits.ManageChannels,"Manage Channels"],[PermissionFlagsBits.ManageRoles,"Manage Roles"],[PermissionFlagsBits.SendMessages,"Send Messages"],[PermissionFlagsBits.EmbedLinks,"Embed Links"],[PermissionFlagsBits.ReadMessageHistory,"Read Message History"]];
+ const needed=[
+  [PermissionFlagsBits.ViewChannel,"View Channel"],
+  [PermissionFlagsBits.ManageChannels,"Manage Channels"],
+  [PermissionFlagsBits.ManageRoles,"Manage Roles"],
+  [PermissionFlagsBits.SendMessages,"Send Messages"],
+  [PermissionFlagsBits.EmbedLinks,"Embed Links"],
+  [PermissionFlagsBits.ReadMessageHistory,"Read Message History"]
+ ];
  const missing=needed.filter(x=>!me.permissions.has(x[0])).map(x=>x[1]);
  if(missing.length)throw new Error("Missing bot server permissions: "+missing.join(", "));
+
  const roleMap={};
  for(const name of roles){
   let r=guild.roles.cache.find(x=>x.name===name);
-  if(!r){try{r=await guild.roles.create({name,reason:"Books & Stories bot setup"});}catch(e){throw new Error(explainDiscordError(e,"creating role "+name));}}
+  if(!r){
+   try{r=await guild.roles.create({name,reason:"Books & Stories bot setup"});}
+   catch(e){throw new Error(explainDiscordError(e,"creating role "+name));}
+  }
   if(r.managed)throw new Error("Cannot use managed role "+name+".");
   roleMap[name]=r;
  }
+
  for(const [catName,names] of Object.entries(structure)){
   let cat=guild.channels.cache.find(x=>x.type===ChannelType.GuildCategory&&x.name===catName);
-  if(!cat){try{cat=await guild.channels.create({name:catName,type:ChannelType.GuildCategory,reason:"Books & Stories bot setup"});}catch(e){throw new Error(explainDiscordError(e,"creating category "+catName));}}
+
+  if(!cat){
+   try{
+    const permissionOverwrites=[];
+    if(catName==="🔒 STAFF"){
+     permissionOverwrites.push({
+      id:guild.roles.everyone.id,
+      deny:[PermissionFlagsBits.ViewChannel]
+     });
+     permissionOverwrites.push({
+      id:me.id,
+      allow:[
+       PermissionFlagsBits.ViewChannel,
+       PermissionFlagsBits.SendMessages,
+       PermissionFlagsBits.ReadMessageHistory,
+       PermissionFlagsBits.ManageChannels
+      ]
+     });
+     for(const rn of ["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team"]){
+      const role=roleMap[rn];
+      if(role && role.position<me.roles.highest.position){
+       permissionOverwrites.push({
+        id:role.id,
+        allow:[
+         PermissionFlagsBits.ViewChannel,
+         PermissionFlagsBits.SendMessages,
+         PermissionFlagsBits.ReadMessageHistory
+        ]
+       });
+      }
+     }
+    }
+    cat=await guild.channels.create({
+     name:catName,
+     type:ChannelType.GuildCategory,
+     permissionOverwrites,
+     reason:"Books & Stories bot setup"
+    });
+   }catch(e){
+    throw new Error(explainDiscordError(e,"creating category "+catName));
+   }
+  }else if(catName==="🔒 STAFF"){
+   // Repair the staff category itself so child channels inherit privacy.
+   try{
+    await cat.permissionOverwrites.edit(guild.roles.everyone.id,{ViewChannel:false});
+    await cat.permissionOverwrites.edit(me.id,{
+     ViewChannel:true,
+     SendMessages:true,
+     ReadMessageHistory:true,
+     ManageChannels:true
+    });
+   }catch(e){
+    console.warn("STAFF CATEGORY PRIVACY WARNING:",explainDiscordError(e,"securing staff category"));
+   }
+   for(const rn of ["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team"]){
+    const role=roleMap[rn];
+    if(!role || role.position>=me.roles.highest.position)continue;
+    try{
+     await cat.permissionOverwrites.edit(role.id,{
+      ViewChannel:true,
+      SendMessages:true,
+      ReadMessageHistory:true
+     });
+    }catch(e){
+     console.warn("STAFF CATEGORY ROLE WARNING:",explainDiscordError(e,"granting staff category access to "+rn));
+    }
+   }
+  }
+
   for(const name of names){
    let ch=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name===name&&x.parentId===cat.id);
-   if(!ch){try{ch=await guild.channels.create({name,type:ChannelType.GuildText,parent:cat.id,reason:"Books & Stories bot setup"});}catch(e){throw new Error(explainDiscordError(e,"creating channel "+name));}}
+   if(!ch){
+    try{
+     ch=await guild.channels.create({
+      name,
+      type:ChannelType.GuildText,
+      parent:cat.id,
+      reason:"Books & Stories bot setup"
+     });
+    }catch(e){
+     throw new Error(explainDiscordError(e,"creating channel "+name));
+    }
+   }
+
    if(catName==="🔒 STAFF"){
-    // Keep the bot explicitly allowed before denying @everyone. Otherwise
-    // the @everyone deny can remove the bot's channel access mid-setup.
+    // Child channels inherit the private category. Explicitly repair only
+    // when needed, without denying the bot during its own setup.
     try{
      await ch.permissionOverwrites.edit(me.id,{
       ViewChannel:true,
@@ -76,30 +168,27 @@ async function setup(guild){
       ReadMessageHistory:true,
       ManageChannels:true
      });
-     await ch.permissionOverwrites.edit(guild.roles.everyone.id,{ViewChannel:false});
     }catch(e){
-     throw new Error(explainDiscordError(e,"securing staff channel "+name));
-    }
-    for(const rn of ["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team"]){
-     const role=roleMap[rn];
-     if(!role)continue;
-     if(role.position>=me.roles.highest.position){
-      console.warn("STAFF ROLE HIERARCHY WARNING: Bot role must be above "+rn+" in the Discord role list.");
-      continue;
-     }
-     try{
-      await ch.permissionOverwrites.edit(role.id,{ViewChannel:true,SendMessages:true,ReadMessageHistory:true});
-     }catch(e){
-      console.warn("STAFF ROLE ACCESS WARNING:",explainDiscordError(e,"granting staff access to "+name+" for "+rn));
-     }
+     console.warn("STAFF BOT ACCESS WARNING:",explainDiscordError(e,"granting bot access to "+name));
     }
    }
   }
  }
+
  const welcome=guild.channels.cache.find(x=>x.name==="👋・welcome");
- if(welcome)await welcome.send({embeds:[new EmbedBuilder().setTitle("📖 Welcome to Brandon D. Coleman Jr. — Books & Stories").setDescription("Welcome to the community for books, stories, memories, writing updates, and creative projects.\n\n📚 Books • ✍️ Stories • ❤️ Memories\n\nPlease read the rules and introduce yourself!").setFooter({text:"📖 Real Stories • Bigger Purpose"})]}).catch(e=>console.warn("WELCOME MESSAGE FAILED:",e.message));
+ if(welcome)await welcome.send({
+  embeds:[new EmbedBuilder()
+   .setTitle("📖 Welcome to Brandon D. Coleman Jr. — Books & Stories")
+   .setDescription("Welcome to the community for books, stories, memories, writing updates, and creative projects.\\n\\n📚 Books • ✍️ Stories • ❤️ Memories\\n\\nPlease read the rules and introduce yourself!")
+   .setFooter({text:"📖 Real Stories • Bigger Purpose"})]
+ }).catch(e=>console.warn("WELCOME MESSAGE FAILED:",e.message));
+
  const rules=guild.channels.cache.find(x=>x.name==="📜・rules");
- if(rules)await rules.send({embeds:[new EmbedBuilder().setTitle("📜 Community Rules").setDescription("1. Be respectful.\n2. Keep the community welcoming.\n3. No harassment or spam.\n4. Keep discussions constructive.\n5. Follow Discord Terms and Community Guidelines.")]}).catch(e=>console.warn("RULES MESSAGE FAILED:",e.message));
+ if(rules)await rules.send({
+  embeds:[new EmbedBuilder()
+   .setTitle("📜 Community Rules")
+   .setDescription("1. Be respectful.\\n2. Keep the community welcoming.\\n3. No harassment or spam.\\n4. Keep discussions constructive.\\n5. Follow Discord Terms and Community Guidelines.")]
+ }).catch(e=>console.warn("RULES MESSAGE FAILED:",e.message));
 }
 
 client.once("ready",async()=>{
@@ -108,11 +197,21 @@ client.once("ready",async()=>{
  client.user.setPresence({activities:[{name:"Books & Stories 📖",type:ActivityType.Watching}],status:"online"});
  try{
   const rest=new REST({version:"10"}).setToken(token);
-  await rest.put(Routes.applicationCommands(client.user.id),{body:commands});
-  console.log("GLOBAL SLASH COMMANDS REGISTERED.");
   for(const guild of client.guilds.cache.values()){
-   try{await rest.put(Routes.applicationGuildCommands(client.user.id,guild.id),{body:commands});console.log("GUILD COMMANDS REGISTERED: "+guild.name+" ("+guild.id+")");}
-   catch(e){console.error("GUILD COMMAND REGISTRATION FAILED:",e.code||"unknown",e.message||e);}
+   try{
+    await rest.put(Routes.applicationGuildCommands(client.user.id,guild.id),{body:commands});
+    const registered=await rest.get(Routes.applicationGuildCommands(client.user.id,guild.id));
+    const names=Array.isArray(registered)?registered.map(x=>"/"+x.name).join(", "):"unknown";
+    console.log("GUILD SLASH COMMANDS REGISTERED: "+guild.name+" ("+guild.id+") => "+names);
+   }catch(e){
+    console.error("GUILD COMMAND REGISTRATION FAILED:",e.code||"unknown",e.message||e);
+   }
+  }
+  try{
+   await rest.put(Routes.applicationCommands(client.user.id),{body:commands});
+   console.log("GLOBAL SLASH COMMANDS REGISTERED.");
+  }catch(e){
+   console.error("GLOBAL COMMAND REGISTRATION FAILED:",e.code||"unknown",e.message||e);
   }
  }catch(e){console.error("SLASH COMMAND REGISTRATION FAILED:",e.code||"unknown",e.message||e);}
 });
