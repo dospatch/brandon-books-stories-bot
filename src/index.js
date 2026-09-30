@@ -224,13 +224,28 @@ client.on("interactionCreate",async i=>{
    return;
   }
   if(!i.guild)return i.reply({content:"This command can only be used in a server.",flags:MessageFlags.Ephemeral});
-  if(i.commandName==="ping")return i.reply({content:"🏓 Pong! The bot is online and responding.",flags:MessageFlags.Ephemeral});
-  if(i.commandName==="apply")return i.reply({content:"📋 **Brandon Books & Stories Applications**\n\nChoose the type of application you want to submit below. Your application will be sent to a private staff review channel.",components:[applicationMenu()],flags:MessageFlags.Ephemeral});
+  if(i.commandName==="ping"){
+   await i.deferReply({flags:MessageFlags.Ephemeral});
+   return i.editReply("🏓 Pong! The bot is online and responding.");
+  }
+  if(i.commandName==="apply"){
+   await i.deferReply({flags:MessageFlags.Ephemeral});
+   return i.editReply({
+    content:"📋 **Brandon Books & Stories Applications**\n\nChoose the type of application you want to submit below. Your application will be sent to a private staff review channel.",
+    components:[applicationMenu()]
+   });
+  }
   if(i.commandName==="setup-author-server"){
    if(!allowed(i))return i.reply({content:"🔒 Only the server owner or configured bot owner can run setup.",flags:MessageFlags.Ephemeral});
-   await i.reply({content:"🔎 **Books & Stories setup starting...**",flags:MessageFlags.Ephemeral});
-   try{await withTimeout(setup(i.guild),"setting up the server");await i.editReply("✅ **Books & Stories server setup is complete.**");}
-   catch(e){console.error("SETUP FAILED:",e);await i.editReply("❌ **Setup failed:** "+(e.message||String(e))).catch(()=>{});}
+   await i.deferReply({flags:MessageFlags.Ephemeral});
+   await i.editReply("🔎 **Books & Stories setup starting...**");
+   try{
+    await withTimeout(setup(i.guild),"setting up the server");
+    await i.editReply("✅ **Books & Stories server setup is complete.**");
+   }catch(e){
+    console.error("SETUP FAILED:",e);
+    await i.editReply("❌ **Setup failed:** "+(e.message||String(e))).catch(()=>{});
+   }
    return;
   }
   if(i.commandName==="help")return i.reply({content:"📖 **Books & Stories Bot**\n\n/setup-author-server — Build the server\n/apply — Submit an application\n/books — Show books\n/website — Show website\n/serverinfo — Server info\n/ping — Test the bot\n/help — Help",flags:MessageFlags.Ephemeral});
