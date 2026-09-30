@@ -48,6 +48,29 @@ async function withTimeout(promise,label,ms=120000){
  return Promise.race([promise,timeout]);
 }
 
+async function announceDeploymentSuccess(guild){
+ try{
+  const channelId=process.env.BOT_UPDATES_CHANNEL_ID;
+  let channel=channelId ? await client.channels.fetch(channelId).catch(()=>null) : null;
+  if(!channel){
+   channel=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name==="📋・bot-updates");
+  }
+  if(!channel || !channel.isTextBased())return;
+  const embed=new EmbedBuilder()
+   .setTitle("✅ Deployment Complete")
+   .setDescription("**Brandon Books & Stories** is online and running the latest deployed version.")
+   .addFields(
+    {name:"Status",value:"🟢 Online",inline:true},
+    {name:"Hosting",value:"FadeHost",inline:true},
+    {name:"Source",value:"GitHub → FadeHost",inline:true}
+   )
+   .setFooter({text:"📖 Real Stories • Bigger Purpose"});
+  await channel.send({embeds:[embed]});
+ }catch(e){
+  console.warn("DEPLOYMENT STATUS MESSAGE FAILED:",e.message||e);
+ }
+}
+
 async function setup(guild){
  const me=guild.members.me || await guild.members.fetchMe();
  const needed=[
