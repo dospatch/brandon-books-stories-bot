@@ -117,7 +117,7 @@ client.on("interactionCreate",async i=>{
  try{
   if(i.commandName==="setup-author-server"){
    if(!allowed(i))return i.reply({content:"🔒 Only the server owner or configured bot owner can run setup.",ephemeral:true});
-   await i.deferReply({ephemeral:true});
+   await i.reply({content:"🔎 **Books & Stories setup starting...** I’m checking Discord access and will report the exact problem if anything fails.",ephemeral:true});
    try{
     await setup(i.guild);
     await i.editReply("✅ **Books & Stories server setup is complete.** You can safely run setup again to repair the structure.");
