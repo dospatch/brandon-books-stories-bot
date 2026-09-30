@@ -1,6 +1,6 @@
 const http=require("http");
 const PORT=process.env.PORT||8080;
-http.createServer((req,res)=>{res.writeHead(200,{"Content-Type":"text/plain"});res.end("Brandon Books & Stories bot is online.\n");}).listen(PORT,"0.0.0.0",()=>console.log("Health server listening on "+PORT));
+http.createServer((req,res)=>{\n if(req.method==="POST"&&req.url==="/social/webhook"){\n  return handleSocialWebhook(req,res,client.guilds.cache);\n }\n res.writeHead(200,{"Content-Type":"text/plain"});\n res.end("Brandon Books & Stories bot is online.\\n");\n}).listen(PORT,"0.0.0.0",()=>console.log("Health server listening on "+PORT));
 require("dotenv").config();
 const {Client,GatewayIntentBits,ChannelType,EmbedBuilder,ActivityType,REST,Routes,SlashCommandBuilder,PermissionFlagsBits,MessageFlags}=require("discord.js");
 const {applicationMenu,handleApplicationInteraction}=require("./applications");
