@@ -203,10 +203,12 @@ async function setup(guild){
   // Reconcile category visibility and staff access every time setup runs.
   if(catName==="🔒 STAFF"){
    try{
-    await cat.permissionOverwrites.edit(guild.roles.everyone.id,{ViewChannel:false});
+    // Restore bot access FIRST. If @everyone is denied first, Discord can
+    // immediately remove the bot's channel access and return 50001.
     await cat.permissionOverwrites.edit(me.id,{
      ViewChannel:true,SendMessages:true,ReadMessageHistory:true,ManageChannels:true
     });
+    await cat.permissionOverwrites.edit(guild.roles.everyone.id,{ViewChannel:false});
    }catch(e){
     throw new Error(explainDiscordError(e,"securing staff category"));
    }
@@ -255,10 +257,12 @@ async function setup(guild){
 
    try{
     if(catName==="🔒 STAFF"){
-     await ch.permissionOverwrites.edit(guild.roles.everyone.id,{ViewChannel:false});
+     // Restore bot access before denying @everyone for the same reason as
+     // the category: never lock the bot out during the repair operation.
      await ch.permissionOverwrites.edit(me.id,{
       ViewChannel:true,SendMessages:true,ReadMessageHistory:true,ManageChannels:true
      });
+     await ch.permissionOverwrites.edit(guild.roles.everyone.id,{ViewChannel:false});
      for(const rn of staffRoleNames){
       const role=roleMap[rn];
       if(!role || role.position>=me.roles.highest.position)continue;
