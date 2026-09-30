@@ -1,0 +1,51 @@
+name: Deployment Notification
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Discord that deployment started
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_DEPLOY_WEBHOOK_URL }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK" ]; then
+            echo "DISCORD_DEPLOY_WEBHOOK_URL is not configured; skipping push notification."
+            exit 0
+          fi
+
+          COMMIT="${GITHUB_SHA:0:7}"
+          MESSAGE="${{ github.event.head_commit.message }}"
+          AUTHOR="${{ github.actor }}"
+          REPO="${{ github.repository }}"
+
+          python - <<'PY'
+          import json, os, urllib.request
+          webhook=os.environ["DISCORD_WEBHOOK"]
+          payload={
+            "username":"Brandon Books & Stories",
+            "embeds":[{
+              "title":"🚀 Deployment Started",
+              "description":"A new version of **Brandon Books & Stories** was pushed to GitHub and is being deployed by FadeHost.",
+              "color":3447003,
+              "fields":[
+                {"name":"Commit","value":os.environ["COMMIT"],"inline":True},
+                {"name":"Author","value":os.environ["AUTHOR"],"inline":True},
+                {"name":"Repository","value":os.environ["REPO"],"inline":False},
+                {"name":"Changes","value":os.environ["MESSAGE"][:1024],"inline":False}
+              ],
+              "footer":{"text":"GitHub → FadeHost → Discord"}
+            }]
+          }
+          req=urllib.request.Request(
+            webhook,
+            data=json.dumps(payload).encode(),
+            headers={"Content-Type":"application/json"},
+            method="POST"
+          )
+          urllib.request.urlopen(req, timeout=10).read()
+          PY
