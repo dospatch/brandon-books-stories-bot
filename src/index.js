@@ -444,8 +444,13 @@ client.on("interactionCreate",async i=>{
    });
   }
   if(i.commandName==="setup-author-server"){
-   if(!allowed(i))return i.reply({content:"🔒 Only the server owner or configured bot owner can run setup.",flags:MessageFlags.Ephemeral});
+   // Acknowledge the interaction before any permission checks or setup work.
+   // This guarantees Discord receives the interaction response immediately.
    await i.deferReply({flags:MessageFlags.Ephemeral});
+   if(!allowed(i)){
+    await i.editReply("🔒 Only the server owner or configured bot owner can run setup.");
+    return;
+   }
    await i.editReply("🔎 **Books & Stories setup starting...**");
    try{
     await withTimeout(setup(i.guild),"setting up the server");
