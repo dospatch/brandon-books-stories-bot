@@ -170,13 +170,8 @@ async function handleApplicationInteraction(i){
     const guildId=parts[1];
     const type=parts[2];
     const typeName=TYPES[type]||"Application";
-    const guild=await i.client.guilds.fetch(guildId).catch(()=>null);
-    if(!guild){
-      return i.update({
-        embeds:[new EmbedBuilder().setTitle("❌ Application Unavailable").setDescription("I couldn't find the Brandon Books & Stories server. Please return to the server and use /apply again.").setFooter({text:"📖 Real Stories • Bigger Purpose"})],
-        components:[]
-      });
-    }
+    // Do not fetch the guild before acknowledging the button.
+    // Discord requires component interactions to be acknowledged within a few seconds.
     const modal=new ModalBuilder().setCustomId("apply-modal:"+guildId+":"+type).setTitle(typeName+" Application");
     const why=new TextInputBuilder().setCustomId("why").setLabel("Why are you applying?").setStyle(TextInputStyle.Paragraph).setRequired(true).setMaxLength(1000);
     const experience=new TextInputBuilder().setCustomId("experience").setLabel("Relevant experience").setStyle(TextInputStyle.Paragraph).setRequired(true).setMaxLength(1000);
@@ -201,8 +196,13 @@ async function handleApplicationInteraction(i){
       .setDescription("Thanks for your interest in **Brandon Books & Stories**!\n\nYou selected the **"+typeName+"** application. Your answers will be reviewed privately by the community staff team.\n\nWhen you're ready, select **Start Application** below. If you change your mind, you can **Cancel Application** without submitting anything.")
       .addFields({name:"Application Type",value:typeName,inline:true},{name:"Status",value:"🟡 Ready to begin",inline:true})
       .setFooter({text:"📖 Real Stories • Bigger Purpose"});
-    await sendApplicationDM(i.user,welcome,[applicationControlRow(i.guild.id,type)]);
-    return i.reply({content:"📩 Check your Discord direct messages for the application welcome message.",flags:MessageFlags.Ephemeral});
+    const dmSent=await sendApplicationDM(i.user,welcome,[applicationControlRow(i.guild.id,type)]);
+    return i.reply({
+      content:dmSent
+        ?"📩 Check your Discord direct messages for the application welcome message."
+        :"❌ I couldn't send you a DM. Please enable direct messages for this server and try /apply again.",
+      flags:MessageFlags.Ephemeral
+    });
   }
 
   if(i.isModalSubmit()&&i.customId.startsWith("apply-modal:")){
