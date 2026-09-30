@@ -31,8 +31,15 @@ function applicationMenu(){
   );
 }
 
-async function sendApplicationDM(user,embed){
- try{await user.send({embeds:[embed]});return true;}catch(e){console.warn("APPLICATION DM FAILED:",e.message||e);return false;}
+async function sendApplicationDM(user,embed,components=[]){
+ try{await user.send({embeds:[embed],components});return true;}catch(e){console.warn("APPLICATION DM FAILED:",e.message||e);return false;}
+}
+
+function applicationControlRow(){
+ return new ActionRowBuilder().addComponents(
+  new ButtonBuilder().setCustomId("application-cancel").setLabel("Cancel Application").setStyle(ButtonStyle.Danger).setEmoji("❌"),
+  new ButtonBuilder().setCustomId("application-start-over").setLabel("Start Over").setStyle(ButtonStyle.Secondary).setEmoji("🔄")
+ );
 }
 
 function staffCategory(guild){
@@ -144,6 +151,25 @@ async function handleApplicationReview(i){
 
 async function handleApplicationInteraction(i){
   if(await handleApplicationReview(i))return true;
+  if(i.isButton()&&(i.customId==="application-cancel"||i.customId==="application-start-over")){
+    if(i.customId==="application-cancel"){
+      return i.update({
+        embeds:[new EmbedBuilder()
+          .setTitle("❌ Application Cancelled")
+          .setDescription("Your current application has been cancelled. Nothing was submitted to the staff team.")
+          .setFooter({text:"📖 Real Stories • Bigger Purpose"})],
+        components:[]
+      });
+    }
+    return i.update({
+      embeds:[new EmbedBuilder()
+        .setTitle("🔄 Start Over")
+        .setDescription("Your previous application process has been reset. Use **/apply** in the server to start a new application.")
+        .setFooter({text:"📖 Real Stories • Bigger Purpose"})],
+      components:[]
+    });
+  }
+
   if(i.isStringSelectMenu()&&i.customId==="apply-type"){
     if(!i.guild)return i.reply({content:"This application can only be started inside the server.",flags:MessageFlags.Ephemeral});
     const type=i.values[0];
@@ -152,7 +178,7 @@ async function handleApplicationInteraction(i){
       .setTitle("📋 Application Started")
       .setDescription("You selected **"+typeName+"** for your Brandon Books & Stories application.\n\nComplete the application form in Discord. Your answers will be sent privately to the staff review team.")
       .addFields({name:"Application Type",value:typeName,inline:true},{name:"Status",value:"🟡 Form in progress",inline:true})
-      .setFooter({text:"📖 Real Stories • Bigger Purpose"}));
+      .setFooter({text:"📖 Real Stories • Bigger Purpose"}),[applicationControlRow()]);
     const modal=new ModalBuilder().setCustomId("apply-modal:"+type).setTitle((TYPES[type]||"Application")+" Application");
     const why=new TextInputBuilder().setCustomId("why").setLabel("Why are you applying?").setStyle(TextInputStyle.Paragraph).setRequired(true).setMaxLength(1000);
     const experience=new TextInputBuilder().setCustomId("experience").setLabel("Relevant experience").setStyle(TextInputStyle.Paragraph).setRequired(true).setMaxLength(1000);
