@@ -51,11 +51,13 @@ async function setup(guild){
    if(catName==="🔒 STAFF"){
     step="configuring staff permissions for "+name;
     await ch.permissionOverwrites.edit(guild.roles.everyone,{ViewChannel:false});
-     for(const rn of ["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team"]){
-      const role=roleMap[rn];
-      if(role.position>=me.roles.highest.position)throw new Error("Cannot manage permission for role "+rn+" because it is at/above the bot highest role.");
+    const staffRoleNames=["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team"];
+    for (const rn of staffRoleNames) {
+      const role = roleMap[rn];
+      if (!role) throw new Error("Staff role was not created: "+rn);
+      if (role.position >= me.roles.highest.position) throw new Error("Cannot manage permission for role "+rn+" because it is at/above the bot highest role.");
       await ch.permissionOverwrites.edit(role,{ViewChannel:true,SendMessages:true,ReadMessageHistory:true});
-     }
+    }
    }
   }
  }
@@ -79,7 +81,9 @@ client.once("ready",async()=>{
 
 
 client.on("interactionCreate",async i=>{
- if(!i.isChatInputCommand()||!i.guild)return;
+ if(!i.isChatInputCommand())return;
+ if(!i.guild)return i.reply({content:"This command can only be used in a server.",ephemeral:true}).catch(()=>{});
+ try {
  if(i.commandName==="setup-author-server"){
   if(!allowed(i))return i.reply({content:"🔒 Only the server owner or configured bot owner can run setup.",ephemeral:true});
   await i.deferReply({ephemeral:true});
@@ -90,5 +94,11 @@ client.on("interactionCreate",async i=>{
  if(i.commandName==="books")return i.reply({embeds:[new EmbedBuilder().setTitle("📚 Brandon D. Coleman Jr. — Books").setDescription("📖 My Life Story With Grandma\n"+(process.env.BOOK_1_URL||"Book link coming soon.")+"\n\n📕 Part 2: Continuing the Journey, Memories, and the Road Ahead\n"+(process.env.PART_2_URL||"Part 2 link coming soon."))]});
  if(i.commandName==="website")return i.reply({content:"🌐 **Brandon D. Coleman Jr. — Books & Stories**\n"+(process.env.WEBSITE_URL||"https://brandon-books-stories-bot-website-3n7hbjx9r-dospatchs-projects.vercel.app"),ephemeral:false});
  if(i.commandName==="serverinfo")return i.reply({content:"🖥️ **"+i.guild.name+"**\nMembers: "+i.guild.memberCount+"\nChannels: "+i.guild.channels.cache.size,ephemeral:true});
+ } catch(e) {
+  console.error("INTERACTION FAILED:",e);
+  const msg="❌ Command failed: "+(e.message||String(e));
+  if(i.deferred||i.replied) await i.editReply(msg).catch(()=>{});
+  else await i.reply({content:msg,ephemeral:true}).catch(()=>{});
+ }
 });
 client.login(token);
