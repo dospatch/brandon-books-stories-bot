@@ -211,14 +211,34 @@ async function setup(guild){
     }catch(e){throw new Error(explainDiscordError(e,"recovering inaccessible staff category"));}
    }
    try{
-    // Restore bot access FIRST. If @everyone is denied first, Discord can
-    // immediately remove the bot's channel access and return 50001.
+    // Restore bot access FIRST. If Discord still reports 50001, create a
+    // replacement Staff category and continue the setup there.
     await cat.permissionOverwrites.edit(me.id,{
      ViewChannel:true,SendMessages:true,ReadMessageHistory:true,ManageChannels:true
     });
     await cat.permissionOverwrites.edit(guild.roles.everyone.id,{ViewChannel:false});
    }catch(e){
-    throw new Error(explainDiscordError(e,"securing staff category"));
+    const code=e?.code||e?.rawError?.code;
+    if(String(code)==="50001"){
+     console.warn("STAFF CATEGORY INACCESSIBLE; CREATING RECOVERY CATEGORY.");
+     try{
+      const recovery=await guild.channels.create({
+       name:"🔒 STAFF",
+       type:ChannelType.GuildCategory,
+       reason:"Books & Stories automatic Staff access recovery"
+      });
+      cat=recovery;
+      categoryMap[catName]=cat;
+      await cat.permissionOverwrites.edit(me.id,{
+       ViewChannel:true,SendMessages:true,ReadMessageHistory:true,ManageChannels:true
+      });
+      await cat.permissionOverwrites.edit(guild.roles.everyone.id,{ViewChannel:false});
+     }catch(recoveryError){
+      throw new Error(explainDiscordError(recoveryError,"recovering staff category after 50001"));
+     }
+    }else{
+     throw new Error(explainDiscordError(e,"securing staff category"));
+    }
    }
    for(const rn of staffRoleNames){
     const role=roleMap[rn];
