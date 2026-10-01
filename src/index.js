@@ -16,7 +16,7 @@ const {handleSocialWebhook}=require("./socialFeed");
 const token=process.env.DISCORD_TOKEN;
 if(!token){console.error("STARTUP FAILED: DISCORD_TOKEN is missing.");process.exit(1);}
 
-const client=new Client({intents:[GatewayIntentBits.Guilds]});
+const client=new Client({intents:[GatewayIntentBits.Guilds,GatewayIntentBits.GuildMembers]});
 let discordReady=false;
 
 client.on("error",e=>console.error("DISCORD CLIENT ERROR:",e));
@@ -51,7 +51,7 @@ const structure={
 "🤖 BOT":["🤖・bot-commands","📋・bot-updates"],
 "🔒 STAFF":["🔒・staff","🛠️・staff-logs","📊・server-logs"]
 };
-const roles=["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team","📚 Reader","⭐ VIP Reader","🤖 Bot"];
+const roles=["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team","⭐ VIP Customer","📚 Reader","⭐ VIP Reader","🤖 Bot"];
 
 function allowed(i){return i.guild.ownerId===i.user.id || (process.env.OWNER_ID && i.user.id===process.env.OWNER_ID);}
 function explainDiscordError(e,context){
@@ -178,6 +178,7 @@ async function setup(guild){
    PermissionFlagsBits.ViewAuditLog
   ],
   "✍️ Author Team":[],
+  "⭐ VIP Customer":[],
   "📚 Reader":[],
   "⭐ VIP Reader":[],
   "🤖 Bot":[]
@@ -203,7 +204,7 @@ async function setup(guild){
 
  // Keep the Books & Stories roles below the bot's highest manageable role.
  // Discord will not allow a bot to manage roles at/above its own highest role.
- const hierarchy=["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team","⭐ VIP Reader","📚 Reader","🤖 Bot"];
+ const hierarchy=["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team","⭐ VIP Customer","⭐ VIP Reader","📚 Reader","🤖 Bot"];
  for(const name of hierarchy){
   const role=roleMap[name];
   if(!role || role.managed || !role.editable)continue;
@@ -466,6 +467,46 @@ async function setup(guild){
   await upsertEmbedMessage(rules,"BBS:AUTO:RULES",rulesEmbed).catch(e=>console.warn("RULES MESSAGE FAILED:",e.message));
  }
 }
+client.on("guildMemberAdd",async member=>{
+ try{
+  const guild=member.guild;
+  let vipRole=guild.roles.cache.find(r=>r.name==="⭐ VIP Customer");
+  if(!vipRole){
+   vipRole=await guild.roles.create({
+    name:"⭐ VIP Customer",
+    permissions:[],
+    reason:"Brandon Books & Stories automatic new-member VIP role"
+   });
+  }
+  const me=guild.members.me||await guild.members.fetchMe();
+  if(vipRole.editable && !member.roles.cache.has(vipRole.id)){
+   await member.roles.add(vipRole,"Brandon Books & Stories automatic VIP Customer role");
+  }
+  const welcome=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name==="👋・welcome");
+  if(!welcome||!welcome.isTextBased())return;
+  const embed=new EmbedBuilder()
+   .setTitle("🎉 Welcome to Brandon Books & Stories!")
+   .setDescription(
+    "Welcome, <@"+member.id+">! ❤️\n\n"+
+    "We're glad you're here. You've been welcomed as a **⭐ VIP Customer** and can now explore the community, books, stories, memories, and updates.\n\n"+
+    "📚 **Start Here**\n"+
+    "• Read <#"+(guild.channels.cache.find(x=>x.name==="📜・rules")?.id||"")+">\n"+
+    "• Explore the books and community channels\n"+
+    "• Watch for new stories, announcements, and projects\n\n"+
+    "🌐 **Stay Connected**\n"+
+    "📖 Website: https://brandon-books-stories-bot-website.vercel.app/\n"+
+    "📸 Instagram: https://www.instagram.com/brandonbooksandstories/\n"+
+    "📘 Facebook: https://www.facebook.com/brandon.d.coleman.books\n"+
+    "▶️ YouTube: https://youtube.com/@chieifthebcfamily-dispatcher\n\n"+
+    "Thank you for joining **Brandon Books & Stories**! 📖❤️"
+   )
+   .setFooter({text:"📖 Real Stories • Bigger Purpose"});
+  await welcome.send({content:"🎉 Welcome <@"+member.id+">! You now have the ⭐ VIP Customer role.",embeds:[embed]});
+ }catch(e){
+  console.error("NEW MEMBER WELCOME FAILED:",e.code||"unknown",e.message||e);
+ }
+});
+
 client.once("ready",async()=>{
  discordReady=true;
  console.log("BOOKS & STORIES READY: "+client.user.tag+" | Guilds: "+client.guilds.cache.size);
