@@ -33,6 +33,7 @@ const commands=[
  new SlashCommandBuilder().setName("help").setDescription("Show bot commands."),
  new SlashCommandBuilder().setName("books").setDescription("Show Brandon's books and reading information."),
  new SlashCommandBuilder().setName("about").setDescription("Learn about Brandon and Books & Stories."),
+ new SlashCommandBuilder().setName("aboutmedia").setDescription("Show official Brandon Books & Stories media links."),
  new SlashCommandBuilder().setName("community").setDescription("Show what you can do in the Books & Stories community."),
  new SlashCommandBuilder().setName("announce").setDescription("Post an official community announcement."),
  new SlashCommandBuilder().setName("website").setDescription("Show the author website."),
@@ -48,7 +49,7 @@ const structure={
 "📚 BOOKS":["📖・my-life-story-with-grandma","📕・part-2","🛒・where-to-buy","⭐・reader-reviews"],
 "✍️ THE AUTHOR":["👤・about-brandon","✍️・writing-journey","🌅・family-and-memories","📸・behind-the-books"],
 "💬 COMMUNITY":["💬・general","📚・book-discussion","❤️・memories","💡・reader-ideas","🎉・community"],
-"📺 MEDIA":["📱・social-media","▶️・youtube","📸・instagram","📘・facebook","🎵・music-projects"],
+"📺 MEDIA":["📖・about-media","📱・social-media","▶️・youtube","📸・instagram","📘・facebook","🎵・music-projects"],
 "🤖 BOT":["🤖・bot-commands","📋・bot-updates"],
 "🔒 STAFF":["🔒・staff","🛠️・staff-logs","📊・server-logs"]
 };
@@ -242,7 +243,7 @@ async function setup(guild){
   "👋・welcome","📜・rules","📢・announcements","📰・latest-updates",
   "📖・my-life-story-with-grandma","📕・part-2","🛒・where-to-buy",
   "👤・about-brandon","✍️・writing-journey","🌅・family-and-memories","📸・behind-the-books",
-  "▶️・youtube","📸・instagram","📘・facebook","🎵・music-projects",
+  "📖・about-media","▶️・youtube","📸・instagram","📘・facebook","🎵・music-projects",
   "📋・bot-updates"
  ]);
 
@@ -652,7 +653,7 @@ client.on("interactionCreate",async i=>{
    }
    return;
   }
-  if(i.commandName==="help")return i.reply({embeds:[new EmbedBuilder().setTitle("📖 Brandon Books & Stories").setDescription("**Community & Information**\n📚 `/books` — View the books and purchase links\n🌐 `/website` — Open the author website\n🖥️ `/serverinfo` — View server information\n\n**Community**\n⭐ `/review` — Submit a reader review\n💡 `/feedback` — Send private feedback to staff\n📋 `/apply` — Submit a private application\n🛠️ `/setup-author-server` — Repair the server structure *(owner/staff setup only)*\n\n**Bot**\n🏓 `/ping` — Check bot response\n❓ `/help` — Show this help menu").setFooter({text:"📖 Real Stories • Bigger Purpose"})],flags:MessageFlags.Ephemeral});
+  if(i.commandName==="help")return i.reply({embeds:[new EmbedBuilder().setTitle("📖 Brandon Books & Stories").setDescription("**Community & Information**\n📚 `/books` — View the books and purchase links\n🌐 `/website` — Open the author website\n📖 `/aboutmedia` — Show official media links\n🖥️ `/serverinfo` — View server information\n\n**Community**\n⭐ `/review` — Submit a reader review\n💡 `/feedback` — Send private feedback to staff\n📋 `/apply` — Submit a private application\n🛠️ `/setup-author-server` — Repair the server structure *(owner/staff setup only)*\n\n**Bot**\n🏓 `/ping` — Check bot response\n❓ `/help` — Show this help menu").setFooter({text:"📖 Real Stories • Bigger Purpose"})],flags:MessageFlags.Ephemeral});
   if(i.commandName==="books"){
    const embed=new EmbedBuilder()
     .setTitle("📚 Brandon D. Coleman Jr. — Books")
@@ -678,6 +679,21 @@ client.on("interactionCreate",async i=>{
     {name:"🤝 Join the Journey",value:"Read the books, leave an honest review, follow the social pages, discover the creative projects, watch the videos, and join the Brandon Books & Stories community."}
    )
    .setFooter({text:"📖 Real Stories • Bigger Purpose"})],flags:MessageFlags.Ephemeral});
+  if(i.commandName==="aboutmedia"){
+   const embed=new EmbedBuilder()
+    .setTitle("📖 About Media — Brandon Books & Stories")
+    .setDescription("Official places to follow Brandon D. Coleman Jr. — Books & Stories.\n\n**📖 Real Stories • Bigger Purpose**")
+    .addFields(
+     {name:"🌐 Official Website",value:"https://brandon-books-stories-bot-website.vercel.app"},
+     {name:"📸 Instagram",value:"https://www.instagram.com/brandonbooksandstories/"},
+     {name:"📘 Facebook",value:"https://www.facebook.com/brandon.d.coleman.books"},
+     {name:"▶️ YouTube",value:"https://youtube.com/@chieifthebcfamily-dispatcher"},
+     {name:"🎵 Creative Projects",value:"Follow the media channels for music, videos, tributes, memories, writing updates, and new projects."},
+     {name:"📱 Automatic Updates",value:"New supported social updates are automatically shared in the appropriate media channels when the social bridge is active."}
+    )
+    .setFooter({text:"Brandon D. Coleman Jr. — Books & Stories"});
+   return i.reply({embeds:[embed],flags:MessageFlags.Ephemeral});
+  }
   if(i.commandName==="community")return i.reply({embeds:[new EmbedBuilder()
    .setTitle("💬 Brandon Books & Stories Community")
    .setDescription("There is more to the community than announcements. You can take part in the conversation and follow the creative journey.")
