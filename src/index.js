@@ -263,7 +263,29 @@ async function setup(guild){
   SendMessages:true,
   EmbedLinks:true
  };
+ const roleAccess={
+  owner:roleMap["👑 Owner"],
+  admin:roleMap["🛠️ Administrator"],
+  moderator:roleMap["🛡️ Moderator"],
+  author:roleMap["✍️ Author Team"],
+  vipCustomer:roleMap["⭐ VIP Customer"],
+  reader:roleMap["📚 Reader"],
+  vipReader:roleMap["⭐ VIP Reader"],
+  customBot:roleMap["🤖 Bot"]
+ };
+ const staffAccessRoles=[
+  roleAccess.owner,
+  roleAccess.admin,
+  roleAccess.moderator,
+  roleAccess.author
+ ].filter(Boolean);
 
+ // Category/channel permission plan:
+ // START HERE, BOOKS, AUTHOR, COMMUNITY and MEDIA are public.
+ // BOT is visible to members but bot-updates is read-only.
+ // STAFF is private to Owner/Admin/Moderator/Author Team plus the bot.
+ const categoryPublicReadOnly=new Set(["📌 START HERE","📚 BOOKS","✍️ THE AUTHOR","📺 MEDIA"]);
+ const categoryPublicInteractive=new Set(["💬 COMMUNITY"]);
  await cleanupDuplicateStructure(guild,me);
 
  const categoryMap={};
@@ -363,8 +385,22 @@ async function setup(guild){
    }
   }else{
    try{
-    await cat.permissionOverwrites.edit(guild.roles.everyone.id,publicAllow);
+    const categoryPermissions=categoryPublicInteractive.has(catName)?publicAllow:publicReadOnly;
+    await cat.permissionOverwrites.edit(guild.roles.everyone.id,categoryPermissions);
     await cat.permissionOverwrites.edit(me.id,botAllow);
+
+    // Explicitly keep the staff roles able to manage their community areas.
+    for(const role of staffAccessRoles){
+     if(!role || role.position>=me.roles.highest.position)continue;
+     await cat.permissionOverwrites.edit(role.id,{
+      ViewChannel:true,
+      ReadMessageHistory:true,
+      SendMessages:true,
+      EmbedLinks:true,
+      ManageMessages:role===roleAccess.owner||role===roleAccess.admin||role===roleAccess.moderator,
+      ManageChannels:role===roleAccess.owner||role===roleAccess.admin
+     });
+    }
    }catch(e){
     console.warn("PUBLIC CATEGORY WARNING:",explainDiscordError(e,"configuring category "+catName));
    }
@@ -417,6 +453,19 @@ async function setup(guild){
      const memberPermissions=readOnlyChannels.has(name)?publicReadOnly:publicAllow;
      await ch.permissionOverwrites.edit(guild.roles.everyone.id,memberPermissions);
      await ch.permissionOverwrites.edit(me.id,botAllow);
+
+     // Staff can moderate public channels without exposing the private Staff category.
+     for(const role of staffAccessRoles){
+      if(!role || role.position>=me.roles.highest.position)continue;
+      await ch.permissionOverwrites.edit(role.id,{
+       ViewChannel:true,
+       ReadMessageHistory:true,
+       SendMessages:true,
+       EmbedLinks:true,
+       ManageMessages:role===roleAccess.owner||role===roleAccess.admin||role===roleAccess.moderator,
+       ManageChannels:role===roleAccess.owner||role===roleAccess.admin
+      });
+     }
     }
    }catch(e){
     console.warn("CHANNEL PERMISSION WARNING:",explainDiscordError(e,"configuring channel "+name));
