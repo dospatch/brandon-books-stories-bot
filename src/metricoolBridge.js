@@ -7,6 +7,7 @@ const TIMEZONE=process.env.METRICOOL_TIMEZONE||"America/Chicago";
 const USER_ID=process.env.METRICOOL_USER_ID||"";
 const BLOG_ID=process.env.METRICOOL_BLOG_ID||"";
 const TOKEN=process.env.METRICOOL_API_TOKEN||"";
+const YOUTUBE_CHANNEL_ID=process.env.YOUTUBE_CHANNEL_ID||"UCVk8GSKRg43MvSi1hA-Nd7Q";
 
 const SOURCES={
  instagram:{endpoint:"/v2/analytics/posts/instagram",source:"instagram"},
@@ -96,6 +97,25 @@ async function pollSource(guilds,name,config,from,to){
  return {found:posts.length,sent};
 }
 
+async function pollYouTube(guilds){
+ const response=await fetch("https://www.youtube.com/feeds/videos.xml?channel_id="+encodeURIComponent(YOUTUBE_CHANNEL_ID));
+ if(!response.ok)throw new Error("YouTube RSS "+response.status);
+ const xml=await response.text();
+ const entries=[...xml.matchAll(/<entry>([\\s\\S]*?)<\\/entry>/g)].map(m=>m[1]);
+ let sent=0;
+ for(const entry of entries){
+  const value=(tag)=>{const m=entry.match(new RegExp("<"+tag+"[^>]*>([\\s\\S]*?)</"+tag+">"));return m?m[1].replace(/&amp;/g,"&").replace(/&lt;/g,"<").replace(/&gt;/g,">").trim():"";};
+  const id=value("yt:videoId");
+  const title=value("title");
+  const url=id?"https://www.youtube.com/watch?v="+id:"";
+  const published=value("published");
+  if(!id)continue;
+  const post={source:"youtube",id,title:title||"New YouTube video",description:"A new Brandon Books & Stories YouTube video is available.",url,date:published};
+  const result=await Promise.all([...guilds.values()].map(async guild=>{try{return await postSocialUpdate(guild,post);}catch(e){console.error("YOUTUBE DISCORD POST FAILED:",guild.id,e.message||e);return {ok:false};}}));
+  if(result.some(x=>x.ok))sent++;
+ }
+ return {found:entries.length,sent};
+}
 function startMetricoolBridge(client){
  if(!TOKEN||!USER_ID||!BLOG_ID){
   console.log("METRICOOL BRIDGE: disabled until METRICOOL_API_TOKEN, METRICOOL_USER_ID, and METRICOOL_BLOG_ID are configured.");
@@ -113,6 +133,10 @@ function startMetricoolBridge(client){
     try{const result=await pollSource(client.guilds.cache,name,config,from,to);console.log("METRICOOL BRIDGE:",name,"found="+result.found,"sent="+result.sent);}
     catch(e){console.error("METRICOOL BRIDGE SOURCE FAILED:",name,e.message||e);}
    }
+   try{
+    const result=await pollYouTube(client.guilds.cache);
+    console.log("SOCIAL BRIDGE: youtube found="+result.found+" sent="+result.sent);
+   }catch(e){console.error("YOUTUBE BRIDGE FAILED:",e.message||e);}
   }catch(e){console.error("METRICOOL BRIDGE FAILED:",e.message||e);}
   finally{running=false;}
  };
