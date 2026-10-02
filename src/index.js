@@ -664,12 +664,15 @@ client.on("interactionCreate",async i=>{
    return i.reply({embeds:[embed]});
   }
   if(i.commandName==="about")return i.reply({embeds:[new EmbedBuilder()
-   .setTitle("👤 About Brandon D. Coleman Jr.")
-   .setDescription("Welcome to **Brandon Books & Stories** — a creative community centered around books, personal stories, memories, writing, and new projects.")
+   .setTitle("📖 Brandon Books & Stories")
+   .setDescription("**Stories. Memories. Creativity. A Journey Worth Sharing.**\\n\\nWelcome to Brandon Books & Stories — the official author brand of **Brandon D. Coleman Jr.**")
    .addFields(
-    {name:"📖 Author & Storyteller",value:"Sharing books, memories, life experiences, and stories through writing and creative projects."},
-    {name:"❤️ What Matters Here",value:"Family, memories, creativity, community, and giving readers a place to connect with the stories behind the work."},
-    {name:"🌟 Community Vision",value:"A welcoming place where readers can discover new work, follow the writing journey, share thoughts, and be part of what comes next."}
+    {name:"✍️ Meet the Author",value:"I’m an independent author, storyteller, and creator. My journey into writing is deeply personal. I write because there are stories I want to tell, memories I want to preserve, and experiences that have helped shape the person I am today."},
+    {name:"📚 My Books",value:"**My Life Story With Grandma** is a heartfelt personal story centered around family, memories, love, and the special relationship between a grandson and his grandmother. **Part 2: Continuing the Journey, Memories, and the Road Ahead** continues the story with more memories, experiences, reflections, and the road ahead."},
+    {name:"🎵 Creative Projects",value:"My creativity extends into music, videos, tributes, storytelling, and other creative projects, including **I Miss You Grandma** — a heartfelt project honoring my grandma through music, emotions, and memories."},
+    {name:"❤️ Why I Create",value:"Memories matter. Stories matter. People matter. I want meaningful experiences to have a place to live while giving readers a chance to connect with stories that may remind them of their own lives, families, and experiences."},
+    {name:"🌱 The Journey Continues",value:"There will be new stories, new books, new creative projects, and another chapter waiting to be written."},
+    {name:"🤝 Join the Journey",value:"Read the books, leave an honest review, follow the social pages, discover the creative projects, watch the videos, and join the Brandon Books & Stories community."}
    )
    .setFooter({text:"📖 Real Stories • Bigger Purpose"})],flags:MessageFlags.Ephemeral});
   if(i.commandName==="community")return i.reply({embeds:[new EmbedBuilder()
