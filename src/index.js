@@ -53,6 +53,18 @@ const structure={
 };
 const roles=["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team","⭐ VIP Customer","📚 Reader","⭐ VIP Reader","🤖 Bot"];
 
+const roleColors={
+ "👑 Owner":"#F1C40F",
+ "🛠️ Administrator":"#E74C3C",
+ "🛡️ Moderator":"#3498DB",
+ "✍️ Author Team":"#9B59B6",
+ "⭐ VIP Customer":"#F39C12",
+ "📚 Reader":"#2ECC71",
+ "⭐ VIP Reader":"#E91E63",
+ "🤖 Bot":"#5865F2",
+ "Staff":"#F1C40F"
+};
+
 function allowed(i){return i.guild.ownerId===i.user.id || (process.env.OWNER_ID && i.user.id===process.env.OWNER_ID);}
 function explainDiscordError(e,context){
  const code=e?.code||e?.rawError?.code||"unknown";
@@ -197,8 +209,12 @@ async function setup(guild){
    if(!r.permissions.equals(desired) && r.editable){
     await r.setPermissions(desired,"Books & Stories role configuration");
    }
+   const desiredColor=roleColors[name];
+   if(desiredColor && r.editable && r.hexColor.toUpperCase()!==desiredColor.toUpperCase()){
+    await r.setColor(desiredColor,"Books & Stories role color configuration");
+   }
   }catch(e){
-   console.warn("ROLE PERMISSION WARNING:",explainDiscordError(e,"configuring role "+name));
+   console.warn("ROLE CONFIGURATION WARNING:",explainDiscordError(e,"configuring role "+name));
   }
  }
 
@@ -475,8 +491,11 @@ client.on("guildMemberAdd",async member=>{
    vipRole=await guild.roles.create({
     name:"⭐ VIP Customer",
     permissions:[],
+    color:roleColors["⭐ VIP Customer"],
     reason:"Brandon Books & Stories automatic new-member VIP role"
    });
+  }else if(vipRole.editable && roleColors["⭐ VIP Customer"] && vipRole.hexColor.toUpperCase()!==roleColors["⭐ VIP Customer"].toUpperCase()){
+   await vipRole.setColor(roleColors["⭐ VIP Customer"],"Brandon Books & Stories automatic VIP Customer role color");
   }
   const me=guild.members.me||await guild.members.fetchMe();
   if(vipRole.editable && !member.roles.cache.has(vipRole.id)){
