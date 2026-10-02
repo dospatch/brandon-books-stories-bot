@@ -665,12 +665,13 @@ client.on("interactionCreate",async i=>{
   }
   if(i.commandName==="about")return i.reply({embeds:[new EmbedBuilder()
    .setTitle("📖 Brandon Books & Stories")
-   .setDescription("**Stories. Memories. Creativity. A Journey Worth Sharing.**\\n\\nWelcome to Brandon Books & Stories — the official author brand of **Brandon D. Coleman Jr.**")
+   .setDescription("**Stories. Memories. Creativity. A Journey Worth Sharing.**\\n\\nWelcome to Brandon Books & Stories — the official author brand of **Brandon D. Coleman Jr.**\\n\\nI’m an independent author, storyteller, and creator who believes the experiences we live, the people we love, and the memories we make are worth preserving. Through books, music, videos, and other creative projects, I turn meaningful experiences and ideas into stories that can be shared, remembered, and enjoyed.")
    .addFields(
-    {name:"✍️ Meet the Author",value:"I’m an independent author, storyteller, and creator. My journey into writing is deeply personal. I write because there are stories I want to tell, memories I want to preserve, and experiences that have helped shape the person I am today."},
+    {name:"✍️ Meet the Author",value:"I’m Brandon D. Coleman Jr., an independent author, storyteller, and creator. Writing gives me a way to remember, creating gives me a way to express myself, and sharing my work gives me a way to connect with readers. I’m continuing to learn, grow, and build my career one story, project, and chapter at a time."},
     {name:"📚 My Books",value:"**My Life Story With Grandma** is a heartfelt personal story centered around family, memories, love, and the special relationship between a grandson and his grandmother. **Part 2: Continuing the Journey, Memories, and the Road Ahead** continues the story with more memories, experiences, reflections, and the road ahead."},
-    {name:"🎵 Creative Projects",value:"My creativity extends into music, videos, tributes, storytelling, and other creative projects, including **I Miss You Grandma** — a heartfelt project honoring my grandma through music, emotions, and memories."},
-    {name:"❤️ Why I Create",value:"Memories matter. Stories matter. People matter. I want meaningful experiences to have a place to live while giving readers a chance to connect with stories that may remind them of their own lives, families, and experiences."},
+    {name:"🎵 Creative Projects",value:"My creativity extends beyond books into music, videos, tributes, photography, storytelling, and future projects. **I Miss You Grandma** is an ongoing music project created as a heartfelt way of remembering and honoring my grandma."},
+    {name:"🎥 Media",value:"Follow the creative journey through YouTube, Instagram, Facebook, videos, tributes, memories, and other media projects.\\n▶️ YouTube\\n📸 Instagram\\n📘 Facebook"},
+    {name:"❤️ Why I Create",value:"Memories matter. Stories matter. People matter. I want meaningful experiences to have a place to live while giving readers a chance to connect with stories that may remind them of their own lives, families, memories, and experiences."},
     {name:"🌱 The Journey Continues",value:"There will be new stories, new books, new creative projects, and another chapter waiting to be written."},
     {name:"🤝 Join the Journey",value:"Read the books, leave an honest review, follow the social pages, discover the creative projects, watch the videos, and join the Brandon Books & Stories community."}
    )
