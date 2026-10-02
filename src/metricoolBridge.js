@@ -101,7 +101,7 @@ async function pollYouTube(guilds){
  const response=await fetch("https://www.youtube.com/feeds/videos.xml?channel_id="+encodeURIComponent(YOUTUBE_CHANNEL_ID));
  if(!response.ok)throw new Error("YouTube RSS "+response.status);
  const xml=await response.text();
- const entries=[...xml.matchAll(/<entry>([\\s\\S]*?)<\\/entry>/g)].map(m=>m[1]);
+ const entries=[...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map(m=>m[1]);
  let sent=0;
  for(const entry of entries){
   const value=(tag)=>{const m=entry.match(new RegExp("<"+tag+"[^>]*>([\\s\\S]*?)</"+tag+">"));return m?m[1].replace(/&amp;/g,"&").replace(/&lt;/g,"<").replace(/&gt;/g,">").trim():"";};
