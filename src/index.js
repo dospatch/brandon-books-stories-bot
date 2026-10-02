@@ -12,6 +12,7 @@ const {Client,GatewayIntentBits,ChannelType,EmbedBuilder,ActivityType,REST,Route
 const {applicationMenu,handleApplicationInteraction}=require("./applications");
 const {reviewMenu,feedbackModal,handleReviewInteraction}=require("./reviews");
 const {handleSocialWebhook}=require("./socialFeed");
+const {startMetricoolBridge}=require("./metricoolBridge");
 
 const token=process.env.DISCORD_TOKEN;
 if(!token){console.error("STARTUP FAILED: DISCORD_TOKEN is missing.");process.exit(1);}
@@ -600,6 +601,7 @@ client.once("ready",async()=>{
    console.error("GLOBAL COMMAND CLEANUP FAILED:",e.code||"unknown",e.message||e);
   }
  }catch(e){console.error("SLASH COMMAND REGISTRATION FAILED:",e.code||"unknown",e.message||e);}
+ startMetricoolBridge(client);
 });
 
 client.on("interactionCreate",async i=>{
