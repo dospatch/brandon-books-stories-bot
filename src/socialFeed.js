@@ -1,6 +1,15 @@
 const {EmbedBuilder,ChannelType}=require("discord.js");
 
 const CHANNEL_NAME="📱・social-media";
+const SOURCE_CHANNELS={
+  instagram:"📸・instagram",
+  facebook:"📘・facebook",
+  tiktok:"📱・social-media",
+  youtube:"▶️・youtube",
+  website:"📱・social-media",
+  book:"🛒・where-to-buy",
+  music:"🎵・music-projects"
+};
 const SOURCE_LABELS={
   instagram:"📸 Instagram",
   facebook:"📘 Facebook",
@@ -14,9 +23,9 @@ function clean(value,max=1024){
   return String(value||"").trim().slice(0,max);
 }
 
-async function findSocialChannel(guild){
+async function findChannel(guild,name){
   return guild.channels.cache.find(
-    x=>x.type===ChannelType.GuildText&&x.name===CHANNEL_NAME
+    x=>x.type===ChannelType.GuildText&&x.name===name
   )||null;
 }
 
@@ -30,13 +39,9 @@ async function alreadyPosted(channel,marker){
 }
 
 async function postSocialUpdate(guild,data){
-  const channel=await findSocialChannel(guild);
-  if(!channel||!channel.isTextBased())return {ok:false,reason:"social channel not found"};
-
   const source=String(data.source||"website").toLowerCase();
   const id=clean(data.id||data.url||data.title||Date.now(),200);
   const marker="BBS:AUTO:SOCIAL:"+source+":"+id;
-  if(await alreadyPosted(channel,marker))return {ok:true,duplicate:true};
 
   const title=clean(data.title||("New "+(SOURCE_LABELS[source]||"Update")),256);
   const description=clean(data.description||data.text||"Brandon Books & Stories has a new update.",4096);
@@ -52,11 +57,30 @@ async function postSocialUpdate(guild,data){
   if(data.image)embed.setImage(clean(data.image,2000));
   if(data.author)embed.addFields({name:"Posted by",value:clean(data.author,256),inline:true});
 
-  await channel.send({
-    content:"📣 **New Brandon Books & Stories update!**",
-    embeds:[embed]
-  });
-  return {ok:true,duplicate:false};
+  const targetNames=[CHANNEL_NAME,SOURCE_CHANNELS[source]||CHANNEL_NAME];
+  const uniqueNames=[...new Set(targetNames)];
+  const results=[];
+  for(const name of uniqueNames){
+    const channel=await findChannel(guild,name);
+    if(!channel||!channel.isTextBased()){
+      results.push({channel:name,ok:false,reason:"channel not found"});
+      continue;
+    }
+    const channelMarker=marker+":"+name;
+    if(await alreadyPosted(channel,channelMarker)){
+      results.push({channel:name,ok:true,duplicate:true});
+      continue;
+    }
+    const channelEmbed=EmbedBuilder.from(embed).setFooter({text:channelMarker});
+    await channel.send({
+      content:"📣 **New Brandon Books & Stories update!**",
+      embeds:[channelEmbed]
+    });
+    results.push({channel:name,ok:true,duplicate:false});
+  }
+
+  const posted=results.some(x=>x.ok&&!x.duplicate);
+  return {ok:posted||results.every(x=>x.duplicate),duplicate:results.length>0&&results.every(x=>x.duplicate),channels:results};
 }
 
 async function handleSocialWebhook(req,res,guilds){
