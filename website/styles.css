@@ -9,3 +9,13 @@
 .book-card strong{color:white}
 .book-info h3{line-height:1.15}
 @media(max-width:800px){.five-book-grid{grid-template-columns:1fr}}
+
+
+/* Official Amazon cover artwork */
+.cover{background-size:cover;background-position:center;background-repeat:no-repeat;position:relative;overflow:hidden}
+.cover>*{visibility:hidden}
+.cover-one{background-image:url("https://images-na.ssl-images-amazon.com/images/P/B0HL794K8Z.01.LZZZZZZZ.jpg")}
+.cover-two{background-image:url("https://images-na.ssl-images-amazon.com/images/P/B0HKT3GKM.01.LZZZZZZZ.jpg")}
+.cover-three{background-image:url("https://images-na.ssl-images-amazon.com/images/P/B0HLB7P2ZS.01.LZZZZZZZ.jpg")}
+.cover-four{background-image:url("https://images-na.ssl-images-amazon.com/images/P/B0HM5DTQ3K.01.LZZZZZZZ.jpg")}
+.cover-five{background-image:url("https://images-na.ssl-images-amazon.com/images/P/B0HM6LY91G.01.LZZZZZZZ.jpg")}
