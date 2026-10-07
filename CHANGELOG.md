@@ -1,3 +1,17 @@
+## October 7, 2026
+
+### Added
+- Published the latest **My Life Story With Grandma** series status update to the public website.
+- Added current publishing status for Books 1–5, including published, draft, in-review, and coming-soon formats.
+- Added the official Discord `/publishingupdate` command so the owner can post the same update to `📢・announcements`.
+
+### Publishing Status
+- 📕 Book 1 — Foundations: Hardcover **PUBLISHED**
+- 📗 Book 2 — New Horizons: Kindle **PUBLISHED**, Paperback **PUBLISHED**, Hardcover **DRAFT / SETUP**
+- 📘 Book 3 — The Journey Continues: Kindle **PUBLISHED**, Paperback **PUBLISHED**, Hardcover **IN REVIEW**
+- 📙 Book 4 — The Memories We Carry Forward: Kindle **PUBLISHED**, Paperback **IN REVIEW**, Hardcover **DRAFT**
+- 📔 Book 5 — Part 5: The Journey Continues: Kindle **PUBLISHED**, Paperback **PUBLISHED**, Hardcover **COMING SOON**
+
 # Brandon Books & Stories — Changelog
 
 All public website and project updates are tracked from the Brandon Books & Stories GitHub project.
