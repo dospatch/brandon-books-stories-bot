@@ -36,6 +36,7 @@ const commands=[
  new SlashCommandBuilder().setName("aboutmedia").setDescription("Show official Brandon Books & Stories media links."),
  new SlashCommandBuilder().setName("community").setDescription("Show what you can do in the Books & Stories community."),
  new SlashCommandBuilder().setName("announce").setDescription("Post an official community announcement."),
+ new SlashCommandBuilder().setName("promotion").setDescription("Post the current My Life Story With Grandma promotion."),
  new SlashCommandBuilder().setName("website").setDescription("Show the author website."),
  new SlashCommandBuilder().setName("serverinfo").setDescription("Show server information."),
  new SlashCommandBuilder().setName("ping").setDescription("Check whether the bot is responding."),
@@ -653,7 +654,7 @@ client.on("interactionCreate",async i=>{
    }
    return;
   }
-  if(i.commandName==="help")return i.reply({embeds:[new EmbedBuilder().setTitle("📖 Brandon Books & Stories").setDescription("**Community & Information**\n📚 `/books` — View the books and purchase links\n🌐 `/website` — Open the author website\n📖 `/aboutmedia` — Show official media links\n🖥️ `/serverinfo` — View server information\n\n**Community**\n⭐ `/review` — Submit a reader review\n💡 `/feedback` — Send private feedback to staff\n📋 `/apply` — Submit a private application\n🛠️ `/setup-author-server` — Repair the server structure *(owner/staff setup only)*\n\n**Bot**\n🏓 `/ping` — Check bot response\n❓ `/help` — Show this help menu").setFooter({text:"📖 Real Stories • Bigger Purpose"})],flags:MessageFlags.Ephemeral});
+  if(i.commandName==="help")return i.reply({embeds:[new EmbedBuilder().setTitle("📖 Brandon Books & Stories").setDescription("**Community & Information**\n📚 `/books` — View the books and purchase links\n🌐 `/website` — Open the author website\n📖 `/aboutmedia` — Show official media links\n🖥️ `/serverinfo` — View server information\n\n**Community**\n⭐ `/review` — Submit a reader review\n💡 `/feedback` — Send private feedback to staff\n📋 `/apply` — Submit a private application\n🛠️ `/setup-author-server` — Repair the server structure *(owner/staff setup only)*\n📢 `/promotion` — Post the current Book 1 promotion *(owner only)*\n\n**Bot**\n🏓 `/ping` — Check bot response\n❓ `/help` — Show this help menu").setFooter({text:"📖 Real Stories • Bigger Purpose"})],flags:MessageFlags.Ephemeral});
   if(i.commandName==="books"){
    const embed=new EmbedBuilder()
     .setTitle("📚 Brandon D. Coleman Jr. — Books")
@@ -715,6 +716,18 @@ client.on("interactionCreate",async i=>{
     .setFooter({text:"📖 Real Stories • Bigger Purpose"});
    await channel.send({content:"📢 **New Brandon Books & Stories Update**",embeds:[embed]});
    return i.editReply("✅ Official announcement posted in <#"+channel.id+">.");
+  }
+  if(i.commandName==="promotion"){
+   if(!allowed(i))return i.reply({content:"🔒 Only the server owner or configured bot owner can post the official promotion.",flags:MessageFlags.Ephemeral});
+   const channel=i.guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name==="📢・announcements");
+   if(!channel)return i.reply({content:"❌ The 📢・announcements channel could not be found.",flags:MessageFlags.Ephemeral});
+   await i.deferReply({flags:MessageFlags.Ephemeral});
+   const embed=new EmbedBuilder()
+    .setTitle("📖 My Life Story With Grandma — A Story Worth Remembering")
+    .setDescription("**Real Stories. Real Memories. A Journey Worth Sharing. ❤️**\n\nI didn't write this story just to have a book. I wrote it because some memories deserve to be remembered.\n\n**My Life Story With Grandma — Book 1: Foundations** is part of my journey through family, memories, life experiences, and the love and lessons that helped shape who I am.\n\n❤️ **Some memories deserve to live beyond us.**\n\n📚 Read the book and join Brandon D. Coleman Jr. on the journey.\n🌐 https://brandon-books-stories-bot-website.vercel.app/\n🛒 https://www.amazon.com/dp/B0HL794K8Z")
+    .setFooter({text:"Brandon D. Coleman Jr. — Books & Stories • 📖 Real Stories • Bigger Purpose"});
+   await channel.send({content:"📢 **A Story Worth Remembering**",embeds:[embed]});
+   return i.editReply("✅ The current book promotion was posted in <#"+channel.id+">.");
   }
   if(i.commandName==="website")return i.reply({content:"🌐 **Brandon D. Coleman Jr. — Books & Stories**\n"+(process.env.WEBSITE_URL||"https://brandon-books-stories-bot-website-3n7hbjx9r-dospatchs-projects.vercel.app")});
   if(i.commandName==="serverinfo")return i.reply({content:"🖥️ **"+i.guild.name+"**\nMembers: "+i.guild.memberCount+"\nChannels: "+i.guild.channels.cache.size,flags:MessageFlags.Ephemeral});
