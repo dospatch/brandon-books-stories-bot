@@ -1,0 +1,33 @@
+name: Check Amazon Book Updates
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  check-books:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check Amazon listings
+        env:
+          BOOK_UPDATES_WEBHOOK_URL: ${{ secrets.BOOK_UPDATES_WEBHOOK_URL }}
+        run: node scripts/check-amazon-books.mjs
+
+      - name: Commit updated book data
+        run: |
+          if git diff --quiet -- website/books.json; then
+            echo "No book data changes."
+            exit 0
+          fi
+          git config user.name "Brandon Books & Stories Bot"
+          git config user.email "actions@github.com"
+          git add website/books.json
+          git commit -m "Update Amazon book status"
+          git push
