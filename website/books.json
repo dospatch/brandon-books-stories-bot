@@ -1,5 +1,5 @@
 {
-  "lastChecked": null,
+  "lastChecked": "2026-10-07T21:50:32.617Z",
   "source": "Amazon public listings",
   "books": [
     {
@@ -8,14 +8,22 @@
       "subtitle": "Book 1: Foundations",
       "amazon": {
         "asin": "B0HL794K8Z",
-        "url": "https://www.amazon.com/dp/B0HL794K8Z"
+        "url": "https://www.amazon.com/dp/B0HL794K8Z",
+        "listingDetected": false
       },
       "formats": {
         "kindle": "unknown",
         "paperback": "unknown",
         "hardcover": "published"
       },
-      "status": "published"
+      "status": "published",
+      "amazonCheck": {
+        "availability": "temporarily blocked",
+        "checkedAt": "2026-10-07T21:50:32.621Z",
+        "url": "https://www.amazon.com/dp/B0HL794K8Z",
+        "httpStatus": 200,
+        "note": "Amazon requested a verification page. The next scheduled check will try again."
+      }
     },
     {
       "id": "book-2",
@@ -23,14 +31,22 @@
       "subtitle": "Part 2: Continuing the Journey, Memories, and the Road Ahead",
       "amazon": {
         "url": "https://www.amazon.com/dp/B0HKT3GKM",
-        "asin": "B0HKT3GKM"
+        "asin": "B0HKT3GKM",
+        "listingDetected": false
       },
       "formats": {
         "kindle": "published",
         "paperback": "published",
         "hardcover": "draft/setup"
       },
-      "status": "published"
+      "status": "published",
+      "amazonCheck": {
+        "availability": "temporarily blocked",
+        "checkedAt": "2026-10-07T21:50:32.869Z",
+        "url": "https://www.amazon.com/dp/B0HKT3GKM",
+        "httpStatus": 200,
+        "note": "Amazon requested a verification page. The next scheduled check will try again."
+      }
     },
     {
       "id": "book-3",
@@ -38,14 +54,22 @@
       "subtitle": "Book 3: The Journey Continues",
       "amazon": {
         "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
-        "asin": "B0HLB7P2ZS"
+        "asin": "B0HLB7P2ZS",
+        "listingDetected": false
       },
       "formats": {
         "kindle": "published",
         "paperback": "published",
         "hardcover": "in review"
       },
-      "status": "published"
+      "status": "published",
+      "amazonCheck": {
+        "availability": "temporarily blocked",
+        "checkedAt": "2026-10-07T21:50:32.908Z",
+        "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
+        "httpStatus": 200,
+        "note": "Amazon requested a verification page. The next scheduled check will try again."
+      }
     },
     {
       "id": "book-4",
@@ -53,14 +77,22 @@
       "subtitle": "Part 4: The Memories We Carry Forward",
       "amazon": {
         "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
-        "asin": "B0HM5DTQ3K"
+        "asin": "B0HM5DTQ3K",
+        "listingDetected": false
       },
       "formats": {
         "kindle": "published",
         "paperback": "in review",
         "hardcover": "draft"
       },
-      "status": "published"
+      "status": "published",
+      "amazonCheck": {
+        "availability": "temporarily blocked",
+        "checkedAt": "2026-10-07T21:50:32.926Z",
+        "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
+        "httpStatus": 200,
+        "note": "Amazon requested a verification page. The next scheduled check will try again."
+      }
     },
     {
       "id": "book-5",
@@ -68,20 +100,28 @@
       "subtitle": "Part 5: The Journey Continues",
       "amazon": {
         "url": "https://www.amazon.com/dp/B0HM6LY91G",
-        "asin": "B0HM6LY91G"
+        "asin": "B0HM6LY91G",
+        "listingDetected": false
       },
       "formats": {
         "kindle": "published",
         "paperback": "published",
         "hardcover": "coming soon"
       },
-      "status": "published"
+      "status": "published",
+      "amazonCheck": {
+        "availability": "temporarily blocked",
+        "checkedAt": "2026-10-07T21:50:32.946Z",
+        "url": "https://www.amazon.com/dp/B0HM6LY91G",
+        "httpStatus": 200,
+        "note": "Amazon requested a verification page. The next scheduled check will try again."
+      }
     }
   ],
   "monitor": {
     "enabled": true,
     "interval": "Every 30 minutes",
     "source": "Amazon public product pages",
-    "behavior": "Automatically detect Amazon listings and surface direct Amazon links on the website."
+    "behavior": "When an Amazon listing is detected, the website can automatically surface its direct Amazon link."
   }
 }
