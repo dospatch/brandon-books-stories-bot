@@ -17,7 +17,7 @@ jobs:
 
       - name: Check Amazon listings
         env:
-          BOOK_UPDATES_WEBHOOK_URL: ${{ secrets.BOOK_UPDATES_WEBHOOK_URL }}
+          BOOK_UPDATES_WEBHOOK_URL: https://brandon-books-stories.fadehost.app/social/webhook\n          SOCIAL_WEBHOOK_SECRET: ${{ secrets.SOCIAL_WEBHOOK_SECRET }}
         run: node scripts/check-amazon-books.mjs
 
       - name: Commit updated book data
