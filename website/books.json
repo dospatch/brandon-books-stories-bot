@@ -22,7 +22,8 @@
       "title": "MY LIFE STORY WITH GRANDMA",
       "subtitle": "Part 2: Continuing the Journey, Memories, and the Road Ahead",
       "amazon": {
-        "url": "https://www.amazon.com/s?k=My+Life+Story+With+Grandma+Part+2+Brandon+D.+Coleman+Jr."
+        "url": "https://www.amazon.com/dp/B0HKT3GKM",
+        "asin": "B0HKT3GKM"
       },
       "formats": {
         "kindle": "published",
@@ -36,7 +37,8 @@
       "title": "MY LIFE STORY WITH GRANDMA",
       "subtitle": "Book 3: The Journey Continues",
       "amazon": {
-        "url": "https://www.amazon.com/s?k=My+Life+Story+With+Grandma+Book+3+Brandon+D.+Coleman+Jr."
+        "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
+        "asin": "B0HLB7P2ZS"
       },
       "formats": {
         "kindle": "published",
@@ -50,7 +52,8 @@
       "title": "MY LIFE STORY WITH GRANDMA",
       "subtitle": "Part 4: The Memories We Carry Forward",
       "amazon": {
-        "url": "https://www.amazon.com/s?k=My+Life+Story+With+Grandma+Part+4+Brandon+D.+Coleman+Jr."
+        "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
+        "asin": "B0HM5DTQ3K"
       },
       "formats": {
         "kindle": "published",
@@ -64,7 +67,8 @@
       "title": "MY LIFE STORY WITH GRANDMA",
       "subtitle": "Part 5: The Journey Continues",
       "amazon": {
-        "url": "https://www.amazon.com/s?k=My+Life+Story+With+Grandma+Part+5+Brandon+D.+Coleman+Jr."
+        "url": "https://www.amazon.com/dp/B0HM6LY91G",
+        "asin": "B0HM6LY91G"
       },
       "formats": {
         "kindle": "published",
@@ -73,5 +77,11 @@
       },
       "status": "published"
     }
-  ]
+  ],
+  "monitor": {
+    "enabled": true,
+    "interval": "Every 30 minutes",
+    "source": "Amazon public product pages",
+    "behavior": "Automatically detect Amazon listings and surface direct Amazon links on the website."
+  }
 }
