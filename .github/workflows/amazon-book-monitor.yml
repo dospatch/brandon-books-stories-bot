@@ -1,0 +1,40 @@
+name: Automatic Amazon Book Monitor
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17,47 * * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: amazon-book-monitor
+  cancel-in-progress: true
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - name: Check Amazon listings
+        run: node scripts/amazon-book-monitor.js
+
+      - name: Commit updated Amazon status
+        run: |
+          if git diff --quiet -- website/books.json; then
+            echo "No Amazon status changes."
+            exit 0
+          fi
+          git config user.name "Brandon Books & Stories Bot"
+          git config user.email "1554728796165382154+brandon-books-stories-bot@users.noreply.github.com"
+          git add website/books.json
+          git commit -m "Update automatic Amazon book status"
+          git push
