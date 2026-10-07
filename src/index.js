@@ -598,9 +598,9 @@ async function setup(guild){
    description:"Follow Brandon D. Coleman Jr. — Books & Stories across social media.\n\n📸 Instagram: https://www.instagram.com/brandonbooksandstories/\n📘 Facebook: https://www.facebook.com/brandon.d.coleman.books\n▶️ YouTube: https://youtube.com/@chieifthebcfamily-dispatcher\n🌐 Website: https://brandon-books-stories-bot-website.vercel.app/\n\nWhen the social bridge is active, supported updates can be shared here automatically."
   },
   "▶️・youtube":{
-   title:"▶️ YouTube",
-   description:"Follow Brandon's video and media journey on YouTube.\n\n▶️ https://youtube.com/@chieifthebcfamily-dispatcher\n\nThis channel is for YouTube updates, videos, tributes, creative projects, and related announcements."
-  },
+   title:"▶️ YouTube — Books, Stories & Creative Media",
+   description:"🎥 **The existing YouTube channel will remain the official video home for Brandon Books & Stories.**\n\n▶️ https://youtube.com/@chieifthebcfamily-dispatcher\n\n📚 Planned book-focused content includes:\n• My Life Story With Grandma — Books 1–5\n• Book and cover updates\n• Publishing progress\n• Reading and storytelling videos\n• Grandma and family memories\n• Writing journey updates\n• I Miss You Grandma music\n• Real Talk with Brandon\n\n📌 The goal is to keep one strong YouTube audience instead of splitting the community across multiple channels."
+  }
   "📸・instagram":{
    title:"📸 Instagram",
    description:"Follow Brandon D. Coleman Jr. — Books & Stories on Instagram.\n\n📸 https://www.instagram.com/brandonbooksandstories/\n\nExpect books, stories, memories, creative updates, and journey highlights."
