@@ -63,18 +63,18 @@ async function checkAmazon(book) {
     }
 
     const title = extractFirst(html, [
-      /<span[^>]+id=["']productTitle["'][^>]*>([\\s\\S]*?)<\\/span>/i,
+      /<span[^>]+id=["']productTitle["'][^>]*>([\s\S]*?)<\/span>/i,
       /<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/i
     ]);
 
     const availabilityRaw =
       extractFirst(html, [
-        /<div[^>]+id=["']availability["'][^>]*>([\\s\\S]*?)<\\/div>/i,
-        /<span[^>]+id=["']availability["'][^>]*>([\\s\\S]*?)<\\/span>/i
+        /<div[^>]+id=["']availability["'][^>]*>([\s\S]*?)<\/div>/i,
+        /<span[^>]+id=["']availability["'][^>]*>([\s\S]*?)<\/span>/i
       ]) || "";
 
     const price = extractFirst(html, [
-      /<span[^>]+class=["'][^"']*a-price-whole[^"']*["'][^>]*>([\\s\\S]*?)<\\/span>/i
+      /<span[^>]+class=["'][^"']*a-price-whole[^"']*["'][^>]*>([\s\S]*?)<\/span>/i
     ]);
 
     const image = extractFirst(html, [
