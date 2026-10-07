@@ -37,6 +37,7 @@ const commands=[
  new SlashCommandBuilder().setName("community").setDescription("Show what you can do in the Books & Stories community."),
  new SlashCommandBuilder().setName("announce").setDescription("Post an official community announcement."),
  new SlashCommandBuilder().setName("promotion").setDescription("Post the current My Life Story With Grandma promotion."),
+ new SlashCommandBuilder().setName("publishingupdate").setDescription("Post the latest My Life Story With Grandma publishing update."),
  new SlashCommandBuilder().setName("website").setDescription("Show the author website."),
  new SlashCommandBuilder().setName("serverinfo").setDescription("Show server information."),
  new SlashCommandBuilder().setName("ping").setDescription("Check whether the bot is responding."),
@@ -654,7 +655,8 @@ client.on("interactionCreate",async i=>{
    }
    return;
   }
-  if(i.commandName==="help")return i.reply({embeds:[new EmbedBuilder().setTitle("📖 Brandon Books & Stories").setDescription("**Community & Information**\n📚 `/books` — View the books and purchase links\n🌐 `/website` — Open the author website\n📖 `/aboutmedia` — Show official media links\n🖥️ `/serverinfo` — View server information\n\n**Community**\n⭐ `/review` — Submit a reader review\n💡 `/feedback` — Send private feedback to staff\n📋 `/apply` — Submit a private application\n🛠️ `/setup-author-server` — Repair the server structure *(owner/staff setup only)*\n📢 `/promotion` — Post the current Book 1 promotion *(owner only)*\n\n**Bot**\n🏓 `/ping` — Check bot response\n❓ `/help` — Show this help menu").setFooter({text:"📖 Real Stories • Bigger Purpose"})],flags:MessageFlags.Ephemeral});
+  if(i.commandName==="help")return i.reply({embeds:[new EmbedBuilder().setTitle("📖 Brandon Books & Stories").setDescription("**Community & Information**\n📚 `/books` — View the books and purchase links\n🌐 `/website` — Open the author website\n📖 `/aboutmedia` — Show official media links\n🖥️ `/serverinfo` — View server information\n\n**Community**\n⭐ `/review` — Submit a reader review\n💡 `/feedback` — Send private feedback to staff\n📋 `/apply` — Submit a private application\n🛠️ `/setup-author-server` — Repair the server structure *(owner/staff setup only)*\n📢 `/promotion` — Post the current Book 1 promotion *(owner only)*
+📚 `/publishingupdate` — Post the latest publishing status update *(owner only)*\n\n**Bot**\n🏓 `/ping` — Check bot response\n❓ `/help` — Show this help menu").setFooter({text:"📖 Real Stories • Bigger Purpose"})],flags:MessageFlags.Ephemeral});
   if(i.commandName==="books"){
    const embed=new EmbedBuilder()
     .setTitle("📚 Brandon D. Coleman Jr. — Books")
@@ -716,6 +718,27 @@ client.on("interactionCreate",async i=>{
     .setFooter({text:"📖 Real Stories • Bigger Purpose"});
    await channel.send({content:"📢 **New Brandon Books & Stories Update**",embeds:[embed]});
    return i.editReply("✅ Official announcement posted in <#"+channel.id+">.");
+  }
+  if(i.commandName==="publishingupdate"){
+   if(!allowed(i))return i.reply({content:"🔒 Only the server owner or configured bot owner can post the official publishing update.",flags:MessageFlags.Ephemeral});
+   const channel=i.guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name==="📢・announcements");
+   if(!channel)return i.reply({content:"❌ The 📢・announcements channel could not be found.",flags:MessageFlags.Ephemeral});
+   await i.deferReply({flags:MessageFlags.Ephemeral});
+   const embed=new EmbedBuilder()
+    .setTitle("📚✨ BIG PUBLISHING UPDATE! ✨📚")
+    .setDescription("I’m excited to share the latest progress on my **My Life Story with Grandma** book series! ❤️📖\n\nMore editions are officially live and making their way out into the world. We are getting closer and closer to having the complete collection fully available across formats! 🙏🏾")
+    .addFields(
+     {name:"📕 BOOK 1 — Foundations",value:"🟢 Hardcover: **PUBLISHED!** ✅"},
+     {name:"📗 BOOK 2 — New Horizons",value:"🟢 Kindle: **PUBLISHED!** ✅\n🟢 Paperback: **PUBLISHED!** ✅\n🕐 Hardcover: **DRAFT / SETUP**"},
+     {name:"📘 BOOK 3 — The Journey Continues",value:"🟢 Kindle: **PUBLISHED!** ✅\n🟢 Paperback: **PUBLISHED!** ✅\n🕐 Hardcover: **IN REVIEW**"},
+     {name:"📙 BOOK 4 — The Memories We Carry Forward",value:"🟢 Kindle: **PUBLISHED!** ✅\n🕐 Paperback: **IN REVIEW**\n🕐 Hardcover: **DRAFT**"},
+     {name:"📔 BOOK 5 — Part 5: The Journey Continues",value:"🟢 Kindle: **PUBLISHED!** ✅\n🟢 Paperback: **PUBLISHED!** ✅\n🕐 Hardcover: **COMING SOON**"},
+     {name:"⏳ NEXT STEPS",value:"The remaining hardcover editions and drafts are currently being polished and set up so they can join the live lineup very soon."},
+     {name:"❤️ Why This Journey Matters",value:"These books are more than just stories — they are memories, family, growth, faith, and a way of honoring my Grandma’s legacy.\n\n🙏🏾 Thank you to everyone who has supported me, followed this journey, purchased a book, shared a post, or simply encouraged me along the way.\n\n📚 More books. More memories. More of the story.\n\n🔥 The journey continues..."}
+    )
+    .setFooter({text:"Brandon D. Coleman Jr. — Books & Stories • 📖 Real Stories • Bigger Purpose"});
+   await channel.send({content:"📢 **BIG PUBLISHING UPDATE!**",embeds:[embed]});
+   return i.editReply("✅ Publishing update posted in <#"+channel.id+">.");
   }
   if(i.commandName==="promotion"){
    if(!allowed(i))return i.reply({content:"🔒 Only the server owner or configured bot owner can post the official promotion.",flags:MessageFlags.Ephemeral});
