@@ -600,7 +600,6 @@ async function setup(guild){
   "▶️・youtube":{
    title:"▶️ YouTube — Books, Stories & Creative Media",
    description:"🎥 **The existing YouTube channel will remain the official video home for Brandon Books & Stories.**\n\n▶️ https://youtube.com/@chieifthebcfamily-dispatcher\n\n📚 Planned book-focused content includes:\n• My Life Story With Grandma — Books 1–5\n• Book and cover updates\n• Publishing progress\n• Reading and storytelling videos\n• Grandma and family memories\n• Writing journey updates\n• I Miss You Grandma music\n• Real Talk with Brandon\n\n📌 The goal is to keep one strong YouTube audience instead of splitting the community across multiple channels."
-  }
   },
   "📸・instagram":{
    title:"📸 Instagram — Brandon Books & Stories",
