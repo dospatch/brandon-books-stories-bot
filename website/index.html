@@ -212,5 +212,49 @@
   <div class="footer-links"><a href="changelog.html">Changelog</a><a href="https://discord.gg/YN6AgpU9F5" target="_blank" rel="noopener">Discord</a></div>
   <p>© 2026 Brandon D. Coleman Jr. All rights reserved.</p>
 </footer>
+
+<section id="amazon-updates" class="section">
+  <div class="section-heading">
+    <div><p class="eyebrow">🤖 AUTOMATIC BOOK MONITOR</p><h2>Amazon updates.</h2></div>
+    <p>This section is updated automatically when the public Amazon listing data changes.</p>
+  </div>
+  <div id="amazon-book-status" class="story-grid">
+    <article><span>⏳</span><h3>Checking book status...</h3><p>The latest Amazon information will appear here automatically.</p></article>
+  </div>
+  <p id="amazon-last-checked" class="note"></p>
+</section>
+
+<script>
+(async function loadAmazonBookStatus(){
+  const container=document.getElementById("amazon-book-status");
+  const checked=document.getElementById("amazon-last-checked");
+  try{
+    const response=await fetch("books.json",{cache:"no-store"});
+    if(!response.ok) throw new Error("Book data unavailable");
+    const data=await response.json();
+    container.innerHTML="";
+    for(const book of data.books||[]){
+      const check=book.amazonCheck||{};
+      const availability=check.availability||"not checked";
+      const label=availability==="available"?"🟢 Available":availability==="unavailable"?"🔴 Unavailable":"🕐 "+availability;
+      const article=document.createElement("article");
+      article.innerHTML=
+        "<span>📚</span>"+
+        "<h3>"+book.subtitle+"</h3>"+
+        "<p><strong>"+label+"</strong></p>"+
+        "<p>"+(check.price?"Amazon price: "+check.price+"<br>":"")+
+        (book.formats?.kindle?"Kindle: "+book.formats.kindle+"<br>":"")+
+        (book.formats?.paperback?"Paperback: "+book.formats.paperback+"<br>":"")+
+        (book.formats?.hardcover?"Hardcover: "+book.formats.hardcover:"")+"</p>"+
+        (book.amazon?.url?"<a class='button secondary' href='"+book.amazon.url+"' target='_blank' rel='noopener'>View on Amazon</a>":"");
+      container.appendChild(article);
+    }
+    checked.textContent=data.lastChecked?"Last automatic check: "+new Date(data.lastChecked).toLocaleString():"Automatic monitoring is ready.";
+  }catch(error){
+    container.innerHTML="<article><span>⚠️</span><h3>Book monitor temporarily unavailable</h3><p>The website will try again automatically.</p></article>";
+  }
+})();
+</script>
+
 </body>
 </html>
