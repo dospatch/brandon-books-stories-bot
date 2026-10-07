@@ -1,0 +1,77 @@
+{
+  "lastChecked": null,
+  "source": "Amazon public listings",
+  "books": [
+    {
+      "id": "book-1",
+      "title": "MY LIFE STORY WITH GRANDMA",
+      "subtitle": "Book 1: Foundations",
+      "amazon": {
+        "asin": "B0HL794K8Z",
+        "url": "https://www.amazon.com/dp/B0HL794K8Z"
+      },
+      "formats": {
+        "kindle": "unknown",
+        "paperback": "unknown",
+        "hardcover": "published"
+      },
+      "status": "published"
+    },
+    {
+      "id": "book-2",
+      "title": "MY LIFE STORY WITH GRANDMA",
+      "subtitle": "Part 2: Continuing the Journey, Memories, and the Road Ahead",
+      "amazon": {
+        "url": "https://www.amazon.com/s?k=My+Life+Story+With+Grandma+Part+2+Brandon+D.+Coleman+Jr."
+      },
+      "formats": {
+        "kindle": "published",
+        "paperback": "published",
+        "hardcover": "draft/setup"
+      },
+      "status": "published"
+    },
+    {
+      "id": "book-3",
+      "title": "MY LIFE STORY WITH GRANDMA",
+      "subtitle": "Book 3: The Journey Continues",
+      "amazon": {
+        "url": "https://www.amazon.com/s?k=My+Life+Story+With+Grandma+Book+3+Brandon+D.+Coleman+Jr."
+      },
+      "formats": {
+        "kindle": "published",
+        "paperback": "published",
+        "hardcover": "in review"
+      },
+      "status": "published"
+    },
+    {
+      "id": "book-4",
+      "title": "MY LIFE STORY WITH GRANDMA",
+      "subtitle": "Part 4: The Memories We Carry Forward",
+      "amazon": {
+        "url": "https://www.amazon.com/s?k=My+Life+Story+With+Grandma+Part+4+Brandon+D.+Coleman+Jr."
+      },
+      "formats": {
+        "kindle": "published",
+        "paperback": "in review",
+        "hardcover": "draft"
+      },
+      "status": "published"
+    },
+    {
+      "id": "book-5",
+      "title": "MY LIFE STORY WITH GRANDMA",
+      "subtitle": "Part 5: The Journey Continues",
+      "amazon": {
+        "url": "https://www.amazon.com/s?k=My+Life+Story+With+Grandma+Part+5+Brandon+D.+Coleman+Jr."
+      },
+      "formats": {
+        "kindle": "published",
+        "paperback": "published",
+        "hardcover": "coming soon"
+      },
+      "status": "published"
+    }
+  ]
+}
