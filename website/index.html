@@ -96,7 +96,7 @@
     <p>Explore the current <strong>My Life Story With Grandma</strong> series lineup and follow each edition as it moves toward completion.</p>
   </div>
   <div class="book-grid five-book-grid">
-    <article class="book-card featured">
+    <article class="book-card featured" data-book-id="book-1">
       <div class="cover cover-one"><span>📕</span><small>BOOK 1</small><strong>My Life Story<br>With Grandma</strong><em>Foundations</em></div>
       <div class="book-info"><span class="tag">BOOK 1 — FOUNDATIONS</span><h3>My Life Story With Grandma</h3><p>🟢 Kindle • 🟢 Paperback • 🟢 Hardcover — <strong>Published</strong></p><p>The foundation of the journey, centered on family, memories, life experiences, and Grandma's lasting impact.</p><div class="book-actions"><a class="button primary" href="https://www.amazon.com/dp/B0HL794K8Z" target="_blank" rel="noopener">🛒 Buy Book 1</a></div></div>
     </article>
@@ -254,5 +254,35 @@
 })();
 </script>
 
-</body>
+
+<script>
+(async function hydrateAmazonLinks(){
+  try{
+    const response=await fetch("books.json",{cache:"no-store"});
+    if(!response.ok) return;
+    const data=await response.json();
+    for(const book of data.books||[]){
+      const card=document.querySelector('[data-book-id="'+book.id+'"]');
+      if(!card) continue;
+      const info=card.querySelector(".book-info");
+      if(!info) continue;
+      let actions=info.querySelector(".book-actions");
+      if(!actions){
+        actions=document.createElement("div");
+        actions.className="book-actions";
+        info.appendChild(actions);
+      }
+      const check=book.amazonCheck||{};
+      if(check.availability==="available" && book.amazon?.url){
+        actions.innerHTML="<a class='button primary' href='"+book.amazon.url+"' target='_blank' rel='noopener'>🛒 View on Amazon</a>";
+      }else{
+        actions.innerHTML="<span class='text-link'>🕐 Amazon listing not detected yet — checking automatically.</span>";
+      }
+    }
+  }catch(error){
+    console.warn("Automatic Amazon link update unavailable.",error);
+  }
+})();
+</script>
+\n</body>
 </html>
