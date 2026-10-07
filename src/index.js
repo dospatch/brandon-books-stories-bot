@@ -651,13 +651,14 @@ async function setup(guild){
   const whereToBuy=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name==="🛒・where-to-buy");
   const aboutMediaEmbed=new EmbedBuilder()
    .setTitle("📖 About Media — Brandon Books & Stories")
-   .setDescription("Follow Brandon D. Coleman Jr. across books, social media, videos, music, tributes, and creative projects.\\n\\n**📖 Real Stories • Bigger Purpose**")
+   .setDescription("Follow Brandon D. Coleman Jr. across the five-book **My Life Story With Grandma** series, social media, videos, music, tributes, and creative projects.\\n\\n**📖 Real Stories • Bigger Purpose**")
    .addFields(
     {name:"🌐 Official Website",value:"https://brandon-books-stories-bot-website.vercel.app/"},
+    {name:"📚 Book Series",value:"Books 1–5 are now part of the current series lineup. The website and media channels are being updated to feature the latest covers and publishing status."},
     {name:"📸 Instagram",value:"https://www.instagram.com/brandonbooksandstories/"},
     {name:"📘 Facebook",value:"https://www.facebook.com/brandon.d.coleman.books"},
     {name:"▶️ YouTube",value:"https://youtube.com/@chieifthebcfamily-dispatcher"},
-    {name:"🎵 Creative Projects",value:"Music, videos, tributes, memories, photography, writing updates, and future projects."},
+    {name:"🎵 Creative Projects",value:"I Miss You Grandma, videos, tributes, memories, photography, writing updates, and future projects."},
     {name:"🛒 Where to Buy",value:(whereToBuy?"Book purchase information is available in <#"+whereToBuy.id+">.\\n":"")+"📖 Book 1: https://www.amazon.com/dp/B0HL794K8Z"},
     {name:"📱 Automatic Updates",value:"Supported social updates are automatically shared in the appropriate media channels when the social bridge is active."}
    )
