@@ -596,19 +596,24 @@ async function setup(guild){
   "📱・social-media":{
    title:"📱 Social Media Updates",
    description:"Follow Brandon D. Coleman Jr. — Books & Stories across the official media platforms.\n\n📸 Instagram: https://www.instagram.com/brandonbooksandstories/\n📘 Facebook: https://www.facebook.com/brandon.d.coleman.books\n▶️ YouTube: https://youtube.com/@chieifthebcfamily-dispatcher\n🌐 Website: https://brandon-books-stories-bot-website.vercel.app/\n\n📚 Book updates, cover reveals, publishing progress, videos, memories, music, and new creative projects will be shared here.\n\n🤖 When the social bridge is active, supported updates can also be routed automatically."
+  },
   "▶️・youtube":{
    title:"▶️ YouTube — Books, Stories & Creative Media",
    description:"🎥 **The existing YouTube channel will remain the official video home for Brandon Books & Stories.**\n\n▶️ https://youtube.com/@chieifthebcfamily-dispatcher\n\n📚 Planned book-focused content includes:\n• My Life Story With Grandma — Books 1–5\n• Book and cover updates\n• Publishing progress\n• Reading and storytelling videos\n• Grandma and family memories\n• Writing journey updates\n• I Miss You Grandma music\n• Real Talk with Brandon\n\n📌 The goal is to keep one strong YouTube audience instead of splitting the community across multiple channels."
   }
+  },
   "📸・instagram":{
    title:"📸 Instagram — Brandon Books & Stories",
    description:"Follow **Brandon D. Coleman Jr. — Books & Stories** on Instagram.\n\n📸 https://www.instagram.com/brandonbooksandstories/\n\n📚 Expect book covers, new edition updates, publishing milestones, behind-the-books content, memories, writing updates, and creative projects.\n\n❤️ **Real Stories • Bigger Purpose**"
+  },
   "📘・facebook":{
    title:"📘 Facebook — My Books & Stories",
    description:"Follow the official **Brandon D. Coleman Jr. — My Books & Stories** Facebook Page.\n\n📘 https://www.facebook.com/brandon.d.coleman.books\n\n📚 This channel will highlight the five-book series, new editions, book covers, publishing updates, stories, memories, announcements, and community news."
+  },
   "🎵・music-projects":{
    title:"🎵 Music & Creative Projects",
    description:"Brandon's creativity extends beyond books into music, videos, tributes, photography, storytelling, and future projects.\n\n🎵 **I Miss You Grandma** remains an ongoing music project created as a heartfelt way of remembering and honoring Grandma.\n\n🎥 Music videos, tribute videos, book-related media, writing updates, and future creative projects will also be shared here as they develop."
+  },
   "🤖・bot-commands":{
    title:"🤖 Bot Commands",
    description:"Use the Brandon Books & Stories bot to explore the community.\n\n🏓 /ping — Check bot response\n📚 /books — View book information\n📖 /about — Learn about Brandon Books & Stories\n📖 /aboutmedia — View official media links\n💬 /community — View community information\n⭐ /review — Submit a reader review\n💡 /feedback — Send private feedback\n📋 /apply — Submit an application\n❓ /help — View all available commands\n\nOwner/setup commands are restricted."
