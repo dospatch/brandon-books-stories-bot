@@ -539,6 +539,99 @@ async function setup(guild){
   await upsertEmbedMessage(rules,"BBS:AUTO:RULES",rulesEmbed).catch(e=>console.warn("RULES MESSAGE FAILED:",e.message));
  }
 
+ // Populate the public Books & Stories channels with their core content.
+ const channelContent={
+  "📢・announcements":{
+   title:"📢 Brandon Books & Stories — Official Announcements",
+   description:"Welcome to the official announcements channel.\n\nThis is where Brandon D. Coleman Jr. shares major book news, publishing updates, community announcements, and important project updates.\n\n📚 Follow this channel for the latest official news."
+  },
+  "📰・latest-updates":{
+   title:"📰 Latest Updates",
+   description:"Stay up to date with Brandon Books & Stories.\n\n📚 New books and editions\n✍️ Writing and publishing progress\n🎵 Creative projects\n📺 Media and video updates\n❤️ Memories and special projects\n\nMore books. More memories. More of the story. 🔥"
+  },
+  "📖・my-life-story-with-grandma":{
+   title:"📖 My Life Story With Grandma",
+   description:"**My Life Story With Grandma — Book 1: Foundations**\n\nThis book is part of Brandon D. Coleman Jr.'s personal storytelling journey, centered around family, memories, life experiences, and the lasting impact of his Grandma.\n\n❤️ Some memories deserve to live beyond us.\n\n🛒 **Book 1:** https://www.amazon.com/dp/B0HL794K8Z\n🌐 **Website:** https://brandon-books-stories-bot-website.vercel.app/"
+  },
+  "📕・part-2":{
+   title:"📕 Part 2 — Continuing the Journey",
+   description:"**My Life Story With Grandma — Part 2: Continuing the Journey, Memories, and the Road Ahead**\n\nPart 2 continues Brandon's storytelling journey with more memories, experiences, reflections, and the road ahead.\n\n📚 Follow this channel for Part 2 information and future updates."
+  },
+  "🛒・where-to-buy":{
+   title:"🛒 Where to Buy",
+   description:"📚 **Brandon D. Coleman Jr. — Books & Stories**\n\n📖 **My Life Story With Grandma — Book 1: Foundations**\nAmazon: https://www.amazon.com/dp/B0HL794K8Z\n\n🌐 Official website: https://brandon-books-stories-bot-website.vercel.app/\n\nAdditional book editions and purchase links will be added as they are confirmed and made available."
+  },
+  "✍️・writing-journey":{
+   title:"✍️ Brandon's Writing Journey",
+   description:"Writing is a continuing journey. Brandon D. Coleman Jr. uses storytelling to preserve memories, express ideas, honor family, and connect with readers.\n\n📖 From the first pages to future books, the journey continues one chapter at a time."
+  },
+  "🌅・family-and-memories":{
+   title:"🌅 Family & Memories",
+   description:"❤️ This space is dedicated to family, memories, meaningful moments, and the people who help shape our lives.\n\nBrandon's books and creative projects are part of a larger effort to remember, honor, and carry meaningful stories forward.\n\nPlease share respectfully and protect everyone's privacy."
+  },
+  "📸・behind-the-books":{
+   title:"📸 Behind the Books",
+   description:"Go behind the scenes of Brandon Books & Stories.\n\n📚 Book development\n✍️ Writing and editing\n📝 Publishing progress\n🎨 Creative projects\n📖 Cover and edition updates\n\nThis channel will grow as new behind-the-scenes content is created."
+  },
+  "💬・general":{
+   title:"💬 General Community",
+   description:"Welcome to the general conversation area for Brandon Books & Stories. ❤️\n\nTalk about books, writing, creativity, life experiences, and other community-friendly topics.\n\nPlease keep conversations respectful and follow 📜・rules."
+  },
+  "📚・book-discussion":{
+   title:"📚 Book Discussion",
+   description:"Talk about Brandon D. Coleman Jr.'s books, stories, themes, memories, and the journey behind the writing.\n\n📖 My Life Story With Grandma\n📕 Part 2: Continuing the Journey, Memories, and the Road Ahead\n\nKeep discussions respectful and avoid sharing private information about real people."
+  },
+  "❤️・memories":{
+   title:"❤️ Memories",
+   description:"A place to share meaningful memories and stories in a respectful community environment.\n\n❤️ Some memories deserve to be remembered.\n\nPlease only share personal information that you are comfortable sharing publicly and respect the privacy of others."
+  },
+  "💡・reader-ideas":{
+   title:"💡 Reader Ideas",
+   description:"Have an idea for the community, books, content, or future projects? Share constructive suggestions here.\n\nYour feedback can help shape the Brandon Books & Stories community."
+  },
+  "🎉・community":{
+   title:"🎉 Community",
+   description:"This is a place to celebrate the Brandon Books & Stories community.\n\n📚 Books\n❤️ Memories\n✍️ Writing\n🎵 Creative projects\n📺 Media\n🤝 Community support\n\nThank you for being part of the journey!"
+  },
+  "📱・social-media":{
+   title:"📱 Social Media Updates",
+   description:"Follow Brandon D. Coleman Jr. — Books & Stories across social media.\n\n📸 Instagram: https://www.instagram.com/brandonbooksandstories/\n📘 Facebook: https://www.facebook.com/brandon.d.coleman.books\n▶️ YouTube: https://youtube.com/@chieifthebcfamily-dispatcher\n🌐 Website: https://brandon-books-stories-bot-website.vercel.app/\n\nWhen the social bridge is active, supported updates can be shared here automatically."
+  },
+  "▶️・youtube":{
+   title:"▶️ YouTube",
+   description:"Follow Brandon's video and media journey on YouTube.\n\n▶️ https://youtube.com/@chieifthebcfamily-dispatcher\n\nThis channel is for YouTube updates, videos, tributes, creative projects, and related announcements."
+  },
+  "📸・instagram":{
+   title:"📸 Instagram",
+   description:"Follow Brandon D. Coleman Jr. — Books & Stories on Instagram.\n\n📸 https://www.instagram.com/brandonbooksandstories/\n\nExpect books, stories, memories, creative updates, and journey highlights."
+  },
+  "📘・facebook":{
+   title:"📘 Facebook",
+   description:"Follow the official Brandon D. Coleman Jr. — My Books & Stories Facebook presence.\n\n📘 https://www.facebook.com/brandon.d.coleman.books\n\nThis channel is for Facebook updates, book news, stories, memories, and community announcements."
+  },
+  "🎵・music-projects":{
+   title:"🎵 Music & Creative Projects",
+   description:"Brandon's creativity extends beyond books into music, videos, tributes, photography, storytelling, and future projects.\n\n🎵 **I Miss You Grandma** is an ongoing music project created as a heartfelt way of remembering and honoring Grandma.\n\nMore creative projects will be shared here as they develop."
+  },
+  "🤖・bot-commands":{
+   title:"🤖 Bot Commands",
+   description:"Use the Brandon Books & Stories bot to explore the community.\n\n🏓 /ping — Check bot response\n📚 /books — View book information\n📖 /about — Learn about Brandon Books & Stories\n📖 /aboutmedia — View official media links\n💬 /community — View community information\n⭐ /review — Submit a reader review\n💡 /feedback — Send private feedback\n📋 /apply — Submit an application\n❓ /help — View all available commands\n\nOwner/setup commands are restricted."
+  },
+  "📋・bot-updates":{
+   title:"📋 Bot Updates",
+   description:"This channel contains automated updates about the Brandon Books & Stories Discord bot, deployments, and system changes.\n\n🔄 Source: GitHub → FadeHost\n🤖 Bot: Brandon Books & Stories"
+  }
+ };
+ for(const [channelName,data] of Object.entries(channelContent)){
+  const channel=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name===channelName);
+  if(!channel||!channel.isTextBased())continue;
+  const embed=new EmbedBuilder()
+   .setTitle(data.title)
+   .setDescription(data.description)
+   .setFooter({text:"BBS:AUTO:CONTENT:"+channelName});
+  await upsertEmbedMessage(channel,"BBS:AUTO:CONTENT:"+channelName,embed).catch(e=>console.warn("CHANNEL CONTENT FAILED:",channelName,e.message||e));
+ }
+ 
  // Keep the dedicated About Brandon and About Media channels updated.
  const aboutBrandonChannel=await guild.channels.fetch(ABOUT_BRANDON_CHANNEL_ID).catch(()=>null);
  if(aboutBrandonChannel && aboutBrandonChannel.isTextBased()){
