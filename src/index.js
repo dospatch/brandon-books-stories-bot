@@ -604,9 +604,8 @@ async function setup(guild){
    title:"📸 Instagram — Brandon Books & Stories",
    description:"Follow **Brandon D. Coleman Jr. — Books & Stories** on Instagram.\n\n📸 https://www.instagram.com/brandonbooksandstories/\n\n📚 Expect book covers, new edition updates, publishing milestones, behind-the-books content, memories, writing updates, and creative projects.\n\n❤️ **Real Stories • Bigger Purpose**"
   "📘・facebook":{
-   title:"📘 Facebook",
-   description:"Follow the official Brandon D. Coleman Jr. — My Books & Stories Facebook presence.\n\n📘 https://www.facebook.com/brandon.d.coleman.books\n\nThis channel is for Facebook updates, book news, stories, memories, and community announcements."
-  },
+   title:"📘 Facebook — My Books & Stories",
+   description:"Follow the official **Brandon D. Coleman Jr. — My Books & Stories** Facebook Page.\n\n📘 https://www.facebook.com/brandon.d.coleman.books\n\n📚 This channel will highlight the five-book series, new editions, book covers, publishing updates, stories, memories, announcements, and community news."
   "🎵・music-projects":{
    title:"🎵 Music & Creative Projects",
    description:"Brandon's creativity extends beyond books into music, videos, tributes, photography, storytelling, and future projects.\n\n🎵 **I Miss You Grandma** is an ongoing music project created as a heartfelt way of remembering and honoring Grandma.\n\nMore creative projects will be shared here as they develop."
