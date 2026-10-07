@@ -41,7 +41,7 @@ brandon-books-stories-bot/
 - `/community` — Learn how members can participate.
 - `/website` — Access the public Books & Stories website.
 - `/serverinfo` — View community server information.
-- `/announce` — Post an official community announcement.
+- `/announce` — Post an official community announcement.\n- `/promotion` — Post the current **My Life Story With Grandma — Book 1: Foundations** promotion.
 - `/setup-author-server` — Set up the intended community structure.
 - `/apply` — Start a private community application.
 - `/review` — Submit a reader review for a book.
@@ -281,3 +281,17 @@ Supported sources: `instagram`, `facebook`, `tiktok`, `youtube`, `website`, and 
 The bot checks recent messages before posting so the same source item is not announced twice.
 
 For social accounts, Metricool supports Instagram Business/Creator, Facebook Pages, TikTok, and YouTube connections, and its Zapier integration provides a **New Published Post** trigger. Use the connected social automation service to send the published-post event to the webhook.
+
+## Current Book Promotion
+
+**Campaign:** Real Stories. Real Memories. A Journey Worth Sharing.
+
+**My Life Story With Grandma — Book 1: Foundations** is part of Brandon D. Coleman Jr.'s journey through family, memories, life experiences, and the love and lessons that helped shape who he is.
+
+> I didn't write this story just to have a book. I wrote it because some memories deserve to be remembered. ❤️
+
+Promotion links:
+- Website: https://brandon-books-stories-bot-website.vercel.app/
+- Book 1 on Amazon: https://www.amazon.com/dp/B0HL794K8Z
+
+Discord owners can use **/promotion** to post the official promotion in **📢・announcements**.
