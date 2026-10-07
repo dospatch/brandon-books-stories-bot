@@ -57,6 +57,9 @@ const structure={
 };
 const roles=["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team","⭐ VIP Customer","📚 Reader","⭐ VIP Reader","🤖 Bot"];
 
+const ABOUT_BRANDON_CHANNEL_ID="1557364517808246816";
+const ABOUT_MEDIA_CHANNEL_ID="1557364402796236961";
+
 const roleColors={
  "👑 Owner":"#F1C40F",
  "🛠️ Administrator":"#E74C3C",
@@ -535,7 +538,44 @@ async function setup(guild){
    .setFooter({text:"BBS:AUTO:RULES"});
   await upsertEmbedMessage(rules,"BBS:AUTO:RULES",rulesEmbed).catch(e=>console.warn("RULES MESSAGE FAILED:",e.message));
  }
-}
+
+ // Keep the dedicated About Brandon and About Media channels updated.
+ const aboutBrandonChannel=await guild.channels.fetch(ABOUT_BRANDON_CHANNEL_ID).catch(()=>null);
+ if(aboutBrandonChannel && aboutBrandonChannel.isTextBased()){
+  const whereToBuy=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name==="🛒・where-to-buy");
+  const aboutBrandonEmbed=new EmbedBuilder()
+   .setTitle("👤 About Brandon D. Coleman Jr.")
+   .setDescription("**Stories. Memories. Creativity. A Journey Worth Sharing.**\\n\\nWelcome to the official Brandon Books & Stories community. I’m Brandon D. Coleman Jr. — an independent author, storyteller, and creator.")
+   .addFields(
+    {name:"✍️ The Author",value:"Writing gives me a way to remember, creating gives me a way to express myself, and sharing my work gives me a way to connect with readers."},
+    {name:"📚 My Books",value:"Explore **My Life Story With Grandma** and the continuing journey through the series, including **Part 2: Continuing the Journey, Memories, and the Road Ahead**."},
+    {name:"❤️ Why I Create",value:"My work is built around memories, family, life experiences, faith, growth, creativity, and honoring the people and moments that helped shape my journey."},
+    {name:"🛒 Where to Buy",value:(whereToBuy?"Visit <#"+whereToBuy.id+"> for book purchase information.\\n":"")+"📖 Book 1: https://www.amazon.com/dp/B0HL794K8Z"},
+    {name:"🌐 Stay Connected",value:"🌐 https://brandon-books-stories-bot-website.vercel.app/\\n📸 https://www.instagram.com/brandonbooksandstories/\\n📘 https://www.facebook.com/brandon.d.coleman.books"}
+   )
+   .setFooter({text:"📖 Real Stories • Bigger Purpose"});
+  await upsertEmbedMessage(aboutBrandonChannel,"BBS:AUTO:ABOUT:BRANDON",aboutBrandonEmbed).catch(e=>console.warn("ABOUT BRANDON MESSAGE FAILED:",e.message));
+ }
+
+ const aboutMediaChannel=await guild.channels.fetch(ABOUT_MEDIA_CHANNEL_ID).catch(()=>null);
+ if(aboutMediaChannel && aboutMediaChannel.isTextBased()){
+  const whereToBuy=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name==="🛒・where-to-buy");
+  const aboutMediaEmbed=new EmbedBuilder()
+   .setTitle("📖 About Media — Brandon Books & Stories")
+   .setDescription("Follow Brandon D. Coleman Jr. across books, social media, videos, music, tributes, and creative projects.\\n\\n**📖 Real Stories • Bigger Purpose**")
+   .addFields(
+    {name:"🌐 Official Website",value:"https://brandon-books-stories-bot-website.vercel.app/"},
+    {name:"📸 Instagram",value:"https://www.instagram.com/brandonbooksandstories/"},
+    {name:"📘 Facebook",value:"https://www.facebook.com/brandon.d.coleman.books"},
+    {name:"▶️ YouTube",value:"https://youtube.com/@chieifthebcfamily-dispatcher"},
+    {name:"🎵 Creative Projects",value:"Music, videos, tributes, memories, photography, writing updates, and future projects."},
+    {name:"🛒 Where to Buy",value:(whereToBuy?"Book purchase information is available in <#"+whereToBuy.id+">.\\n":"")+"📖 Book 1: https://www.amazon.com/dp/B0HL794K8Z"},
+    {name:"📱 Automatic Updates",value:"Supported social updates are automatically shared in the appropriate media channels when the social bridge is active."}
+   )
+   .setFooter({text:"Brandon D. Coleman Jr. — Books & Stories"});
+  await upsertEmbedMessage(aboutMediaChannel,"BBS:AUTO:ABOUT:MEDIA",aboutMediaEmbed).catch(e=>console.warn("ABOUT MEDIA MESSAGE FAILED:",e.message));
+ }
+
 client.on("guildMemberAdd",async member=>{
  try{
   const guild=member.guild;
