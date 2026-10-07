@@ -284,5 +284,21 @@
   }
 })();
 </script>
-\n</body>
+<script>
+(function addBookDetailLinks(){
+  const ids={"book-1":"book-1.html","book-2":"book-2.html","book-3":"book-3.html","book-4":"book-4.html","book-5":"book-5.html"};
+  for(const [id,url] of Object.entries(ids)){
+    const card=document.querySelector('[data-book-id="'+id+'"]');
+    if(!card) continue;
+    const info=card.querySelector('.book-info');
+    if(!info || info.querySelector('.detail-link')) continue;
+    const wrap=document.createElement('div');
+    wrap.className='book-actions';
+    wrap.innerHTML="<a class='button secondary detail-link' href='"+url+"'>📖 Book Details</a>";
+    info.appendChild(wrap);
+  }
+})();
+</script>
+
+</body>
 </html>
