@@ -41,7 +41,7 @@ function detectAvailability(html) {
 const changes = [];
 
 for (const book of data.books) {
-  if (!book.amazon?.asin) {
+  if (!book.amazon?.url && !book.amazon?.asin) {
     continue;
   }
 
