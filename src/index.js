@@ -608,8 +608,7 @@ async function setup(guild){
    description:"Follow the official **Brandon D. Coleman Jr. — My Books & Stories** Facebook Page.\n\n📘 https://www.facebook.com/brandon.d.coleman.books\n\n📚 This channel will highlight the five-book series, new editions, book covers, publishing updates, stories, memories, announcements, and community news."
   "🎵・music-projects":{
    title:"🎵 Music & Creative Projects",
-   description:"Brandon's creativity extends beyond books into music, videos, tributes, photography, storytelling, and future projects.\n\n🎵 **I Miss You Grandma** is an ongoing music project created as a heartfelt way of remembering and honoring Grandma.\n\nMore creative projects will be shared here as they develop."
-  },
+   description:"Brandon's creativity extends beyond books into music, videos, tributes, photography, storytelling, and future projects.\n\n🎵 **I Miss You Grandma** remains an ongoing music project created as a heartfelt way of remembering and honoring Grandma.\n\n🎥 Music videos, tribute videos, book-related media, writing updates, and future creative projects will also be shared here as they develop."
   "🤖・bot-commands":{
    title:"🤖 Bot Commands",
    description:"Use the Brandon Books & Stories bot to explore the community.\n\n🏓 /ping — Check bot response\n📚 /books — View book information\n📖 /about — Learn about Brandon Books & Stories\n📖 /aboutmedia — View official media links\n💬 /community — View community information\n⭐ /review — Submit a reader review\n💡 /feedback — Send private feedback\n📋 /apply — Submit an application\n❓ /help — View all available commands\n\nOwner/setup commands are restricted."
