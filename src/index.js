@@ -20,6 +20,40 @@ if(!token){console.error("STARTUP FAILED: DISCORD_TOKEN is missing.");process.ex
 const client=new Client({intents:[GatewayIntentBits.Guilds,GatewayIntentBits.GuildMembers]});
 let discordReady=false;
 
+// Automatic Amazon publishing-status announcements.
+let amazonMonitorState="";
+async function checkAmazonPublishingUpdates(){
+ try{
+  const response=await fetch((process.env.WEBSITE_URL||"https://brandon-books-stories-bot-website.vercel.app")+"/books.json?ts="+Date.now(),{headers:{"User-Agent":"Brandon-Books-Stories-Bot/1.0"}});
+  if(!response.ok)return;
+  const data=await response.json();
+  const snapshot=JSON.stringify((data.books||[]).map(b=>({id:b.id,availability:b.amazonCheck?.availability||"not checked",url:b.amazon?.url||""})));
+  if(!amazonMonitorState){amazonMonitorState=snapshot;return;}
+  if(snapshot===amazonMonitorState)return;
+  const previous=JSON.parse(amazonMonitorState); amazonMonitorState=snapshot;
+  const changes=[];
+  for(const book of data.books||[]){
+   const old=previous.find(x=>x.id===book.id); const now=book.amazonCheck?.availability||"not checked";
+   if(old&&old.availability!==now){
+    const label=now==="available"?"🟢 AVAILABLE":now==="unavailable"?"🔴 UNAVAILABLE":"🕐 "+now.toUpperCase();
+    changes.push("**"+(book.subtitle||book.title)+"** → "+label+(book.amazon?.url?"\n🛒 "+book.amazon.url:""));
+   }
+  }
+  if(!changes.length)return;
+  for(const guild of client.guilds.cache.values()){
+   const channel=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name==="📢・announcements"); if(!channel)continue;
+   const embed=new EmbedBuilder().setTitle("📚 Amazon Publishing Update").setDescription("The automatic book monitor detected a change on Amazon.\n\n"+changes.join("\n\n")).setFooter({text:"Brandon D. Coleman Jr. — Books & Stories • 📖 Real Stories • Bigger Purpose"}).setTimestamp();
+   await channel.send({content:"🤖 **Automatic Amazon → Website Update**",embeds:[embed]}).catch(e=>console.error("AMAZON ANNOUNCEMENT FAILED:",e));
+  }
+ }catch(e){console.error("AMAZON MONITOR ERROR:",e.message||e);}
+}
+function startAmazonPublishingMonitor(){
+ const interval=Math.max(60000,Number(process.env.AMAZON_MONITOR_INTERVAL_MS)||1800000);
+ setTimeout(()=>{checkAmazonPublishingUpdates();setInterval(checkAmazonPublishingUpdates,interval);},15000);
+ console.log("AMAZON MONITOR: active | interval="+interval+"ms");
+}
+
+
 client.on("error",e=>console.error("DISCORD CLIENT ERROR:",e));
 client.on("warn",m=>console.warn("DISCORD WARNING:",m));
 client.on("shardError",e=>console.error("DISCORD SHARD ERROR:",e));
@@ -897,4 +931,4 @@ client.on("interactionCreate",async i=>{
 
 process.on("unhandledRejection",e=>console.error("UNHANDLED REJECTION:",e));
 process.on("uncaughtException",e=>{console.error("UNCAUGHT EXCEPTION:",e);});
-client.login(token).then(()=>console.log("DISCORD LOGIN INITIATED.")).catch(e=>{console.error("DISCORD LOGIN FAILED:",e.code||"unknown",e.message||e);process.exit(1);});
+client.login(token).then(()=>{console.log("DISCORD LOGIN INITIATED.");startAmazonPublishingMonitor();}).catch(e=>{console.error("DISCORD LOGIN FAILED:",e.code||"unknown",e.message||e);process.exit(1);});
