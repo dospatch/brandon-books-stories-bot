@@ -575,6 +575,7 @@ async function setup(guild){
    .setFooter({text:"Brandon D. Coleman Jr. — Books & Stories"});
   await upsertEmbedMessage(aboutMediaChannel,"BBS:AUTO:ABOUT:MEDIA",aboutMediaEmbed).catch(e=>console.warn("ABOUT MEDIA MESSAGE FAILED:",e.message));
  }
+}
 
 client.on("guildMemberAdd",async member=>{
  try{
