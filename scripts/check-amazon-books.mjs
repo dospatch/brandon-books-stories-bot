@@ -79,22 +79,32 @@ for (const book of data.books) {
 data.lastChecked = now;
 fs.writeFileSync(path, JSON.stringify(data, null, 2) + "\n");
 
-if (changes.length && process.env.BOOK_UPDATES_WEBHOOK_URL) {
-  const payload = {
-    changes,
-    checkedAt: now
-  };
+if (changes.length && process.env.BOOK_UPDATES_WEBHOOK_URL && process.env.SOCIAL_WEBHOOK_SECRET) {
+  for (const change of changes) {
+    const n = change.next;
+    const payload = {
+      source: "book",
+      id: `${change.title}-${change.subtitle}-${n.checkedAt || now}`,
+      title: `${change.title} — ${change.subtitle}`,
+      description:
+        `Amazon listing check changed.\\n\\nStatus: ${n.availability || n.result || "updated"}` +
+        (n.price ? `\\nPrice: ${n.price}` : ""),
+      url: n.finalUrl || "https://www.amazon.com/",
+      author: "Amazon Book Monitor"
+    };
 
-  const response = await fetch(process.env.BOOK_UPDATES_WEBHOOK_URL, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json"
-    },
-    body: JSON.stringify(payload)
-  });
+    const response = await fetch(process.env.BOOK_UPDATES_WEBHOOK_URL, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "X-Social-Webhook-Secret": process.env.SOCIAL_WEBHOOK_SECRET
+      },
+      body: JSON.stringify(payload)
+    });
 
-  if (!response.ok) {
-    throw new Error(`Book update webhook returned HTTP ${response.status}`);
+    if (!response.ok) {
+      throw new Error(`Book update webhook returned HTTP ${response.status}`);
+    }
   }
 }
 
