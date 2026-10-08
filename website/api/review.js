@@ -38,7 +38,8 @@ export default async function handler(req,res){
     }
 
     const botUrl=process.env.BBS_BOT_REVIEW_WEBHOOK_URL;
-    const secret=process.env.BBS_BOT_REVIEW_WEBHOOK_SECRET;
+    // Use the dedicated review secret when configured; otherwise reuse the bot's existing webhook secret.
+    const secret=process.env.BBS_BOT_REVIEW_WEBHOOK_SECRET||process.env.SOCIAL_WEBHOOK_SECRET;
     if(!botUrl||!secret){
       res.statusCode=503;
       return res.end(JSON.stringify({ok:false,error:"Review service is not configured yet."}));
