@@ -2,6 +2,7 @@ const {
   ActionRowBuilder,StringSelectMenuBuilder,ModalBuilder,TextInputBuilder,
   TextInputStyle,EmbedBuilder,ChannelType,MessageFlags
 }=require("discord.js");
+const {logStaffEvent}=require("./staff");
 
 const BOOKS={
   "book-1":"My Life Story With Grandma",
