@@ -26,11 +26,7 @@ function reviewModal(bookKey){
   const rating=new TextInputBuilder().setCustomId("rating").setLabel("Rating (1-5)").setStyle(TextInputStyle.Short).setRequired(true).setMinLength(1).setMaxLength(1);
   const review=new TextInputBuilder().setCustomId("review").setLabel("Your review").setStyle(TextInputStyle.Paragraph).setRequired(true).setMinLength(10).setMaxLength(1500);
   const favorite=new TextInputBuilder().setCustomId("favorite").setLabel("Favorite part (optional)").setStyle(TextInputStyle.Paragraph).setRequired(false).setMaxLength(800);
-  modal.addComponents(
-    new ActionRowBuilder().addComponents(rating),
-    new ActionRowBuilder().addComponents(review),
-    new ActionRowBuilder().addComponents(favorite)
-  );
+  modal.addComponents(new ActionRowBuilder().addComponents(rating),new ActionRowBuilder().addComponents(review),new ActionRowBuilder().addComponents(favorite));
   return modal;
 }
 
@@ -42,72 +38,90 @@ function feedbackModal(){
   return modal;
 }
 
-function staffChannel(guild){
-  return guild.channels.cache.find(c=>c.type===ChannelType.GuildText&&c.name==="🔒・staff");
+function findReviewChannel(guild){
+  return guild.channels.cache.find(c=>c.type===ChannelType.GuildText&&c.name==="⭐・reader-reviews")||null;
 }
 
+function readRequest(req){
+  return new Promise((resolve,reject)=>{
+    let body="";
+    req.on("data",chunk=>{
+      body+=chunk.toString();
+      if(body.length>100000){req.destroy();reject(new Error("Payload too large."));}
+    });
+    req.on("end",()=>{
+      try{resolve(JSON.parse(body||"{}"));}catch(e){reject(new Error("Invalid JSON payload."));}
+    });
+    req.on("error",reject);
+  });
+}
+
+async function postWebsiteReview(guild,data){
+  const channel=findReviewChannel(guild);
+  if(!channel)throw new Error("⭐・reader-reviews channel not found.");
+  const rating=Number(data.rating);
+  if(!Number.isInteger(rating)||rating<1||rating>5)throw new Error("Rating must be 1 through 5.");
+  const review=String(data.review||"").trim();
+  if(review.length<10||review.length>1500)throw new Error("Review must be between 10 and 1500 characters.");
+  const book=String(data.book||"").trim();
+  if(!book)throw new Error("Book is required.");
+  const name=String(data.name||"Website Reader").trim().slice(0,100)||"Website Reader";
+  const favorite=String(data.favorite||"Not provided.").trim().slice(0,800)||"Not provided.";
+  const stars="⭐".repeat(rating)+"☆".repeat(5-rating);
+  const embed=new EmbedBuilder()
+    .setTitle("⭐ New Website Reader Review")
+    .setDescription(review)
+    .addFields(
+      {name:"📚 Book",value:book.slice(0,1024),inline:false},
+      {name:"⭐ Rating",value:stars+" ("+rating+"/5)",inline:true},
+      {name:"👤 Reader",value:name,inline:true},
+      {name:"❤️ Favorite Part",value:favorite,inline:false}
+    )
+    .setFooter({text:"Brandon Books & Stories • Website Reader Review"})
+    .setTimestamp();
+  await channel.send({content:"🌐 **New review submitted on the Brandon Books & Stories website!**",embeds:[embed]});
+  await logStaffEvent(guild,"🌐 Website Review Received","A reader submitted a review through the public website for **"+book.slice(0,200)+"**.",0x57F287);
+  return {channelId:channel.id};
+}
+
+async function handleReviewWebhook(req,res,guilds){
+  const expected=process.env.SOCIAL_WEBHOOK_SECRET;
+  if(!expected){res.writeHead(503,{"Content-Type":"application/json"});res.end(JSON.stringify({ok:false,error:"SOCIAL_WEBHOOK_SECRET is not configured"}));return;}
+  if(req.headers["x-social-webhook-secret"]!==expected){res.writeHead(401,{"Content-Type":"application/json"});res.end(JSON.stringify({ok:false,error:"Unauthorized"}));return;}
+  try{
+    const data=await readRequest(req);
+    const results=[];
+    for(const guild of guilds.values()){
+      try{results.push({guild:guild.id,ok:true,...await postWebsiteReview(guild,data)});}catch(e){results.push({guild:guild.id,ok:false,error:e.message||String(e)});}
+    }
+    const success=results.some(x=>x.ok);
+    res.writeHead(success?200:400,{"Content-Type":"application/json"});
+    res.end(JSON.stringify({ok:success,results}));
+  }catch(e){res.writeHead(400,{"Content-Type":"application/json"});res.end(JSON.stringify({ok:false,error:e.message||"Invalid review request"}));}
+}
+
+function staffChannel(guild){return guild.channels.cache.find(c=>c.type===ChannelType.GuildText&&c.name==="🔒・staff");}
+
 async function handleReviewInteraction(i){
-  if(i.isStringSelectMenu()&&i.customId==="review-book"){
-    await i.showModal(reviewModal(i.values[0]));
-    return true;
-  }
+  if(i.isStringSelectMenu()&&i.customId==="review-book"){await i.showModal(reviewModal(i.values[0]));return true;}
   if(i.isModalSubmit()&&i.customId.startsWith("review-modal:")){
     await i.deferReply({flags:MessageFlags.Ephemeral});
-    const bookKey=i.customId.split(":")[1];
-    const bookName=BOOKS[bookKey]||"Book";
-    const ratingText=i.fields.getTextInputValue("rating").trim();
-    const rating=Number(ratingText);
-    if(!Number.isInteger(rating)||rating<1||rating>5){
-      await i.editReply("❌ Please enter a rating from **1 to 5** and submit the review again.");
-      return true;
-    }
-    const review=i.fields.getTextInputValue("review").trim();
-    const favorite=i.fields.getTextInputValue("favorite").trim()||"Not provided.";
-    const channel=i.guild.channels.cache.find(c=>c.type===ChannelType.GuildText&&c.name==="⭐・reader-reviews");
-    if(!channel){
-      await i.editReply("❌ The ⭐・reader-reviews channel could not be found. Please contact staff.");
-      return true;
-    }
+    const bookKey=i.customId.split(":")[1]; const bookName=BOOKS[bookKey]||"Book";
+    const rating=Number(i.fields.getTextInputValue("rating").trim());
+    if(!Number.isInteger(rating)||rating<1||rating>5){await i.editReply("❌ Please enter a rating from **1 to 5** and submit the review again.");return true;}
+    const review=i.fields.getTextInputValue("review").trim(); const favorite=i.fields.getTextInputValue("favorite").trim()||"Not provided.";
+    const channel=findReviewChannel(i.guild);
+    if(!channel){await i.editReply("❌ The ⭐・reader-reviews channel could not be found. Please contact staff.");return true;}
     const stars="⭐".repeat(rating)+"☆".repeat(5-rating);
-    const embed=new EmbedBuilder()
-      .setTitle("⭐ New Reader Review")
-      .setDescription(review)
-      .addFields(
-        {name:"📚 Book",value:bookName,inline:false},
-        {name:"⭐ Rating",value:stars+" ("+rating+"/5)",inline:true},
-        {name:"❤️ Favorite Part",value:favorite,inline:false}
-      )
-      .setAuthor({name:i.user.displayName||i.user.username,iconURL:i.user.displayAvatarURL()})
-      .setFooter({text:"Brandon Books & Stories • Reader Review"})
-      .setTimestamp();
+    const embed=new EmbedBuilder().setTitle("⭐ New Reader Review").setDescription(review).addFields({name:"📚 Book",value:bookName,inline:false},{name:"⭐ Rating",value:stars+" ("+rating+"/5)",inline:true},{name:"❤️ Favorite Part",value:favorite,inline:false}).setAuthor({name:i.user.displayName||i.user.username,iconURL:i.user.displayAvatarURL()}).setFooter({text:"Brandon Books & Stories • Reader Review"}).setTimestamp();
     await channel.send({embeds:[embed]});
-    await i.editReply("✅ Thank you! Your review has been posted in <#"+channel.id+">.");
-    return true;
+    await logStaffEvent(i.guild,"⭐ Discord Reader Review","**Reader:** <@"+i.user.id+">\\n**Book:** "+bookName+"\\n**Rating:** "+rating+"/5",0x57F287);
+    await i.editReply("✅ Thank you! Your review has been posted in <#"+channel.id+">.");return true;
   }
   if(i.isModalSubmit()&&i.customId==="feedback-modal"){
-    await i.deferReply({flags:MessageFlags.Ephemeral});
-    const channel=staffChannel(i.guild);
-    if(!channel){
-      await i.editReply("❌ The private staff channel could not be found. Please contact the server owner.");
-      return true;
-    }
-    const category=i.fields.getTextInputValue("category").trim();
-    const message=i.fields.getTextInputValue("message").trim();
-    const embed=new EmbedBuilder()
-      .setTitle("💡 Private Reader Feedback")
-      .setDescription(message)
-      .addFields(
-        {name:"Category",value:category,inline:true},
-        {name:"From",value:i.user.tag,inline:true},
-        {name:"User ID",value:i.user.id,inline:true}
-      )
-      .setFooter({text:"Brandon Books & Stories • Private Feedback"})
-      .setTimestamp();
-    await channel.send({embeds:[embed]});
-    await i.editReply("✅ Your feedback was sent privately to the Brandon Books & Stories staff team. Thank you for helping improve the community.");
-    return true;
+    await i.deferReply({flags:MessageFlags.Ephemeral);}
   }
   return false;
 }
 
-module.exports={reviewMenu,feedbackModal,handleReviewInteraction};
+module.exports={reviewMenu,feedbackModal,handleReviewInteraction,handleReviewWebhook,postWebsiteReview};
