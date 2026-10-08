@@ -3,6 +3,7 @@ const {
   TextInputStyle,EmbedBuilder,ChannelType,PermissionFlagsBits,
   MessageFlags,ButtonBuilder,ButtonStyle
 }=require("discord.js");
+const {logStaffEvent}=require("./staff");
 
 const TYPES={
   "author-team":"Author Team",
@@ -134,7 +135,7 @@ async function createApplicationChannel(i,type,answers){
     )]
   });
 
-  return {channel};
+  await logStaffEvent(i.guild,"📋 New Application","**Applicant:** <@"+i.user.id+">\n**Type:** "+typeName+"\n**Channel:** <#"+channel.id+">",0x5865F2);\n  return {channel};
 }
 
 async function handleApplicationReview(i){
@@ -157,7 +158,7 @@ async function handleApplicationReview(i){
   const typeName=(i.message.embeds?.[0]?.description||"").match(/\*\*Type:\*\* ([^\n]+)/)?.[1]||"Application";
   const updated=EmbedBuilder.from(i.message.embeds?.[0]||{}).setColor(approve?0x57F287:0xED4245).setFooter({text:"Brandon Books & Stories • "+status});
 
-  await i.update({embeds:[updated],components:[]});
+  await i.update({embeds:[updated],components:[]});\n  await logStaffEvent(i.guild,"📋 Application "+status,"**Applicant:** <@"+applicantId+">\n**Reviewed by:** <@"+i.user.id+">\n**Type:** "+typeName,approve?0x57F287:0xED4245);
 
   const applicant=await i.client.users.fetch(applicantId).catch(()=>null);
   if(applicant){
