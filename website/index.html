@@ -191,6 +191,43 @@
   </div>
 </section>
 
+<section id="reviews" class="section">
+  <div class="section-heading">
+    <div><p class="eyebrow">⭐ READER REVIEWS</p><h2>Share your thoughts.</h2></div>
+    <p>Have you read one of Brandon's books? Leave an honest review and help other readers discover the journey.</p>
+  </div>
+  <div class="two-column">
+    <form id="website-review-form" class="contact-card" style="display:grid;gap:14px">
+      <label>Name (optional)<input name="name" maxlength="100" placeholder="Your name"></label>
+      <label>Book
+        <select name="book" required>
+          <option value="">Choose a book</option>
+          <option>My Life Story With Grandma — Book 1: Foundations</option>
+          <option>My Life Story With Grandma — Part 2: Continuing the Journey</option>
+          <option>My Life Story With Grandma — Book 3: The Journey Continues</option>
+          <option>My Life Story With Grandma — Part 4: The Memories We Carry Forward</option>
+          <option>My Life Story With Grandma — Part 5: The Journey Continues</option>
+        </select>
+      </label>
+      <label>Rating
+        <select name="rating" required>
+          <option value="">Choose a rating</option>
+          <option value="5">★★★★★ — 5/5</option>
+          <option value="4">★★★★☆ — 4/5</option>
+          <option value="3">★★★☆☆ — 3/5</option>
+          <option value="2">★★☆☆☆ — 2/5</option>
+          <option value="1">★☆☆☆☆ — 1/5</option>
+        </select>
+      </label>
+      <label>Your review<textarea name="review" minlength="10" maxlength="1500" required placeholder="Share your honest thoughts about the book."></textarea></label>
+      <label>Favorite part (optional)<textarea name="favorite" maxlength="800" placeholder="What stood out to you?"></textarea></label>
+      <input name="website" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
+      <button class="button primary" type="submit">⭐ Submit Review</button>
+      <p id="review-status" class="note" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
 <section id="contact" class="section contact-section">
   <div>
     <p class="eyebrow">JOIN THE JOURNEY</p>
@@ -300,5 +337,34 @@
 })();
 </script>
 
+<script>
+(function(){
+  const form=document.getElementById("website-review-form");
+  const status=document.getElementById("review-status");
+  if(!form)return;
+  form.addEventListener("submit",async function(event){
+    event.preventDefault();
+    const button=form.querySelector("button[type='submit']");
+    button.disabled=true;
+    status.textContent="Submitting your review…";
+    const data=Object.fromEntries(new FormData(form).entries());
+    try{
+      const response=await fetch("/api/review",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify(data)
+      });
+      const result=await response.json().catch(()=>({}));
+      if(!response.ok||!result.ok)throw new Error(result.error||"Review submission failed.");
+      form.reset();
+      status.textContent="✅ Thank you! Your review was sent to the Brandon Books & Stories review team.";
+    }catch(error){
+      status.textContent="❌ "+(error.message||"Unable to submit your review right now.");
+    }finally{
+      button.disabled=false;
+    }
+  });
+})();
+</script>
 </body>
 </html>
