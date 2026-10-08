@@ -66,3 +66,6 @@ The production bot registers its slash commands directly to the Brandon Books & 
 **Brandon D. Coleman Jr. — Books & Stories**
 
 📖 Real Stories • Bigger Purpose
+
+
+<!-- Deployment trigger: staff dashboard + website review bridge -->
