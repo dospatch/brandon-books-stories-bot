@@ -13,6 +13,7 @@ const {applicationMenu,handleApplicationInteraction}=require("./applications");
 const {reviewMenu,feedbackModal,handleReviewInteraction}=require("./reviews");
 const {handleSocialWebhook}=require("./socialFeed");
 const {startMetricoolBridge}=require("./metricoolBridge");
+const {logStaffEvent,logServerEvent,upsertStaffDashboard}=require("./staff");
 
 const token=process.env.DISCORD_TOKEN;
 if(!token){console.error("STARTUP FAILED: DISCORD_TOKEN is missing.");process.exit(1);}
@@ -77,7 +78,8 @@ const commands=[
  new SlashCommandBuilder().setName("ping").setDescription("Check whether the bot is responding."),
  new SlashCommandBuilder().setName("apply").setDescription("Submit a private Books & Stories community application."),
  new SlashCommandBuilder().setName("review").setDescription("Submit a reader review for one of Brandon's books."),
- new SlashCommandBuilder().setName("feedback").setDescription("Send private feedback to the Books & Stories staff.")
+ new SlashCommandBuilder().setName("feedback").setDescription("Send private feedback to the Books & Stories staff."),
+ new SlashCommandBuilder().setName("staff").setDescription("Show the private staff dashboard.")
 ].map(x=>x.toJSON());
 
 const structure={
@@ -743,6 +745,7 @@ client.on("guildMemberAdd",async member=>{
    )
    .setFooter({text:"📖 Real Stories • Bigger Purpose"});
   await welcome.send({content:"🎉 Welcome <@"+member.id+">! You now have the ⭐ VIP Customer role.",embeds:[embed]});
+  await logStaffEvent(guild,"👋 New Member Joined","**Member:** <@"+member.id+">\n**Role:** ⭐ VIP Customer\n**User ID:** `"+member.id+"`",0x57F287);
  }catch(e){
   console.error("NEW MEMBER WELCOME FAILED:",e.code||"unknown",e.message||e);
  }
@@ -785,7 +788,7 @@ client.on("interactionCreate",async i=>{
    return;
   }
   if(!i.guild)return i.reply({content:"This command can only be used in a server.",flags:MessageFlags.Ephemeral});
-  if(i.commandName==="ping"){
+  if(i.commandName==="staff"){\n   const staffRoles=["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team"];\n   const isStaff=i.guild.ownerId===i.user.id || i.member?.roles?.cache?.some(r=>staffRoles.includes(r.name));\n   if(!isStaff)return i.reply({content:"🔒 Staff access only.",flags:MessageFlags.Ephemeral});\n   await upsertStaffDashboard(i.guild);\n   return i.reply({content:"🔒 The staff dashboard is available in <#"+(i.guild.channels.cache.find(x=>x.name==="🔒・staff")?.id||"")+">.\n\n🛠️・staff-logs and 📊・server-logs are active for staff monitoring.",flags:MessageFlags.Ephemeral});\n  }\n  if(i.commandName==="ping"){
    await i.deferReply({flags:MessageFlags.Ephemeral});
    return i.editReply("🏓 Pong! The bot is online and responding.");
   }
@@ -816,11 +819,11 @@ client.on("interactionCreate",async i=>{
    }
    await i.editReply("🔎 **Books & Stories setup starting...**");
    try{
-    await withTimeout(setup(i.guild),"setting up the server");
+    await withTimeout(setup(i.guild),"setting up the server");\n    await upsertStaffDashboard(i.guild);\n    await logServerEvent(i.guild,"🛠️ Server Setup Completed","`/setup-author-server` completed successfully for **"+i.guild.name+"**.",0x57F287);
     await i.editReply("✅ **Books & Stories server setup is complete.**");
    }catch(e){
     console.error("SETUP FAILED:",e);
-    await i.editReply("❌ **Setup failed:** "+(e.message||String(e))).catch(()=>{});
+    await i.editReply("❌ **Setup failed:** "+(e.message||String(e))).catch(()=>{});\n    await logServerEvent(i.guild,"❌ Server Setup Failed","**Error:** "+(e.message||String(e)),0xED4245);
    }
    return;
   }
@@ -923,7 +926,7 @@ client.on("interactionCreate",async i=>{
   if(i.commandName==="website")return i.reply({content:"🌐 **Brandon D. Coleman Jr. — Books & Stories**\n"+(process.env.WEBSITE_URL||"https://brandon-books-stories-bot-website-3n7hbjx9r-dospatchs-projects.vercel.app")});
   if(i.commandName==="serverinfo")return i.reply({content:"🖥️ **"+i.guild.name+"**\nMembers: "+i.guild.memberCount+"\nChannels: "+i.guild.channels.cache.size,flags:MessageFlags.Ephemeral});
  }catch(e){
-  console.error("INTERACTION FAILED:",e);
+  console.error("INTERACTION FAILED:",e);\n  if(i.guild)await logServerEvent(i.guild,"⚠️ Bot Interaction Error","**Command:** `"+(i.commandName||"interaction")+"`\n**User:** <@"+i.user.id+">\n**Error:** "+(e.message||String(e)),0xED4245).catch(()=>{});
   if(i.deferred||i.replied)await i.editReply("❌ Command failed: "+(e.message||String(e))).catch(()=>{});
   else await i.reply({content:"❌ Command failed: "+(e.message||String(e)),flags:MessageFlags.Ephemeral}).catch(()=>{});
  }
