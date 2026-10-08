@@ -1,0 +1,1 @@
+Deployment verification: the current main branch includes the Staff Dashboard command and the website-to-Discord reader review bridge. This file exists only to trigger the connected hosting redeployment after the production verification work.
