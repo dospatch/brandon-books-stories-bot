@@ -12,8 +12,8 @@
         "listingDetected": true
       },
       "formats": {
-        "kindle": "unknown",
-        "paperback": "unknown",
+        "kindle": "published",
+        "paperback": "published",
         "hardcover": "published"
       },
       "status": "published",
@@ -27,6 +27,24 @@
         "image": null,
         "amazonAvailabilityText": "In Stock",
         "note": "Amazon listing detected automatically."
+      },
+      "editions": {
+        "kindle": {
+          "asin": "B0HJL27HKR",
+          "status": "live",
+          "submitted": "2026-09-12",
+          "price": "$5.99 USD"
+        },
+        "paperback": {
+          "asin": "B0HL794K8Z",
+          "status": "live",
+          "submitted": "2026-09-27",
+          "price": "$20.00 USD"
+        },
+        "hardcover": {
+          "status": "live",
+          "submitted": "2026-10-06"
+        }
       }
     },
     {
@@ -127,5 +145,6 @@
     "interval": "Every 30 minutes",
     "source": "Amazon public product pages",
     "behavior": "When an Amazon listing is detected, the website can automatically surface its direct Amazon link."
-  }
+  },
+  "lastUpdated": "2026-10-08T20:50:00.000Z"
 }
