@@ -31,7 +31,7 @@ export default async function handler(req,res){
       res.statusCode=400;
       return res.end(JSON.stringify({ok:false,error:"Please provide a book, a 1–5 rating, and a review of at least 10 characters."}));
     }
-    const webhook=process.env.DISCORD_REVIEW_WEBHOOK_URL;
+    const webhook=process.env.BBS_BOT_REVIEW_WEBHOOK_URL;
     if(!webhook){
       res.statusCode=503;
       return res.end(JSON.stringify({ok:false,error:"Review service is not configured yet."}));
