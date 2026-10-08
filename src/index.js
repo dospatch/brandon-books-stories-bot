@@ -4,13 +4,16 @@ http.createServer((req,res)=>{
  if(req.method==="POST"&&req.url==="/social/webhook"){
   return handleSocialWebhook(req,res,client.guilds.cache);
  }
+ if(req.method==="POST"&&req.url==="/reviews/webhook"){
+  return handleReviewWebhook(req,res,client.guilds.cache);
+ }
  res.writeHead(200,{"Content-Type":"text/plain"});
  res.end("Brandon Books & Stories bot is online.\n");
 }).listen(PORT,"0.0.0.0",()=>console.log("Health server listening on "+PORT));
 require("dotenv").config();
 const {Client,GatewayIntentBits,ChannelType,EmbedBuilder,ActivityType,REST,Routes,SlashCommandBuilder,PermissionFlagsBits,MessageFlags}=require("discord.js");
 const {applicationMenu,handleApplicationInteraction}=require("./applications");
-const {reviewMenu,feedbackModal,handleReviewInteraction}=require("./reviews");
+const {reviewMenu,feedbackModal,handleReviewInteraction,handleReviewWebhook}=require("./reviews");
 const {handleSocialWebhook}=require("./socialFeed");
 const {startMetricoolBridge}=require("./metricoolBridge");
 const {logStaffEvent,logServerEvent,upsertStaffDashboard}=require("./staff");
