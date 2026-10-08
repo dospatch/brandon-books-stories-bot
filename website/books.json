@@ -1,5 +1,5 @@
 {
-  "lastChecked": "2026-10-08T01:19:24.593Z",
+  "lastChecked": "2026-10-08T07:58:50.103Z",
   "source": "Amazon public listings",
   "books": [
     {
@@ -19,7 +19,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-08T01:19:24.597Z",
+        "checkedAt": "2026-10-08T07:58:50.107Z",
         "url": "https://www.amazon.com/dp/B0HL794K8Z",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -42,7 +42,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-08T01:19:24.793Z",
+        "checkedAt": "2026-10-08T07:58:50.225Z",
         "url": "https://www.amazon.com/dp/B0HKT3GKM",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -65,7 +65,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-08T01:19:24.848Z",
+        "checkedAt": "2026-10-08T07:58:50.253Z",
         "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -88,7 +88,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-08T01:19:24.871Z",
+        "checkedAt": "2026-10-08T07:58:50.271Z",
         "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -101,7 +101,7 @@
       "amazon": {
         "url": "https://www.amazon.com/dp/B0HM6LY91G",
         "asin": "B0HM6LY91G",
-        "listingDetected": false
+        "listingDetected": true
       },
       "formats": {
         "kindle": "published",
@@ -110,11 +110,15 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "temporarily blocked",
-        "checkedAt": "2026-10-08T01:19:24.893Z",
+        "availability": "available",
+        "checkedAt": "2026-10-08T07:58:50.289Z",
         "url": "https://www.amazon.com/dp/B0HM6LY91G",
         "httpStatus": 200,
-        "note": "Amazon requested a verification page. The next scheduled check will try again."
+        "title": "MY LIFE STORY WITH GRANDMA: PART 5: THE JOURNEY CONTINUES — More Memories, More Lessons, and the Story Still Being Written",
+        "price": "100 .",
+        "image": null,
+        "amazonAvailabilityText": null,
+        "note": "Amazon listing detected automatically."
       }
     }
   ],
