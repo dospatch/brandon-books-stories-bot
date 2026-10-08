@@ -82,7 +82,7 @@ const commands=[
  new SlashCommandBuilder().setName("apply").setDescription("Submit a private Books & Stories community application."),
  new SlashCommandBuilder().setName("review").setDescription("Submit a reader review for one of Brandon's books."),
  new SlashCommandBuilder().setName("feedback").setDescription("Send private feedback to the Books & Stories staff."),
- new SlashCommandBuilder().setName("staff").setDescription("Show the private staff dashboard.")
+ new SlashCommandBuilder().setName("staff").setDescription("Open the private staff dashboard and staff tools.")
 ].map(x=>x.toJSON());
 
 const structure={
@@ -779,6 +779,10 @@ client.once("ready",async()=>{
    console.error("GLOBAL COMMAND CLEANUP FAILED:",e.code||"unknown",e.message||e);
   }
  }catch(e){console.error("SLASH COMMAND REGISTRATION FAILED:",e.code||"unknown",e.message||e);}
+ for(const guild of client.guilds.cache.values()){
+  await upsertStaffDashboard(guild).catch(e=>console.warn("STAFF DASHBOARD STARTUP FAILED:",e.message||e));
+  await logServerEvent(guild,"🟢 Bot Online","Brandon Books & Stories is online and the latest slash commands have been registered.",0x57F287).catch(e=>console.warn("STARTUP SERVER LOG FAILED:",e.message||e));
+ }
  startMetricoolBridge(client);
 });
 
