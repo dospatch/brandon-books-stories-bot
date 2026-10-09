@@ -32,7 +32,7 @@ export default async function handler(req,res){
       discordUsername:String(body.discordUsername||"").trim().replace(/^@/,"").slice(0,100)
     };
 
-    if(!payload.book || !payload.discordUsername || !Number.isInteger(payload.rating) || payload.rating<1 || payload.rating>5 || payload.review.length<10){
+    if(!payload.book || !Number.isInteger(payload.rating) || payload.rating<1 || payload.rating>5 || payload.review.length<10){
       res.statusCode=400;
       return res.end(JSON.stringify({ok:false,error:"Please provide a book, a 1–5 rating, and a review of at least 10 characters."}));
     }
