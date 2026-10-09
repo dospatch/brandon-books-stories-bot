@@ -1,5 +1,5 @@
 {
-  "lastChecked": "2026-10-08T20:49:07.141Z",
+  "lastChecked": "2026-10-09T01:12:43.654Z",
   "source": "Amazon public listings",
   "books": [
     {
@@ -9,7 +9,7 @@
       "amazon": {
         "asin": "B0HL794K8Z",
         "url": "https://www.amazon.com/dp/B0HL794K8Z",
-        "listingDetected": true
+        "listingDetected": false
       },
       "formats": {
         "kindle": "published",
@@ -18,15 +18,11 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "available",
-        "checkedAt": "2026-10-08T20:49:07.144Z",
+        "availability": "temporarily blocked",
+        "checkedAt": "2026-10-09T01:12:43.658Z",
         "url": "https://www.amazon.com/dp/B0HL794K8Z",
         "httpStatus": 200,
-        "title": "My Life Story with Grandma",
-        "price": "20 .",
-        "image": null,
-        "amazonAvailabilityText": "In Stock",
-        "note": "Amazon listing detected automatically."
+        "note": "Amazon requested a verification page. The next scheduled check will try again."
       },
       "editions": {
         "kindle": {
@@ -64,7 +60,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-08T20:49:08.191Z",
+        "checkedAt": "2026-10-09T01:12:43.855Z",
         "url": "https://www.amazon.com/dp/B0HKT3GKM",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -87,7 +83,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-08T20:49:08.276Z",
+        "checkedAt": "2026-10-09T01:12:43.985Z",
         "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -110,7 +106,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-08T20:49:08.365Z",
+        "checkedAt": "2026-10-09T01:12:44.068Z",
         "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -133,7 +129,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-08T20:49:08.441Z",
+        "checkedAt": "2026-10-09T01:12:44.153Z",
         "url": "https://www.amazon.com/dp/B0HM6LY91G",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
