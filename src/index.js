@@ -654,7 +654,7 @@ async function setup(guild){
   },
   "🤖・bot-commands":{
    title:"🤖 Bot Commands",
-   description:"Use the Brandon Books & Stories bot to explore the community.\n\n🏓 /ping — Check bot response\n📚 /books — View book information\n📖 /about — Learn about Brandon Books & Stories\n📖 /aboutmedia — View official media links\n💬 /community — View community information\n⭐ /review — Submit a reader review\n💡 /feedback — Send private feedback\n📋 /apply — Submit an application\n❓ /help — View all available commands\n\nOwner/setup commands are restricted."
+   description:"Use the Brandon Books & Stories bot to explore the community.\n\n🏓 /ping — Check bot response\n📚 /books — View book information\n📖 /about — Learn about Brandon Books & Stories\n📖 /aboutmedia — View official media links\n💬 /community — View community information\n⭐ /review — Submit a reader review\n🌐 Website reviews automatically post to ⭐・reader-reviews\n💡 /feedback — Send private feedback\n📋 /apply — Submit an application\n🔒 /staff — Open the private staff dashboard (staff only)\n❓ /help — View all available commands\n\nOwner/setup commands are restricted."
   },
   "📋・bot-updates":{
    title:"📋 Bot Updates",
