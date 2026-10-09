@@ -14,8 +14,8 @@ export default async function handler(req,res){
       favorite:String(body.favorite||"Not provided.").trim().slice(0,800),
       discordUsername:String(body.discordUsername||"").trim().replace(/^@/,"").slice(0,100)
     };
-    if(!payload.book||!payload.discordUsername||!Number.isInteger(payload.rating)||payload.rating<1||payload.rating>5||payload.review.length<10){
-      return res.status(400).json({ok:false,error:"Please provide a Discord username or User ID, a book, a 1–5 rating, and a review of at least 10 characters."});
+    if(!payload.book||!Number.isInteger(payload.rating)||payload.rating<1||payload.rating>5||payload.review.length<10){
+      return res.status(400).json({ok:false,error:"Please provide a book, a 1–5 rating, and a review of at least 10 characters."});
     }
     const response=await fetch(botUrl,{
       method:"POST",
