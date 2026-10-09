@@ -37,7 +37,7 @@ export default async function handler(req,res){
       return res.end(JSON.stringify({ok:false,error:"Please provide a book, a 1–5 rating, and a review of at least 10 characters."}));
     }
 
-    const botUrl=process.env.BBS_BOT_REVIEW_WEBHOOK_URL;
+    const botUrl=process.env.BBS_BOT_REVIEW_WEBHOOK_URL||"https://brandon-books-stories.fadehost.app/reviews/webhook";
     // Use the dedicated review secret when configured; otherwise reuse the bot's existing webhook secret.
     const secret=process.env.BBS_BOT_REVIEW_WEBHOOK_SECRET||process.env.SOCIAL_WEBHOOK_SECRET;
     if(!botUrl||!secret){
