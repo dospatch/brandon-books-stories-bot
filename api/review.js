@@ -1,6 +1,6 @@
 export default async function handler(req,res){
   if(req.method!=="POST")return res.status(405).json({ok:false,error:"Method not allowed."});
-  const botUrl=process.env.BBS_BOT_REVIEW_WEBHOOK_URL;
+  const botUrl=process.env.BBS_BOT_REVIEW_WEBHOOK_URL||"https://brandon-books-stories.fadehost.app/reviews/webhook";
   const secret=process.env.BBS_BOT_REVIEW_WEBHOOK_SECRET||process.env.SOCIAL_WEBHOOK_SECRET;
   if(!botUrl||!secret)return res.status(503).json({ok:false,error:"Review service is not configured yet."});
   try{
