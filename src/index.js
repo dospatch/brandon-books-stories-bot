@@ -798,10 +798,12 @@ client.on("interactionCreate",async i=>{
   if(!i.guild)return i.reply({content:"This command can only be used in a server.",flags:MessageFlags.Ephemeral});
   if(i.commandName==="staff"){
    const staffRoles=["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team"];
-   const isStaff=i.guild.ownerId===i.user.id || i.member?.roles?.cache?.some(r=>staffRoles.includes(r.name));
+   const isStaff=i.guild.ownerId===i.user.id || (process.env.OWNER_ID && i.user.id===process.env.OWNER_ID) || i.member?.roles?.cache?.some(r=>staffRoles.includes(r.name));
    if(!isStaff)return i.reply({content:"🔒 Staff access only.",flags:MessageFlags.Ephemeral});
+   await i.deferReply({flags:MessageFlags.Ephemeral});
    await upsertStaffDashboard(i.guild);
-   return i.reply({content:"🔒 The staff dashboard is available in <#"+(i.guild.channels.cache.find(x=>x.name==="🔒・staff")?.id||"")+">.\n\n🛠️・staff-logs and 📊・server-logs are active for staff monitoring.",flags:MessageFlags.Ephemeral});
+   const staffChannel=i.guild.channels.cache.find(x=>x.name==="🔒・staff");
+   return i.editReply("🔒 The staff dashboard is available"+(staffChannel?" in <#"+staffChannel.id+">":"; the 🔒・staff channel was not found")+".\n\n🛠️・staff-logs and 📊・server-logs are available for staff monitoring.");
   }
   if(i.commandName==="ping"){
    await i.deferReply({flags:MessageFlags.Ephemeral});
