@@ -1,5 +1,5 @@
 {
-  "lastChecked": "2026-10-10T15:21:16.788Z",
+  "lastChecked": "2026-10-10T19:31:27.536Z",
   "source": "Amazon public listings",
   "books": [
     {
@@ -19,7 +19,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "available",
-        "checkedAt": "2026-10-10T15:21:16.790Z",
+        "checkedAt": "2026-10-10T19:31:27.540Z",
         "url": "https://www.amazon.com/dp/B0HL794K8Z",
         "httpStatus": 200,
         "title": "My Life Story with Grandma",
@@ -64,7 +64,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "not detected",
-        "checkedAt": "2026-10-10T15:21:18.552Z",
+        "checkedAt": "2026-10-10T19:31:29.485Z",
         "url": "https://www.amazon.com/dp/B0HKT3GKM",
         "httpStatus": 404,
         "title": null,
@@ -91,7 +91,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "available",
-        "checkedAt": "2026-10-10T15:21:18.726Z",
+        "checkedAt": "2026-10-10T19:31:29.708Z",
         "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
         "httpStatus": 200,
         "title": "My life story with Grandma : Book 3: The Journey Continues — Growing, Building, Remembering, and Looking Ahead",
@@ -118,7 +118,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "available",
-        "checkedAt": "2026-10-10T15:21:20.354Z",
+        "checkedAt": "2026-10-10T19:31:31.462Z",
         "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
         "httpStatus": 200,
         "title": "MY LIFE STORY WITH GRANDMA: Part 4: The Memories We Carry Forward",
@@ -145,7 +145,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "available",
-        "checkedAt": "2026-10-10T15:21:22.035Z",
+        "checkedAt": "2026-10-10T19:31:33.043Z",
         "url": "https://www.amazon.com/dp/B0HM6LY91G",
         "httpStatus": 200,
         "title": "MY LIFE STORY WITH GRANDMA: PART 5: THE JOURNEY CONTINUES — More Memories, More Lessons, and the Story Still Being Written",
