@@ -941,7 +941,7 @@ client.on("interactionCreate",async i=>{
    await channel.send({content:"📢 **A Story Worth Remembering**",embeds:[embed]});
    return i.editReply("✅ The current book promotion was posted in <#"+channel.id+">.");
   }
-  if(i.commandName==="website")return i.reply({content:"🌐 **Brandon D. Coleman Jr. — Books & Stories**\n"+(process.env.WEBSITE_URL||"https://brandon-books-stories-bot-website-3n7hbjx9r-dospatchs-projects.vercel.app")});
+  if(i.commandName==="website")return i.reply({content:"🌐 **Brandon D. Coleman Jr. — Books & Stories**\n"+(process.env.WEBSITE_URL||"https://brandon-books-stories-bot-website.vercel.app")});
   if(i.commandName==="serverinfo")return i.reply({content:"🖥️ **"+i.guild.name+"**\nMembers: "+i.guild.memberCount+"\nChannels: "+i.guild.channels.cache.size,flags:MessageFlags.Ephemeral});
  }catch(e){
   console.error("INTERACTION FAILED:",e);
