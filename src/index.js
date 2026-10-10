@@ -495,7 +495,7 @@ async function setup(guild){
   }
  }
 
- await cleanupDuplicateStructure(guild,me);
+ // Duplicate-channel deletion is intentionally disabled. Existing server channels are preserved.
 
  // Keep the intended category order.
  const categoryOrder=Object.keys(structure);
@@ -828,7 +828,7 @@ client.on("interactionCreate",async i=>{
     .setTitle("📚 Brandon D. Coleman Jr. — Books")
     .setDescription("Explore the books, stories, memories, and continuing journey behind **Brandon Books & Stories**.")
     .addFields(
-     {name:"📖 My Life Story With Grandma",value:process.env.BOOK_1_URL||"Purchase link coming soon."},
+     {name:"📖 My Life Story With Grandma — Book 1: Foundations",value:"🟢 Kindle eBook — LIVE ($5.99): https://www.amazon.com/dp/B0HJL27HKR\n🟢 Paperback — LIVE ($20.00): https://www.amazon.com/dp/B0HL794K8Z\n🟢 Hardcover — LIVE (October 6, 2026)."},
      {name:"📕 Part 2",value:"**My Life Story With Grandma — Part 2: Continuing the Journey, Memories, and the Road Ahead**\\n"+(process.env.PART_2_URL||"Purchase link coming soon.")},
      {name:"❤️ The Heart Behind the Books",value:"These books are part of a larger journey of family, memories, storytelling, and preserving meaningful moments."}
     )
@@ -917,7 +917,7 @@ client.on("interactionCreate",async i=>{
     .setTitle("📚✨ BIG PUBLISHING UPDATE! ✨📚")
     .setDescription("I’m excited to share the latest progress on my **My Life Story with Grandma** book series! ❤️📖\n\nMore editions are officially live and making their way out into the world. We are getting closer and closer to having the complete collection fully available across formats! 🙏🏾")
     .addFields(
-     {name:"📕 BOOK 1 — Foundations",value:"🟢 Hardcover: **PUBLISHED!** ✅"},
+     {name:"📕 BOOK 1 — Foundations",value:"🟢 Kindle eBook: **LIVE — $5.99** ✅\n🟢 Paperback: **LIVE — $20.00** ✅\n🟢 Hardcover: **LIVE** ✅\n📚 Kindle ASIN: `B0HJL27HKR`\n📚 Paperback ASIN: `B0HL794K8Z`"},
      {name:"📗 BOOK 2 — New Horizons",value:"🟢 Kindle: **PUBLISHED!** ✅\n🟢 Paperback: **PUBLISHED!** ✅\n🕐 Hardcover: **DRAFT / SETUP**"},
      {name:"📘 BOOK 3 — The Journey Continues",value:"🟢 Kindle: **PUBLISHED!** ✅\n🟢 Paperback: **PUBLISHED!** ✅\n🕐 Hardcover: **IN REVIEW**"},
      {name:"📙 BOOK 4 — The Memories We Carry Forward",value:"🟢 Kindle: **PUBLISHED!** ✅\n🕐 Paperback: **IN REVIEW**\n🕐 Hardcover: **DRAFT**"},
