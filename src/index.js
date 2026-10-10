@@ -336,9 +336,8 @@ async function setup(guild){
 
  const categoryMap={};
  for(const [catName,names] of Object.entries(structure)){
-  // Consolidate duplicate categories created by previous setup/recovery runs.
-  // Keep one category, move unique channels into it, and remove duplicate
-  // channels/categories when the bot has permission to do so.
+  // Reuse an existing category when possible. Setup is non-destructive:
+  // it does not delete or consolidate existing categories or channels.
   const matchingCategories=guild.channels.cache.filter(x=>x.type===ChannelType.GuildCategory&&x.name===catName);
   let cat=matchingCategories.find(x=>x.permissionsFor(me)?.has(PermissionFlagsBits.ViewChannel))||matchingCategories.first();
   if(!cat){
