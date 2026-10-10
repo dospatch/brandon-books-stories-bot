@@ -36,20 +36,25 @@ brandon-books-stories-bot/
 
 - `/help` — View available bot commands.
 - `/ping` — Check bot response.
-- `/books` — View the books and project information.
+- `/books` — Browse the five-book series and official purchase information.
+- `/recommend` — Get a reading recommendation by theme.
 - `/about` — Learn about Brandon and the creative project.
 - `/aboutmedia` — Show official media links.
 - `/community` — Learn how members can participate.
 - `/website` — Access the public Books & Stories website.
 - `/serverinfo` — View community server information.
-- `/announce` — Post an official community announcement.
-- `/promotion` — Post the current Book 1 promotion.
-- `/publishingupdate` — Post the latest publishing update.
-- `/setup-author-server` — Set up the intended community structure.
+- `/announce` — Post an official community announcement (owner only).
+- `/authorupdate` — Publish an author or creative-project update (owner only).
+- `/giveaway` — Publish a giveaway announcement (owner only; entry tracking is manual).
+- `/promotion` — Post the current Book 1 promotion (owner only).
+- `/publishingupdate` — Post the latest publishing update (owner only).
+- `/readerprompt` — Post a discussion starter (staff only).
+- `/setup-author-server` — Set up the intended community structure (owner only).
 - `/staff` — Open the private staff dashboard.
 - `/apply` — Start a private community application.
 - `/review` — Submit a reader review for a book.
 - `/feedback` — Send private feedback to staff.
+- `/ping` and `/help` — Check bot response and list commands.
 
 ## Reader Reviews
 
