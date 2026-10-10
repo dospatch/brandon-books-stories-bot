@@ -1,0 +1,45 @@
+name: Verify Books & Stories Bot
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Check bot JavaScript syntax
+        run: |
+          set -e
+          for file in src/*.js scripts/*.js; do
+            [ -f "$file" ] || continue
+            echo "Checking $file"
+            node --check "$file"
+          done
+      - name: Validate JSON files
+        run: |
+          node -e "JSON.parse(require('fs').readFileSync('package.json','utf8'))"
+          node -e "JSON.parse(require('fs').readFileSync('website/books.json','utf8'))"
+      - name: Confirm required features exist
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const index = fs.readFileSync('src/index.js', 'utf8');
+          const reviews = fs.readFileSync('src/reviews.js', 'utf8');
+          for (const command of ['staff','review','feedback','apply','books','website','aboutmedia','serverinfo','help']) {
+            if (!index.includes('setName("' + command + '")')) throw new Error('Missing slash command: /' + command);
+          }
+          if (!index.includes('Routes.applicationGuildCommands')) throw new Error('Guild slash-command registration is missing.');
+          if (!index.includes('/reviews/webhook') || !reviews.includes('handleReviewWebhook')) throw new Error('Website review webhook is missing.');
+          console.log('Required commands and website-review bridge are present.');
+          NODE
