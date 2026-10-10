@@ -632,22 +632,6 @@ async function setup(guild){
    title:"📰 Latest Updates",
    description:"Stay up to date with Brandon Books & Stories.\n\n📚 New books and editions\n✍️ Writing and publishing progress\n🎵 Creative projects\n📺 Media and video updates\n❤️ Memories and special projects\n\nMore books. More memories. More of the story. 🔥"
   },
-  "📖・my-life-story-with-grandma":{
-   title:"📖 My Life Story With Grandma",
-   description:"**My Life Story With Grandma — Book 1: Foundations**\n\nThis book is part of Brandon D. Coleman Jr.'s personal storytelling journey, centered around family, memories, life experiences, and the lasting impact of his Grandma.\n\n❤️ Some memories deserve to live beyond us.\n\n🛒 **Book 1:** https://www.amazon.com/dp/B0HL794K8Z\n🌐 **Website:** https://brandon-books-stories-bot-website.vercel.app/"
-  },
-  "📕・part-2":{
-   title:"📕 Part 2 — Continuing the Journey",
-   description:"**My Life Story With Grandma — Part 2: Continuing the Journey, Memories, and the Road Ahead**\n\nPart 2 continues Brandon's storytelling journey with more memories, experiences, reflections, and the road ahead.\n\n📚 Follow this channel for Part 2 information and future updates."
-  },
-  "🛒・where-to-buy":{
-   title:"🛒 Where to Buy",
-   description:"📚 **Brandon D. Coleman Jr. — Books & Stories**\n\n📖 **My Life Story With Grandma — Book 1: Foundations**\nAmazon: https://www.amazon.com/dp/B0HL794K8Z\n\n🌐 Official website: https://brandon-books-stories-bot-website.vercel.app/\n\nAdditional book editions and purchase links will be added as they are confirmed and made available."
-  },
-  "👤・about-brandon":{
-   title:"👤 About Brandon D. Coleman Jr.",
-   description:"Welcome! I'm Brandon D. Coleman Jr., author of the **My Life Story With Grandma** series and creator behind Brandon Books & Stories. This community brings together my books, writing journey, family memories, music, videos, and other creative projects.\n\n📚 **The book series:** Start with Book 1 — Foundations, then continue through Parts 2–5.\n❤️ **Why these stories matter:** Family, memories, life lessons, and the people who shape our lives deserve to be remembered.\n✍️ **What you'll find here:** Publishing updates, behind-the-scenes posts, reader conversations, and new creative work.\n\n🌐 Official website: https://brandon-books-stories-bot-website.vercel.app/\n📸 Instagram: https://www.instagram.com/brandonbooksandstories/\n📘 Facebook: https://www.facebook.com/brandon.d.coleman.books\n\nThank you for being part of the journey. **Real Stories • Bigger Purpose** ❤️"
-  },
   "✍️・writing-journey":{
    title:"✍️ Brandon's Writing Journey",
    description:"Writing is a continuing journey. Brandon D. Coleman Jr. uses storytelling to preserve memories, express ideas, honor family, and connect with readers.\n\n📖 From the first pages to future books, the journey continues one chapter at a time."
@@ -680,10 +664,6 @@ async function setup(guild){
    title:"🎉 Community",
    description:"This is a place to celebrate the Brandon Books & Stories community.\n\n📚 Books\n❤️ Memories\n✍️ Writing\n🎵 Creative projects\n📺 Media\n🤝 Community support\n\nThank you for being part of the journey!"
   },
-  "📖・about-media":{
-   title:"📖 About Brandon Books & Stories Media",
-   description:"This is the official media guide for Brandon D. Coleman Jr. — Books & Stories. Use these links to find book news, videos, social updates, and creative projects.\n\n🌐 **Official website:** https://brandon-books-stories-bot-website.vercel.app/\n📸 **Instagram:** https://www.instagram.com/brandonbooksandstories/\n📘 **Facebook:** https://www.facebook.com/brandon.d.coleman.books\n▶️ **YouTube:** https://youtube.com/@chieifthebcfamily-dispatcher\n\n🎵 Projects include *I Miss You Grandma*, book updates, family memories, writing and publishing progress, and other creative media. Follow the relevant channels in this category for platform-specific updates."
-  },
   "📱・social-media":{
    title:"📱 Social Media Updates",
    description:"Follow Brandon D. Coleman Jr. — Books & Stories across the official media platforms.\n\n📸 Instagram: https://www.instagram.com/brandonbooksandstories/\n📘 Facebook: https://www.facebook.com/brandon.d.coleman.books\n▶️ YouTube: https://youtube.com/@chieifthebcfamily-dispatcher\n🌐 Website: https://brandon-books-stories-bot-website.vercel.app/\n\n📚 Book updates, cover reveals, publishing progress, videos, memories, music, and new creative projects will be shared here.\n\n🤖 When the social bridge is active, supported updates can also be routed automatically."
@@ -712,9 +692,6 @@ async function setup(guild){
    title:"📋 Bot Updates",
    description:"This channel contains automated updates about the Brandon Books & Stories Discord bot, deployments, and system changes.\n\n🔄 Source: GitHub → FadeHost\n🤖 Bot: Brandon Books & Stories"
   },
-   "📘・book-3":{title:"📘 Book 3 — The Journey Continues",description:"**Growing, Building, Remembering, and Looking Ahead**\n\nThis channel is for Book 3 updates and reader conversation. Read after Part 2.\n\n🛒 Purchase information: "+(process.env.BOOK_3_URL||"https://brandon-books-stories-bot-website.vercel.app/")},
-   "📙・book-4":{title:"📙 Part 4 — The Memories We Carry Forward",description:"**A Continuing Journey of Love, Family, Memories, and the Road Ahead**\n\nThis channel is for Part 4 updates and reader conversation. Read after Book 3.\n\n🛒 Purchase information: "+(process.env.BOOK_4_URL||"https://brandon-books-stories-bot-website.vercel.app/")},
-   "📔・book-5":{title:"📔 Part 5 — The Journey Continues",description:"**More Memories, More Lessons, and the Story Still Being Written**\n\nThis channel is for Part 5 updates and reader conversation. Read after Part 4.\n\n🛒 Purchase information: "+(process.env.BOOK_5_URL||"https://brandon-books-stories-bot-website.vercel.app/")},
    "🔒・staff":{title:"🔒 Staff Hub — Private Team Space",description:"Use this private channel for internal coordination, moderation questions, and community planning. Keep member information confidential."},
    "🛠️・staff-logs":{title:"🛠️ Staff Logs",description:"Reserved for factual staff and moderation records. Never share passwords, bot tokens, or unnecessary personal information."},
    "📊・server-logs":{title:"📊 Server Logs",description:"Use this channel for operational events, maintenance notes, and bot status troubleshooting. Never post bot tokens or secrets."}
