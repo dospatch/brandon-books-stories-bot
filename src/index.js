@@ -498,6 +498,71 @@ async function setup(guild){
   }
  }
 
+
+ // Publish/update starter posts in the book channels. Markers allow setup to edit
+ // its own previous post instead of sending duplicates each time.
+ const bookWebsite=(process.env.WEBSITE_URL||"https://brandon-books-stories-bot-website.vercel.app").replace(/\/$/,"");
+ const bookPosts={
+  "📖・my-life-story-with-grandma":{
+   marker:"BBS_BOOK_1_STARTER",
+   title:"📖 Book 1 — Foundations",
+   description:"**My Life Story With Grandma**\n\nWelcome to the beginning of the series. This book lays the foundation for the family memories and the special bond at the heart of the journey. Start here, then continue with Parts 2–5.",
+   fields:[{name:"🛒 Read / Buy",value:"Kindle eBook: https://www.amazon.com/dp/B0HJL27HKR\nPaperback: https://www.amazon.com/dp/B0HL794K8Z\nHardcover and other editions: "+bookWebsite}]
+  },
+  "📕・part-2":{
+   marker:"BBS_BOOK_2_STARTER",
+   title:"📕 Part 2 — Continuing the Journey",
+   description:"**Continuing the Journey, Memories, and the Road Ahead**\n\nWelcome to Part 2. Continue the series with more memories, reflections, and thoughts about the road ahead. Read after Book 1.",
+   fields:[{name:"🛒 Read / Buy",value:process.env.PART_2_URL||("Current editions and purchase links: "+bookWebsite)}]
+  },
+  "📘・book-3":{
+   marker:"BBS_BOOK_3_STARTER",
+   title:"📘 Book 3 — The Journey Continues",
+   description:"**Growing, Building, Remembering, and Looking Ahead**\n\nWelcome to Book 3. This part continues the journey through growth, building, remembering, and looking ahead. Read after Part 2.",
+   fields:[{name:"🛒 Read / Buy",value:process.env.BOOK_3_URL||("Current editions and purchase links: "+bookWebsite)}]
+  },
+  "📙・book-4":{
+   marker:"BBS_BOOK_4_STARTER",
+   title:"📙 Part 4 — The Memories We Carry Forward",
+   description:"**A Continuing Journey of Love, Family, Memories, and the Road Ahead**\n\nWelcome to Part 4. This part focuses on love, family, memories, and the lessons carried forward. Read after Book 3.",
+   fields:[{name:"🛒 Read / Buy",value:process.env.BOOK_4_URL||("Current editions and purchase links: "+bookWebsite)}]
+  },
+  "📔・book-5":{
+   marker:"BBS_BOOK_5_STARTER",
+   title:"📔 Part 5 — The Journey Continues",
+   description:"**More Memories, More Lessons, and the Story Still Being Written**\n\nWelcome to Part 5. Continue in order after Part 4 and follow the story as more memories and lessons are shared.",
+   fields:[{name:"🛒 Read / Buy",value:process.env.BOOK_5_URL||("Current editions and purchase links: "+bookWebsite)}]
+  },
+  "🛒・where-to-buy":{
+   marker:"BBS_WHERE_TO_BUY_STARTER",
+   title:"🛒 Where to Buy — My Life Story With Grandma",
+   description:"Welcome! Use the links below to find the series and current editions. Read the books in order, from Book 1 through Part 5.",
+   fields:[
+    {name:"📖 Book 1 — Foundations",value:"Kindle: https://www.amazon.com/dp/B0HJL27HKR\nPaperback: https://www.amazon.com/dp/B0HL794K8Z\nOther editions: "+bookWebsite},
+    {name:"📕 Part 2 — Continuing the Journey",value:process.env.PART_2_URL||bookWebsite},
+    {name:"📘 Book 3 — The Journey Continues",value:process.env.BOOK_3_URL||bookWebsite},
+    {name:"📙 Part 4 — The Memories We Carry Forward",value:process.env.BOOK_4_URL||bookWebsite},
+    {name:"📔 Part 5 — The Journey Continues",value:process.env.BOOK_5_URL||bookWebsite}
+   ]
+  },
+  "⭐・reader-reviews":{
+   marker:"BBS_READER_REVIEWS_STARTER",
+   title:"⭐ Reader Reviews",
+   description:"Have you read one of Brandon's books? We'd love to hear what stood out to you. Share an honest, respectful review and tell us which part you read. Please do not post private or sensitive information.",
+   fields:[{name:"📝 Share your review",value:"Use the **/review** command if available, or post your review in this channel. Thank you for supporting Brandon D. Coleman Jr. and *My Life Story With Grandma*! ❤️"}]
+  }
+ };
+ for(const [channelName,post] of Object.entries(bookPosts)){
+  const channel=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name===channelName);
+  if(!channel||!channel.isTextBased())continue;
+  const embed=new EmbedBuilder().setTitle(post.title).setDescription(post.description).addFields(post.fields).setColor(0x5865F2).setFooter({text:post.marker});
+  try{
+   const messages=await channel.messages.fetch({limit:50});
+   const existing=messages.find(m=>m.author.id===me.id&&m.embeds.some(e=>e.footer?.text===post.marker));
+   if(existing)await existing.edit({embeds:[embed]});
+   else await channel.send({embeds:[embed]});
+  }catch(e){console.warn("BOOK CHANNEL STARTER POST WARNING:",explainDiscordError(e,"posting to "+channelName));}
+ }
  // Duplicate-channel deletion is intentionally disabled. Existing server channels are preserved.
 
  // Keep the intended category order.
