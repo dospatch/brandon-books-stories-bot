@@ -82,7 +82,8 @@ const commands=[
  new SlashCommandBuilder().setName("apply").setDescription("Submit a private Books & Stories community application."),
  new SlashCommandBuilder().setName("review").setDescription("Submit a reader review for one of Brandon's books."),
  new SlashCommandBuilder().setName("feedback").setDescription("Send private feedback to the Books & Stories staff."),
- new SlashCommandBuilder().setName("staff").setDescription("Open the private staff dashboard and staff tools.")
+ new SlashCommandBuilder().setName("staff").setDescription("Open the private staff dashboard and staff tools."),
+ new SlashCommandBuilder().setName("readerprompt").setDescription("Post a reader discussion prompt in the book club.")
 ].map(x=>x.toJSON());
 
 const structure={
@@ -844,7 +845,7 @@ client.on("interactionCreate",async i=>{
    }
    return;
   }
-  if(i.commandName==="help")return i.reply({embeds:[new EmbedBuilder().setTitle("📖 Brandon Books & Stories").setDescription("**Community & Information**\n📚 `/books` — View the books and purchase links\n🌐 `/website` — Open the author website\n📖 `/about` — Learn about Brandon & Books & Stories\n📖 `/aboutmedia` — Show official media links\n💬 `/community` — See community activities\n🖥️ `/serverinfo` — View server information\n\n**Community**\n⭐ `/review` — Submit a reader review\n🌐 **Website reviews** — Reviews submitted on the website automatically post to ⭐・reader-reviews\n💡 `/feedback` — Send private feedback to staff\n📋 `/apply` — Submit a private application\n\n**Staff & Setup**\n🔒 `/staff` — Open the private staff dashboard *(staff only)*\n🛠️ `/setup-author-server` — Repair the server structure *(owner/setup only)*\n📢 `/promotion` — Post the current Book 1 promotion *(owner only)*\n📚 `/publishingupdate` — Post the latest publishing status update *(owner only)*\n\n**Bot**\n🏓 `/ping` — Check bot response\n❓ `/help` — Show this help menu").setFooter({text:"📖 Real Stories • Bigger Purpose"})],flags:MessageFlags.Ephemeral});
+  if(i.commandName==="help")return i.reply({embeds:[new EmbedBuilder().setTitle("📖 Brandon Books & Stories").setDescription("**Community & Information**\n📚 `/books` — View the books and purchase links\n🌐 `/website` — Open the author website\n📖 `/about` — Learn about Brandon & Books & Stories\n📖 `/aboutmedia` — Show official media links\n💬 `/community` — See community activities\n🖥️ `/serverinfo` — View server information\n\n**Community**\n⭐ `/review` — Submit a reader review\n🌐 **Website reviews** — Reviews submitted on the website automatically post to ⭐・reader-reviews\n💡 `/feedback` — Send private feedback to staff\n📋 `/apply` — Submit a private application\n\n**Staff & Setup**\n🔒 `/staff` — Open the private staff dashboard *(staff only)*\n📚 `/readerprompt` — Post a reader discussion starter *(staff only)*\n🛠️ `/setup-author-server` — Repair the server structure *(owner/setup only)*\n📢 `/promotion` — Post the current Book 1 promotion *(owner only)*\n📚 `/publishingupdate` — Post the latest publishing status update *(owner only)*\n\n**Bot**\n🏓 `/ping` — Check bot response\n❓ `/help` — Show this help menu").setFooter({text:"📖 Real Stories • Bigger Purpose"})],flags:MessageFlags.Ephemeral});
   if(i.commandName==="books"){
    const embed=new EmbedBuilder()
     .setTitle("📚 Brandon D. Coleman Jr. — Books")
@@ -884,6 +885,29 @@ client.on("interactionCreate",async i=>{
     )
     .setFooter({text:"Brandon D. Coleman Jr. — Books & Stories"});
    return i.reply({embeds:[embed],flags:MessageFlags.Ephemeral});
+  }
+  if(i.commandName==="readerprompt"){
+   const staffRoles=["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team"];
+   const isStaff=allowed(i)||i.member?.roles?.cache?.some(r=>staffRoles.includes(r.name));
+   if(!isStaff)return i.reply({content:"🔒 Only the owner or staff can post an official reader prompt.",flags:MessageFlags.Ephemeral});
+   const channel=i.guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name==="📚・book-discussion");
+   if(!channel)return i.reply({content:"❌ The 📚・book-discussion channel could not be found.",flags:MessageFlags.Ephemeral});
+   const prompts=[
+    "What is one family memory you believe deserves to be remembered for generations?",
+    "What lesson has someone in your family taught you that you still carry today?",
+    "When you read a personal story, what helps you connect with the author?",
+    "What makes a book feel meaningful to you long after you finish reading it?",
+    "If you could preserve one ordinary moment from your life as a written story, which moment would you choose?",
+    "How can stories help families remember the people and experiences that shaped them?",
+    "What do you enjoy most about reading stories based on real life and memories?",
+    "What is a lesson about love, patience, or perseverance that life has taught you?",
+    "What would you tell someone who wants to start writing their own life story?",
+    "Which themes make you want to keep talking about a book after you finish it?"
+   ];
+   const prompt=prompts[Math.floor(Math.random()*prompts.length)];
+   const embed=new EmbedBuilder().setTitle("📚 Reader Discussion Prompt").setDescription(prompt+"\n\n💬 Share only what you feel comfortable sharing, and be respectful of other readers’ experiences.").setColor(0x2ECC71).setFooter({text:"Brandon Books & Stories • 📖 Real Stories • Bigger Purpose"}).setTimestamp();
+   await channel.send({embeds:[embed]});
+   return i.reply({content:"✅ Reader discussion prompt posted in <#"+channel.id+">.",flags:MessageFlags.Ephemeral});
   }
   if(i.commandName==="community")return i.reply({embeds:[new EmbedBuilder()
    .setTitle("💬 Brandon Books & Stories Community")
