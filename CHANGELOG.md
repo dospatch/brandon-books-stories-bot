@@ -1,3 +1,17 @@
+## October 10, 2026
+
+### Added
+- Expanded `/books` to cover Books 1–5 and direct readers to the official website for current edition availability.
+- Added `/recommend` for theme-based reading recommendations.
+- Added owner-only `/giveaway` announcements with prize, entry instructions, and closing date/time.
+- Added owner-only `/authorupdate` for author and creative-project announcements.
+- Updated `/help` and the README command list.
+- Preserved the existing welcome flow, reader reviews, private feedback, applications, staff tools, social bridge, publishing monitor, and server logging.
+
+### Notes
+- Giveaway announcements do not automatically collect entries or select a winner; those steps remain manual and must follow the posted rules.
+- Book purchase links beyond the verified Book 1 links direct readers to the official website rather than guessing individual Amazon links.
+
 ## October 7, 2026
 
 ### Added
