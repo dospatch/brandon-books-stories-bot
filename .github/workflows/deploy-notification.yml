@@ -50,6 +50,7 @@ jobs:
           PY
 
       - name: Publish changelog update
+        continue-on-error: true
         env:
           CHANGELOG_WEBHOOK: ${{ secrets.DISCORD_CHANGELOG_WEBHOOK_URL }}
           MESSAGE: ${{ github.event.head_commit.message }}
