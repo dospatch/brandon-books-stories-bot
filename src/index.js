@@ -333,7 +333,6 @@ async function setup(guild){
  // STAFF is private to Owner/Admin/Moderator/Author Team plus the bot.
  const categoryPublicReadOnly=new Set(["📌 START HERE","📚 BOOKS","✍️ THE AUTHOR","📺 MEDIA"]);
  const categoryPublicInteractive=new Set(["💬 COMMUNITY"]);
- await cleanupDuplicateStructure(guild,me);
 
  const categoryMap={};
  for(const [catName,names] of Object.entries(structure)){
@@ -355,29 +354,6 @@ async function setup(guild){
   }
   categoryMap[catName]=cat;
 
-  if(matchingCategories.size>1){
-   for(const duplicate of matchingCategories.values()){
-    if(duplicate.id===cat.id)continue;
-    const duplicateChannels=guild.channels.cache.filter(x=>x.type===ChannelType.GuildText&&x.parentId===duplicate.id);
-    for(const duplicateChannel of duplicateChannels.values()){
-     const target=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name===duplicateChannel.name&&x.parentId===cat.id);
-     try{
-      if(target){
-       await duplicateChannel.delete("Books & Stories duplicate channel cleanup");
-      }else{
-       await duplicateChannel.setParent(cat.id,{lockPermissions:false,reason:"Books & Stories duplicate category cleanup"});
-      }
-     }catch(e){
-      console.warn("DUPLICATE CHANNEL CLEANUP WARNING:",explainDiscordError(e,"cleaning duplicate channel "+duplicateChannel.name));
-     }
-    }
-    try{
-     if(duplicate.deletable)await duplicate.delete("Books & Stories duplicate category cleanup");
-    }catch(e){
-     console.warn("DUPLICATE CATEGORY CLEANUP WARNING:",explainDiscordError(e,"cleaning duplicate category "+catName));
-    }
-   }
-  }
 
   // Reconcile category visibility and staff access every time setup runs.
   if(catName==="🔒 STAFF"){
