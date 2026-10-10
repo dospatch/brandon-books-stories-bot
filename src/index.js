@@ -644,6 +644,10 @@ async function setup(guild){
    title:"🛒 Where to Buy",
    description:"📚 **Brandon D. Coleman Jr. — Books & Stories**\n\n📖 **My Life Story With Grandma — Book 1: Foundations**\nAmazon: https://www.amazon.com/dp/B0HL794K8Z\n\n🌐 Official website: https://brandon-books-stories-bot-website.vercel.app/\n\nAdditional book editions and purchase links will be added as they are confirmed and made available."
   },
+  "👤・about-brandon":{
+   title:"👤 About Brandon D. Coleman Jr.",
+   description:"Welcome! I'm Brandon D. Coleman Jr., author of the **My Life Story With Grandma** series and creator behind Brandon Books & Stories. This community brings together my books, writing journey, family memories, music, videos, and other creative projects.\n\n📚 **The book series:** Start with Book 1 — Foundations, then continue through Parts 2–5.\n❤️ **Why these stories matter:** Family, memories, life lessons, and the people who shape our lives deserve to be remembered.\n✍️ **What you'll find here:** Publishing updates, behind-the-scenes posts, reader conversations, and new creative work.\n\n🌐 Official website: https://brandon-books-stories-bot-website.vercel.app/\n📸 Instagram: https://www.instagram.com/brandonbooksandstories/\n📘 Facebook: https://www.facebook.com/brandon.d.coleman.books\n\nThank you for being part of the journey. **Real Stories • Bigger Purpose** ❤️"
+  },
   "✍️・writing-journey":{
    title:"✍️ Brandon's Writing Journey",
    description:"Writing is a continuing journey. Brandon D. Coleman Jr. uses storytelling to preserve memories, express ideas, honor family, and connect with readers.\n\n📖 From the first pages to future books, the journey continues one chapter at a time."
@@ -675,6 +679,10 @@ async function setup(guild){
   "🎉・community":{
    title:"🎉 Community",
    description:"This is a place to celebrate the Brandon Books & Stories community.\n\n📚 Books\n❤️ Memories\n✍️ Writing\n🎵 Creative projects\n📺 Media\n🤝 Community support\n\nThank you for being part of the journey!"
+  },
+  "📖・about-media":{
+   title:"📖 About Brandon Books & Stories Media",
+   description:"This is the official media guide for Brandon D. Coleman Jr. — Books & Stories. Use these links to find book news, videos, social updates, and creative projects.\n\n🌐 **Official website:** https://brandon-books-stories-bot-website.vercel.app/\n📸 **Instagram:** https://www.instagram.com/brandonbooksandstories/\n📘 **Facebook:** https://www.facebook.com/brandon.d.coleman.books\n▶️ **YouTube:** https://youtube.com/@chieifthebcfamily-dispatcher\n\n🎵 Projects include *I Miss You Grandma*, book updates, family memories, writing and publishing progress, and other creative media. Follow the relevant channels in this category for platform-specific updates."
   },
   "📱・social-media":{
    title:"📱 Social Media Updates",
