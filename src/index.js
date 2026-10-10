@@ -703,7 +703,13 @@ async function setup(guild){
   "📋・bot-updates":{
    title:"📋 Bot Updates",
    description:"This channel contains automated updates about the Brandon Books & Stories Discord bot, deployments, and system changes.\n\n🔄 Source: GitHub → FadeHost\n🤖 Bot: Brandon Books & Stories"
-  }
+  },
+   "📘・book-3":{title:"📘 Book 3 — The Journey Continues",description:"**Growing, Building, Remembering, and Looking Ahead**\n\nThis channel is for Book 3 updates and reader conversation. Read after Part 2.\n\n🛒 Purchase information: "+(process.env.BOOK_3_URL||"https://brandon-books-stories-bot-website.vercel.app/")},
+   "📙・book-4":{title:"📙 Part 4 — The Memories We Carry Forward",description:"**A Continuing Journey of Love, Family, Memories, and the Road Ahead**\n\nThis channel is for Part 4 updates and reader conversation. Read after Book 3.\n\n🛒 Purchase information: "+(process.env.BOOK_4_URL||"https://brandon-books-stories-bot-website.vercel.app/")},
+   "📔・book-5":{title:"📔 Part 5 — The Journey Continues",description:"**More Memories, More Lessons, and the Story Still Being Written**\n\nThis channel is for Part 5 updates and reader conversation. Read after Part 4.\n\n🛒 Purchase information: "+(process.env.BOOK_5_URL||"https://brandon-books-stories-bot-website.vercel.app/")},
+   "🔒・staff":{title:"🔒 Staff Hub — Private Team Space",description:"Use this private channel for internal coordination, moderation questions, and community planning. Keep member information confidential."},
+   "🛠️・staff-logs":{title:"🛠️ Staff Logs",description:"Reserved for factual staff and moderation records. Never share passwords, bot tokens, or unnecessary personal information."},
+   "📊・server-logs":{title:"📊 Server Logs",description:"Use this channel for operational events, maintenance notes, and bot status troubleshooting. Never post bot tokens or secrets."}
  };
  for(const [channelName,data] of Object.entries(channelContent)){
   const channel=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name===channelName);
