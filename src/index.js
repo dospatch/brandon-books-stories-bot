@@ -91,7 +91,7 @@ const commands=[
 
 const structure={
 "📌 START HERE":["👋・welcome","📜・rules","📢・announcements","📰・latest-updates"],
-"📚 BOOKS":["📖・my-life-story-with-grandma","📕・part-2","🛒・where-to-buy","⭐・reader-reviews"],
+"📚 BOOKS":["📖・my-life-story-with-grandma","📕・part-2","📘・book-3","📙・book-4","📔・book-5","🛒・where-to-buy","⭐・reader-reviews"],
 "✍️ THE AUTHOR":["👤・about-brandon","✍️・writing-journey","🌅・family-and-memories","📸・behind-the-books"],
 "💬 COMMUNITY":["💬・general","📚・book-discussion","❤️・memories","💡・reader-ideas","🎉・community"],
 "📺 MEDIA":["📖・about-media","📱・social-media","▶️・youtube","📸・instagram","📘・facebook","🎵・music-projects"],
@@ -289,7 +289,7 @@ async function setup(guild){
  const staffRoleNames=["👑 Owner","🛠️ Administrator","🛡️ Moderator","✍️ Author Team"];
  const readOnlyChannels=new Set([
   "👋・welcome","📜・rules","📢・announcements","📰・latest-updates",
-  "📖・my-life-story-with-grandma","📕・part-2","🛒・where-to-buy",
+  "📖・my-life-story-with-grandma","📕・part-2","📘・book-3","📙・book-4","📔・book-5","🛒・where-to-buy",
   "👤・about-brandon","✍️・writing-journey","🌅・family-and-memories","📸・behind-the-books",
   "📖・about-media","▶️・youtube","📸・instagram","📘・facebook","🎵・music-projects",
   "📋・bot-updates"
@@ -827,21 +827,23 @@ client.on("interactionCreate",async i=>{
   }
   if(i.commandName==="help")return i.reply({embeds:[new EmbedBuilder().setTitle("📖 Brandon Books & Stories").setDescription("**Books & Author**\n📚 `/books` — Browse the five-book series and official purchase information\n💡 `/recommend` — Get a recommendation by theme\n🌐 `/website` — Open the author website\n📖 `/about` — Learn about Brandon & Books & Stories\n📱 `/aboutmedia` — Official media links\n💬 `/community` — Community activities\n\n**Reader Community**\n⭐ `/review` — Submit a reader review\n💡 `/feedback` — Send private feedback to staff\n📋 `/apply` — Submit a private application\n🎲 `/giveaway` — Official giveaway announcement *(owner only)*\n\n**Updates & Staff**\n📢 `/authorupdate` — Share an author or creative-project update *(owner only)*\n📢 `/announce` — Post a general announcement *(owner only)*\n📚 `/promotion` — Post the Book 1 promotion *(owner only)*\n📰 `/publishingupdate` — Post publishing progress *(owner only)*\n🔒 `/staff` — Private staff dashboard\n📚 `/readerprompt` — Post a discussion starter *(staff only)*\n🛠️ `/setup-author-server` — Repair server structure *(owner only)*\n\n**Reliability**\n🏓 `/ping` — Check that the bot is responding\n🖥️ `/serverinfo` — View server information\n❓ `/help` — Show this help menu").setFooter({text:"📖 Real Stories • Bigger Purpose"})],flags:MessageFlags.Ephemeral});
   if(i.commandName==="books"){
-   const embed=new EmbedBuilder()
-    .setTitle("📚 Brandon D. Coleman Jr. — My Life Story With Grandma (Books 1–5)")
-    .setDescription("Explore the complete five-part journey of family, memories, growth, lessons, and the story still being written. Use the official website for the latest edition availability and purchase links.")
-    .addFields(
-     {name:"📖 Book 1 — Foundations",value:"**My Life Story With Grandma**\n🟢 Kindle eBook: https://www.amazon.com/dp/B0HJL27HKR\n🟢 Paperback: https://www.amazon.com/dp/B0HL794K8Z\n🌐 Hardcover and current listing details: https://brandon-books-stories-bot-website.vercel.app/"},
-     {name:"📕 Part 2 — Continuing the Journey",value:"**Continuing the Journey, Memories, and the Road Ahead**\n"+(process.env.PART_2_URL||"Check the official website for current editions and purchase links.")},
-     {name:"📘 Book 3 — The Journey Continues",value:"**Growing, Building, Remembering, and Looking Ahead**\n🌐 https://brandon-books-stories-bot-website.vercel.app/"},
-     {name:"📙 Part 4 — The Memories We Carry Forward",value:"**A Continuing Journey of Love, Family, Memories, and the Road Ahead**\n🌐 https://brandon-books-stories-bot-website.vercel.app/"},
-     {name:"📔 Part 5 — The Journey Continues",value:"**More Memories, More Lessons, and the Story Still Being Written**\n🌐 https://brandon-books-stories-bot-website.vercel.app/"},
-     {name:"❤️ Reading the Series",value:"For the best reading order, start with Book 1 and continue through Parts 2, 3, 4, and 5. Edition availability can change, so use the official website for the latest confirmed links."}
-    )
-    .setFooter({text:"📖 Real Stories • Bigger Purpose"});
-   return i.reply({embeds:[embed]});
-  }
-  if(i.commandName==="recommend"){
+    const website=(process.env.WEBSITE_URL||"https://brandon-books-stories-bot-website.vercel.app").replace(/\/$/,"");
+    const purchase=(key)=>process.env[key]||website;
+    const embed=new EmbedBuilder()
+     .setTitle("📚 Brandon D. Coleman Jr. — My Life Story With Grandma (Books 1–5)")
+     .setDescription("Explore the five-part journey in reading order. Each entry includes direct Amazon links where verified, plus the official website for the latest edition availability and other retailer links.")
+     .addFields(
+      {name:"📖 Book 1 — Foundations",value:"**My Life Story With Grandma**\n🟢 Kindle eBook: https://www.amazon.com/dp/B0HJL27HKR\n🟢 Paperback: https://www.amazon.com/dp/B0HL794K8Z\n🌐 Hardcover / other editions: "+website},
+      {name:"📕 Part 2 — Continuing the Journey",value:"**Continuing the Journey, Memories, and the Road Ahead**\n🛒 Purchase / edition links: "+purchase("PART_2_URL")},
+      {name:"📘 Book 3 — The Journey Continues",value:"**Growing, Building, Remembering, and Looking Ahead**\n🛒 Purchase / edition links: "+purchase("BOOK_3_URL")},
+      {name:"📙 Part 4 — The Memories We Carry Forward",value:"**A Continuing Journey of Love, Family, Memories, and the Road Ahead**\n🛒 Purchase / edition links: "+purchase("BOOK_4_URL")},
+      {name:"📔 Part 5 — The Journey Continues",value:"**More Memories, More Lessons, and the Story Still Being Written**\n🛒 Purchase / edition links: "+purchase("BOOK_5_URL")},
+      {name:"❤️ Reading the Series",value:"For the best reading order, start with Book 1 and continue through Parts 2, 3, 4, and 5. Set PART_2_URL, BOOK_3_URL, BOOK_4_URL, and BOOK_5_URL in the bot host environment to show each book's direct retailer listing; otherwise the official website is shown."}
+     )
+     .setFooter({text:"📖 Real Stories • Bigger Purpose"});
+    return i.reply({embeds:[embed]});
+   }
+   if(i.commandName==="recommend"){
    const theme=i.options.getString("theme")||"any";
    const picks={
     family:{title:"📖 Start with Book 1 — Foundations",description:"A good starting point for readers interested in family, memories, and the bond between a grandson and his grandmother. Begin at the start of the series, then continue in order."},
