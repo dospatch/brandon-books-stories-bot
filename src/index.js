@@ -83,7 +83,10 @@ const commands=[
  new SlashCommandBuilder().setName("review").setDescription("Submit a reader review for one of Brandon's books."),
  new SlashCommandBuilder().setName("feedback").setDescription("Send private feedback to the Books & Stories staff."),
  new SlashCommandBuilder().setName("staff").setDescription("Open the private staff dashboard and staff tools."),
- new SlashCommandBuilder().setName("readerprompt").setDescription("Post a reader discussion prompt in the book club.")
+ new SlashCommandBuilder().setName("readerprompt").setDescription("Post a reader discussion prompt in the book club."),
+ new SlashCommandBuilder().setName("recommend").setDescription("Get a book recommendation from the My Life Story With Grandma series.").addStringOption(o=>o.setName("theme").setDescription("What kind of story or theme interests you?").setRequired(false).addChoices({name:"Family and memories",value:"family"},{name:"Life lessons and growth",value:"growth"},{name:"The continuing journey",value:"journey"},{name:"Any book in the series",value:"any"})),
+ new SlashCommandBuilder().setName("giveaway").setDescription("Post an official giveaway announcement.").addStringOption(o=>o.setName("prize").setDescription("What readers can win").setRequired(true).setMaxLength(150)).addStringOption(o=>o.setName("details").setDescription("How to enter and any rules").setRequired(true).setMaxLength(900)).addStringOption(o=>o.setName("ends").setDescription("Giveaway closing date/time and timezone").setRequired(true).setMaxLength(100)),
+ new SlashCommandBuilder().setName("authorupdate").setDescription("Post an author or creative-project update.").addStringOption(o=>o.setName("title").setDescription("Update headline").setRequired(true).setMaxLength(200)).addStringOption(o=>o.setName("message").setDescription("The update to share with the community").setRequired(true).setMaxLength(3000))
 ].map(x=>x.toJSON());
 
 const structure={
@@ -822,18 +825,57 @@ client.on("interactionCreate",async i=>{
    }
    return;
   }
-  if(i.commandName==="help")return i.reply({embeds:[new EmbedBuilder().setTitle("📖 Brandon Books & Stories").setDescription("**Community & Information**\n📚 `/books` — View the books and purchase links\n🌐 `/website` — Open the author website\n📖 `/about` — Learn about Brandon & Books & Stories\n📖 `/aboutmedia` — Show official media links\n💬 `/community` — See community activities\n🖥️ `/serverinfo` — View server information\n\n**Community**\n⭐ `/review` — Submit a reader review\n🌐 **Website reviews** — Reviews submitted on the website automatically post to ⭐・reader-reviews\n💡 `/feedback` — Send private feedback to staff\n📋 `/apply` — Submit a private application\n\n**Staff & Setup**\n🔒 `/staff` — Open the private staff dashboard *(staff only)*\n📚 `/readerprompt` — Post a reader discussion starter *(staff only)*\n🛠️ `/setup-author-server` — Repair the server structure *(owner/setup only)*\n📢 `/promotion` — Post the current Book 1 promotion *(owner only)*\n📚 `/publishingupdate` — Post the latest publishing status update *(owner only)*\n\n**Bot**\n🏓 `/ping` — Check bot response\n❓ `/help` — Show this help menu").setFooter({text:"📖 Real Stories • Bigger Purpose"})],flags:MessageFlags.Ephemeral});
+  if(i.commandName==="help")return i.reply({embeds:[new EmbedBuilder().setTitle("📖 Brandon Books & Stories").setDescription("**Books & Author**\n📚 `/books` — Browse the five-book series and official purchase information\n💡 `/recommend` — Get a recommendation by theme\n🌐 `/website` — Open the author website\n📖 `/about` — Learn about Brandon & Books & Stories\n📱 `/aboutmedia` — Official media links\n💬 `/community` — Community activities\n\n**Reader Community**\n⭐ `/review` — Submit a reader review\n💡 `/feedback` — Send private feedback to staff\n📋 `/apply` — Submit a private application\n🎲 `/giveaway` — Official giveaway announcement *(owner only)*\n\n**Updates & Staff**\n📢 `/authorupdate` — Share an author or creative-project update *(owner only)*\n📢 `/announce` — Post a general announcement *(owner only)*\n📚 `/promotion` — Post the Book 1 promotion *(owner only)*\n📰 `/publishingupdate` — Post publishing progress *(owner only)*\n🔒 `/staff` — Private staff dashboard\n📚 `/readerprompt` — Post a discussion starter *(staff only)*\n🛠️ `/setup-author-server` — Repair server structure *(owner only)*\n\n**Reliability**\n🏓 `/ping` — Check that the bot is responding\n🖥️ `/serverinfo` — View server information\n❓ `/help` — Show this help menu").setFooter({text:"📖 Real Stories • Bigger Purpose"})],flags:MessageFlags.Ephemeral});
   if(i.commandName==="books"){
    const embed=new EmbedBuilder()
-    .setTitle("📚 Brandon D. Coleman Jr. — Books")
-    .setDescription("Explore the books, stories, memories, and continuing journey behind **Brandon Books & Stories**.")
+    .setTitle("📚 Brandon D. Coleman Jr. — My Life Story With Grandma (Books 1–5)")
+    .setDescription("Explore the complete five-part journey of family, memories, growth, lessons, and the story still being written. Use the official website for the latest edition availability and purchase links.")
     .addFields(
-     {name:"📖 My Life Story With Grandma — Book 1: Foundations",value:"🟢 Kindle eBook — LIVE ($5.99): https://www.amazon.com/dp/B0HJL27HKR\n🟢 Paperback — LIVE ($20.00): https://www.amazon.com/dp/B0HL794K8Z\n🟢 Hardcover — LIVE (October 6, 2026)."},
-     {name:"📕 Part 2",value:"**My Life Story With Grandma — Part 2: Continuing the Journey, Memories, and the Road Ahead**\\n"+(process.env.PART_2_URL||"Purchase link coming soon.")},
-     {name:"❤️ The Heart Behind the Books",value:"These books are part of a larger journey of family, memories, storytelling, and preserving meaningful moments."}
+     {name:"📖 Book 1 — Foundations",value:"**My Life Story With Grandma**\n🟢 Kindle eBook: https://www.amazon.com/dp/B0HJL27HKR\n🟢 Paperback: https://www.amazon.com/dp/B0HL794K8Z\n🌐 Hardcover and current listing details: https://brandon-books-stories-bot-website.vercel.app/"},
+     {name:"📕 Part 2 — Continuing the Journey",value:"**Continuing the Journey, Memories, and the Road Ahead**\n"+(process.env.PART_2_URL||"Check the official website for current editions and purchase links.")},
+     {name:"📘 Book 3 — The Journey Continues",value:"**Growing, Building, Remembering, and Looking Ahead**\n🌐 https://brandon-books-stories-bot-website.vercel.app/"},
+     {name:"📙 Part 4 — The Memories We Carry Forward",value:"**A Continuing Journey of Love, Family, Memories, and the Road Ahead**\n🌐 https://brandon-books-stories-bot-website.vercel.app/"},
+     {name:"📔 Part 5 — The Journey Continues",value:"**More Memories, More Lessons, and the Story Still Being Written**\n🌐 https://brandon-books-stories-bot-website.vercel.app/"},
+     {name:"❤️ Reading the Series",value:"For the best reading order, start with Book 1 and continue through Parts 2, 3, 4, and 5. Edition availability can change, so use the official website for the latest confirmed links."}
     )
     .setFooter({text:"📖 Real Stories • Bigger Purpose"});
    return i.reply({embeds:[embed]});
+  }
+  if(i.commandName==="recommend"){
+   const theme=i.options.getString("theme")||"any";
+   const picks={
+    family:{title:"📖 Start with Book 1 — Foundations",description:"A good starting point for readers interested in family, memories, and the bond between a grandson and his grandmother. Begin at the start of the series, then continue in order."},
+    growth:{title:"📘 Explore Book 3 — The Journey Continues",description:"For readers drawn to growth, building, remembering, and looking ahead, Book 3 is described around those continuing-life themes. For the full story arc, read the series in order."},
+    journey:{title:"📕 Continue with Part 2",description:"Part 2 continues the journey through memories, experiences, and the road ahead. It follows Book 1, so start with Foundations if you have not read it yet."},
+    any:{title:"❤️ A five-part story journey",description:"Start with Book 1 — Foundations, then continue through Part 2, Book 3, Part 4, and Part 5. The series follows family, memories, growth, lessons, and a story that is still being written."}
+   };
+   const pick=picks[theme]||picks.any;
+   const embed=new EmbedBuilder().setTitle(pick.title).setDescription(pick.description+"\n\n🌐 **Official website and current book links:** https://brandon-books-stories-bot-website.vercel.app/").setFooter({text:"Brandon D. Coleman Jr. — Books & Stories • 📖 Real Stories • Bigger Purpose"});
+   return i.reply({embeds:[embed],flags:MessageFlags.Ephemeral});
+  }
+  if(i.commandName==="giveaway"){
+   if(!allowed(i))return i.reply({content:"🔒 Only the server owner or configured bot owner can post official giveaway announcements.",flags:MessageFlags.Ephemeral});
+   const channel=i.guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name==="📢・announcements");
+   if(!channel)return i.reply({content:"❌ The 📢・announcements channel could not be found.",flags:MessageFlags.Ephemeral});
+   const prize=i.options.getString("prize",true).trim();
+   const details=i.options.getString("details",true).trim();
+   const ends=i.options.getString("ends",true).trim();
+   const embed=new EmbedBuilder().setTitle("🎁 Brandon Books & Stories Giveaway").setDescription("A community giveaway is here! ❤️\n\n**🎁 Prize**\n"+prize+"\n\n**📋 How to enter and rules**\n"+details+"\n\n**⏰ Closing date/time**\n"+ends+"\n\nPlease follow the entry instructions above. The host will announce the winner after entries close.").setFooter({text:"Brandon D. Coleman Jr. — Books & Stories • Official Giveaway"}).setTimestamp();
+   await i.deferReply({flags:MessageFlags.Ephemeral});
+   await channel.send({content:"🎁 **COMMUNITY GIVEAWAY — READ THE DETAILS BELOW!**",embeds:[embed]});
+   return i.editReply("✅ Giveaway announcement posted in <#"+channel.id+">. This command publishes the announcement; entries and winner selection must be managed using the rules you provide.");
+  }
+  if(i.commandName==="authorupdate"){
+   if(!allowed(i))return i.reply({content:"🔒 Only the server owner or configured bot owner can post official author updates.",flags:MessageFlags.Ephemeral});
+   const channel=i.guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name==="📰・latest-updates")||i.guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name==="📢・announcements");
+   if(!channel)return i.reply({content:"❌ The latest-updates and announcements channels could not be found.",flags:MessageFlags.Ephemeral});
+   const title=i.options.getString("title",true).trim();
+   const message=i.options.getString("message",true).trim();
+   const embed=new EmbedBuilder().setTitle("✍️ "+title).setDescription(message+"\n\n🌐 https://brandon-books-stories-bot-website.vercel.app/").setFooter({text:"Brandon D. Coleman Jr. — Books & Stories • 📖 Real Stories • Bigger Purpose"}).setTimestamp();
+   await i.deferReply({flags:MessageFlags.Ephemeral});
+   await channel.send({content:"📢 **Author & Creative Update**",embeds:[embed]});
+   await logServerEvent(i.guild,"✍️ Author Update Posted","**Posted by:** <@"+i.user.id+">\n**Title:** "+title,0x5865F2);
+   return i.editReply("✅ Author update posted in <#"+channel.id+">.");
   }
   if(i.commandName==="about")return i.reply({embeds:[new EmbedBuilder()
    .setTitle("📖 Brandon Books & Stories")
