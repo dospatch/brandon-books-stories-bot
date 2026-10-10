@@ -28,7 +28,7 @@ let discordReady=false;
 let amazonMonitorState="";
 async function checkAmazonPublishingUpdates(){
  try{
-  const response=await fetch((process.env.WEBSITE_URL||"https://brandon-books-stories-bot-website.vercel.app")+"/books.json?ts="+Date.now(),{headers:{"User-Agent":"Brandon-Books-Stories-Bot/1.0"}});
+  const response=await fetch((process.env.WEBSITE_URL||"https://brandon-books-stories-bot-website-3n7hbjx9r-dospatchs-projects.vercel.app")+"/books.json?ts="+Date.now(),{headers:{"User-Agent":"Brandon-Books-Stories-Bot/1.0"}});
   if(!response.ok)return;
   const data=await response.json();
   const snapshot=JSON.stringify((data.books||[]).map(b=>({id:b.id,availability:b.amazonCheck?.availability||"not checked",url:b.amazon?.url||""})));
