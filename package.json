@@ -1,1 +1,17 @@
-{"name":"brandon-books-stories-bot","version":"1.0.0","private":true,"description":"Discord bot for Brandon D. Coleman Jr. — Books & Stories.","main":"src/index.js","scripts":{"start":"node src/index.js"},"engines":{"node":">=20"},"dependencies":{"discord.js":"^14.22.1","dotenv":"^17.2.2"}}
+{
+  "name": "brandon-books-stories-bot",
+  "version": "1.0.1",
+  "private": true,
+  "description": "Discord bot for Brandon D. Coleman Jr. — Books & Stories.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "discord.js": "^14.22.1",
+    "dotenv": "^17.2.2"
+  }
+}
