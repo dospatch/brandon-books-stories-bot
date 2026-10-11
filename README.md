@@ -62,6 +62,12 @@ The `/review` system lets readers select a book and submit a 1–5 rating, writt
 
 Website reviews use the Vercel `/api/review` endpoint and are forwarded to the running Discord bot's `/reviews/webhook` endpoint, where they are posted automatically in `⭐・reader-reviews`.
 
+## Amazon Review Alerts
+
+The bot accepts authenticated review-alert events at `POST /amazon-reviews/webhook` and posts them to `⭐・amazon-reviews`. Configure `AMAZON_REVIEW_WEBHOOK_SECRET` in the hosting environment and send it as the `x-amazon-review-secret` header. Payload fields: `book` (required), `rating` (1–5), `url` (HTTPS public Amazon review/listing URL), and optional `reviewerName`, `title`, `review`, `asin`, `date`, and `id`. Duplicate events are suppressed using the supplied review ID or URL.
+
+**Important:** This webhook is the Discord delivery endpoint, not an Amazon review feed. Amazon's Customer Feedback API provides aggregated review-topic insights rather than a general real-time feed of individual public reviews. Connect a permitted review-monitoring source that can send webhooks before expecting automatic detections. Only include reviewer information publicly displayed by Amazon; do not send private personal data.
+
 ## Deployment Verification
 
 The production bot registers its slash commands directly to the Brandon Books & Stories guild on startup. The current command set includes `/staff`, and the website review bridge is configured for automatic delivery to Discord.
