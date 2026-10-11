@@ -17,7 +17,7 @@ require("dotenv").config();
 const {Client,GatewayIntentBits,ChannelType,EmbedBuilder,ActivityType,REST,Routes,SlashCommandBuilder,PermissionFlagsBits,MessageFlags}=require("discord.js");
 const {applicationMenu,handleApplicationInteraction}=require("./applications");
 const {reviewMenu,feedbackModal,handleReviewInteraction,handleReviewWebhook}=require("./reviews");
-const {handleAmazonReviewWebhook}=require("./amazonReviews");
+const {handleAmazonReviewWebhook,postAmazonReview}=require("./amazonReviews");
 const {handleSocialWebhook}=require("./socialFeed");
 const {startMetricoolBridge}=require("./metricoolBridge");
 const {logStaffEvent,logServerEvent,upsertStaffDashboard}=require("./staff");
@@ -90,7 +90,8 @@ const commands=[
  new SlashCommandBuilder().setName("readerprompt").setDescription("Post a reader discussion prompt in the book club."),
  new SlashCommandBuilder().setName("recommend").setDescription("Get a book recommendation from the My Life Story With Grandma series.").addStringOption(o=>o.setName("theme").setDescription("What kind of story or theme interests you?").setRequired(false).addChoices({name:"Family and memories",value:"family"},{name:"Life lessons and growth",value:"growth"},{name:"The continuing journey",value:"journey"},{name:"Any book in the series",value:"any"})),
  new SlashCommandBuilder().setName("giveaway").setDescription("Post an official giveaway announcement.").addStringOption(o=>o.setName("prize").setDescription("What readers can win").setRequired(true).setMaxLength(150)).addStringOption(o=>o.setName("details").setDescription("How to enter and any rules").setRequired(true).setMaxLength(900)).addStringOption(o=>o.setName("ends").setDescription("Giveaway closing date/time and timezone").setRequired(true).setMaxLength(100)),
- new SlashCommandBuilder().setName("authorupdate").setDescription("Post an author or creative-project update.").addStringOption(o=>o.setName("title").setDescription("Update headline").setRequired(true).setMaxLength(200)).addStringOption(o=>o.setName("message").setDescription("The update to share with the community").setRequired(true).setMaxLength(3000))
+ new SlashCommandBuilder().setName("authorupdate").setDescription("Post an author or creative-project update.").addStringOption(o=>o.setName("title").setDescription("Update headline").setRequired(true).setMaxLength(200)).addStringOption(o=>o.setName("message").setDescription("The update to share with the community").setRequired(true).setMaxLength(3000)),
+ new SlashCommandBuilder().setName("amazonreview").setDescription("Post a verified Amazon book review alert to the staff review channel.").addStringOption(o=>o.setName("book").setDescription("Book title").setRequired(true).setMaxLength(200)).addIntegerOption(o=>o.setName("rating").setDescription("Star rating from 1 to 5").setRequired(true).setMinValue(1).setMaxValue(5)).addStringOption(o=>o.setName("url").setDescription("HTTPS link to the public Amazon review or book page").setRequired(true).setMaxLength(2000)).addStringOption(o=>o.setName("review").setDescription("Review text, if publicly available").setRequired(false).setMaxLength(1000)).addStringOption(o=>o.setName("title").setDescription("Review headline").setRequired(false).setMaxLength(200)).addStringOption(o=>o.setName("reviewer").setDescription("Public reviewer name, if displayed").setRequired(false).setMaxLength(150)).addStringOption(o=>o.setName("asin").setDescription("Amazon ASIN, if known").setRequired(false).setMaxLength(20))
 ].map(x=>x.toJSON());
 
 const structure={
@@ -1044,6 +1045,22 @@ client.on("interactionCreate",async i=>{
     .setFooter({text:"Brandon D. Coleman Jr. — Books & Stories • 📖 Real Stories • Bigger Purpose"});
    await channel.send({content:"📢 **A Story Worth Remembering**",embeds:[embed]});
    return i.editReply("✅ The current book promotion was posted in <#"+channel.id+">.");
+  }
+  if(i.commandName==="amazonreview"){
+   if(!allowed(i))return i.reply({content:"🔒 Only the server owner or configured bot owner can publish Amazon review alerts.",flags:MessageFlags.Ephemeral});
+   const data={
+    book:i.options.getString("book",true),
+    rating:i.options.getInteger("rating",true),
+    url:i.options.getString("url",true),
+    review:i.options.getString("review")||"",
+    title:i.options.getString("title")||"New Amazon review",
+    reviewerName:i.options.getString("reviewer")||"Public reviewer name unavailable",
+    asin:i.options.getString("asin")||""
+   };
+   await i.deferReply({flags:MessageFlags.Ephemeral});
+   const result=await postAmazonReview(i.guild,data);
+   if(result.duplicate)return i.editReply("ℹ️ This review appears to have already been posted in <#"+result.channelId+">.");
+   return i.editReply("✅ Amazon review alert posted in <#"+result.channelId+">. This command posts a review you have verified; it does not independently discover new Amazon reviews.");
   }
   if(i.commandName==="website")return i.reply({content:"🌐 **Brandon D. Coleman Jr. — Books & Stories**\n"+(process.env.WEBSITE_URL||"https://brandon-books-stories-bot-website.vercel.app")});
   if(i.commandName==="serverinfo")return i.reply({content:"🖥️ **"+i.guild.name+"**\nMembers: "+i.guild.memberCount+"\nChannels: "+i.guild.channels.cache.size,flags:MessageFlags.Ephemeral});
