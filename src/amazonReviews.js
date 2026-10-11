@@ -55,8 +55,9 @@ async function postAmazonReview(guild,data){
       ...(asin?[{name:"Amazon ASIN",value:asin,inline:true}]:[])
     )
     .setURL(url)
-    .setFooter({text:marker})
-    .setTimestamp(data.date?new Date(data.date):new Date());
+    .setFooter({text:marker});
+  const parsedDate=data.date?new Date(data.date):new Date();
+  embed.setTimestamp(Number.isNaN(parsedDate.getTime())?new Date():parsedDate);
   await channel.send({content:"🔔 **A new Amazon review was detected.**",embeds:[embed],allowedMentions:{parse:[]}});
   return {channelId:channel.id,duplicate:false};
 }
