@@ -80,3 +80,11 @@ The production bot registers its slash commands directly to the Brandon Books & 
 
 
 <!-- Deployment trigger: staff dashboard + website review bridge -->
+
+
+## Amazon review alerts
+
+- The owner-only `/amazonreview` slash command posts a review that the author has verified to the `⭐・amazon-reviews` channel.
+- The `POST /amazon-reviews/webhook` endpoint accepts a JSON review notification when the request includes the `x-amazon-review-secret` header matching `AMAZON_REVIEW_WEBHOOK_SECRET`.
+- Required payload fields: `book`, `rating` (integer 1–5), and `url` (HTTPS). Optional fields: `review`, `title`, `reviewerName`, `asin`, `date`, and `id`.
+- This endpoint delivers notifications; it does not itself discover reviews. Amazon's Customer Feedback API provides review-topic insights rather than a general real-time feed of individual public reviews. Connect a permitted monitoring provider or submit verified reviews with `/amazonreview`.
