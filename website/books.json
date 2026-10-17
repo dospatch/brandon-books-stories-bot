@@ -1,5 +1,5 @@
 {
-  "lastChecked": "2026-10-17T12:57:46.350Z",
+  "lastChecked": "2026-10-17T16:23:45.488Z",
   "source": "Amazon public listings",
   "books": [
     {
@@ -19,7 +19,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-17T12:57:46.354Z",
+        "checkedAt": "2026-10-17T16:23:45.491Z",
         "url": "https://www.amazon.com/dp/B0HL794K8Z",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -60,7 +60,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-17T12:57:46.993Z",
+        "checkedAt": "2026-10-17T16:23:45.890Z",
         "url": "https://www.amazon.com/dp/B0HKT3GKM",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -73,7 +73,7 @@
       "amazon": {
         "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
         "asin": "B0HLB7P2ZS",
-        "listingDetected": true
+        "listingDetected": false
       },
       "formats": {
         "kindle": "published",
@@ -82,15 +82,11 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "available",
-        "checkedAt": "2026-10-17T12:57:47.029Z",
+        "availability": "temporarily blocked",
+        "checkedAt": "2026-10-17T16:23:45.988Z",
         "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
         "httpStatus": 200,
-        "title": "My life story with Grandma : Book 3: The Journey Continues — Growing, Building, Remembering, and Looking Ahead",
-        "price": "5 .",
-        "image": null,
-        "amazonAvailabilityText": null,
-        "note": "Amazon listing detected automatically."
+        "note": "Amazon requested a verification page. The next scheduled check will try again."
       }
     },
     {
@@ -110,7 +106,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-17T12:57:47.621Z",
+        "checkedAt": "2026-10-17T16:23:46.078Z",
         "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -133,7 +129,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-17T12:57:47.642Z",
+        "checkedAt": "2026-10-17T16:23:46.169Z",
         "url": "https://www.amazon.com/dp/B0HM6LY91G",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
