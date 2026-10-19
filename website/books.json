@@ -1,5 +1,5 @@
 {
-  "lastChecked": "2026-10-19T17:29:47.305Z",
+  "lastChecked": "2026-10-19T21:44:46.987Z",
   "source": "Amazon public listings",
   "books": [
     {
@@ -19,7 +19,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "available",
-        "checkedAt": "2026-10-19T17:29:47.309Z",
+        "checkedAt": "2026-10-19T21:44:46.990Z",
         "url": "https://www.amazon.com/dp/B0HL794K8Z",
         "httpStatus": 200,
         "title": "My Life Story with Grandma",
@@ -64,7 +64,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-19T17:29:48.141Z",
+        "checkedAt": "2026-10-19T21:44:47.992Z",
         "url": "https://www.amazon.com/dp/B0HKT3GKM",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -87,7 +87,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-19T17:29:48.160Z",
+        "checkedAt": "2026-10-19T21:44:48.088Z",
         "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -110,7 +110,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-19T17:29:48.187Z",
+        "checkedAt": "2026-10-19T21:44:48.193Z",
         "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -133,7 +133,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-19T17:29:48.213Z",
+        "checkedAt": "2026-10-19T21:44:48.288Z",
         "url": "https://www.amazon.com/dp/B0HM6LY91G",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
