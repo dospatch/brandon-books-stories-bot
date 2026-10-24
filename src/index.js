@@ -891,15 +891,17 @@ client.on("interactionCreate",async i=>{
     const website=(process.env.WEBSITE_URL||"https://brandon-books-stories-bot-website.vercel.app").replace(/\/$/,"");
     const purchase=(key)=>process.env[key]||website;
     const embed=new EmbedBuilder()
-     .setTitle("📚 Brandon D. Coleman Jr. — My Life Story With Grandma (Books 1–5)")
-     .setDescription("Explore the five-part journey in reading order. Each entry includes direct Amazon links where verified, plus the official website for the latest edition availability and other retailer links.")
+     .setTitle("📚 Brandon D. Coleman Jr. — My Life Story With Grandma (Books 1–7)")
+     .setDescription("Explore the growing seven-book journey in reading order. Books 1–5 have current publishing updates; Books 6–7 are upcoming, with release dates and retail links to be announced.")
      .addFields(
       {name:"📖 Book 1 — Foundations",value:"**My Life Story With Grandma**\n🟢 Kindle eBook: https://www.amazon.com/dp/B0HJL27HKR\n🟢 Paperback: https://www.amazon.com/dp/B0HL794K8Z\n🌐 Hardcover / other editions: "+website},
       {name:"📕 Part 2 — Continuing the Journey",value:"**Continuing the Journey, Memories, and the Road Ahead**\n🛒 Purchase / edition links: "+purchase("PART_2_URL")},
       {name:"📘 Book 3 — The Journey Continues",value:"**Growing, Building, Remembering, and Looking Ahead**\n🛒 Purchase / edition links: "+purchase("BOOK_3_URL")},
       {name:"📙 Part 4 — The Memories We Carry Forward",value:"**A Continuing Journey of Love, Family, Memories, and the Road Ahead**\n🛒 Purchase / edition links: "+purchase("BOOK_4_URL")},
       {name:"📔 Part 5 — The Journey Continues",value:"**More Memories, More Lessons, and the Story Still Being Written**\n🛒 Purchase / edition links: "+purchase("BOOK_5_URL")},
-      {name:"❤️ Reading the Series",value:"For the best reading order, start with Book 1 and continue through Parts 2, 3, 4, and 5. Set PART_2_URL, BOOK_3_URL, BOOK_4_URL, and BOOK_5_URL in the bot host environment to show each book's direct retailer listing; otherwise the official website is shown."}
+      {name:"📓 Book 6 — The Pages Still Waiting",value:"**Picking Up Where the Memories Left Off**\n📚 Kindle eBook: To be announced\n📚 Paperback: To be announced\n📚 Hardcover: To be announced"},
+      {name:"📚 Book 7 — Same Kid, Bigger Dreams",value:"**Growing Up, Growing Forward, and Building What Comes Next**\n📚 Kindle eBook: To be announced\n📚 Paperback: To be announced\n📚 Hardcover: To be announced"},
+      {name:"❤️ Reading the Series",value:"For the best reading order, start with Book 1 and continue through Parts 2, 3, 4, and 5. Books 6 and 7 are upcoming; release dates and retailer links will be announced when confirmed. Set the existing book URL environment variables to show verified retailer listings for Books 2–5; otherwise the official website is shown."}
      )
      .setFooter({text:"📖 Real Stories • Bigger Purpose"});
     return i.reply({embeds:[embed]});
@@ -910,7 +912,7 @@ client.on("interactionCreate",async i=>{
     family:{title:"📖 Start with Book 1 — Foundations",description:"A good starting point for readers interested in family, memories, and the bond between a grandson and his grandmother. Begin at the start of the series, then continue in order."},
     growth:{title:"📘 Explore Book 3 — The Journey Continues",description:"For readers drawn to growth, building, remembering, and looking ahead, Book 3 is described around those continuing-life themes. For the full story arc, read the series in order."},
     journey:{title:"📕 Continue with Part 2",description:"Part 2 continues the journey through memories, experiences, and the road ahead. It follows Book 1, so start with Foundations if you have not read it yet."},
-    any:{title:"❤️ A five-part story journey",description:"Start with Book 1 — Foundations, then continue through Part 2, Book 3, Part 4, and Part 5. The series follows family, memories, growth, lessons, and a story that is still being written."}
+    any:{title:"❤️ A growing seven-book story journey",description:"Start with Book 1 — Foundations, then continue through Part 2, Book 3, Part 4, and Part 5. Books 6 — The Pages Still Waiting and 7 — Same Kid, Bigger Dreams are upcoming, with release dates and retail links to be announced."}
    };
    const pick=picks[theme]||picks.any;
    const embed=new EmbedBuilder().setTitle(pick.title).setDescription(pick.description+"\n\n🌐 **Official website and current book links:** https://brandon-books-stories-bot-website.vercel.app/").setFooter({text:"Brandon D. Coleman Jr. — Books & Stories • 📖 Real Stories • Bigger Purpose"});
@@ -1027,7 +1029,9 @@ client.on("interactionCreate",async i=>{
      {name:"📘 BOOK 3 — The Journey Continues",value:"🟢 Kindle: **PUBLISHED!** ✅\n🟢 Paperback: **PUBLISHED!** ✅\n🕐 Hardcover: **IN REVIEW**"},
      {name:"📙 BOOK 4 — The Memories We Carry Forward",value:"🟢 Kindle: **PUBLISHED!** ✅\n🕐 Paperback: **IN REVIEW**\n🕐 Hardcover: **DRAFT**"},
      {name:"📔 BOOK 5 — Part 5: The Journey Continues",value:"🟢 Kindle: **PUBLISHED!** ✅\n🟢 Paperback: **PUBLISHED!** ✅\n🕐 Hardcover: **COMING SOON**"},
-     {name:"⏳ NEXT STEPS",value:"The remaining hardcover editions and drafts are currently being polished and set up so they can join the live lineup very soon."},
+     {name:"📓 BOOK 6 — The Pages Still Waiting",value:"📚 Kindle eBook: **TO BE ANNOUNCED**\n📚 Paperback: **TO BE ANNOUNCED**\n📚 Hardcover: **TO BE ANNOUNCED**\n⏳ Upcoming title; release date and retail links have not been announced."},
+     {name:"📚 BOOK 7 — Same Kid, Bigger Dreams",value:"📚 Kindle eBook: **TO BE ANNOUNCED**\n📚 Paperback: **TO BE ANNOUNCED**\n📚 Hardcover: **TO BE ANNOUNCED**\n⏳ Upcoming title; release date and retail links have not been announced."},
+     {name:"⏳ NEXT STEPS",value:"The remaining editions are continuing through their publishing steps. Books 6 and 7 are upcoming; their release dates and retail links will be announced when confirmed."},
      {name:"❤️ Why This Journey Matters",value:"These books are more than just stories — they are memories, family, growth, faith, and a way of honoring my Grandma’s legacy.\n\n🙏🏾 Thank you to everyone who has supported me, followed this journey, purchased a book, shared a post, or simply encouraged me along the way.\n\n📚 More books. More memories. More of the story.\n\n🔥 The journey continues..."}
     )
     .setFooter({text:"Brandon D. Coleman Jr. — Books & Stories • 📖 Real Stories • Bigger Purpose"});
