@@ -1,5 +1,5 @@
 {
-  "lastChecked": "2026-10-24T16:58:01.048Z",
+  "lastChecked": "2026-10-24T19:28:55.351Z",
   "source": "Amazon public listings",
   "books": [
     {
@@ -19,7 +19,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-24T16:58:01.052Z",
+        "checkedAt": "2026-10-24T19:28:55.353Z",
         "url": "https://www.amazon.com/dp/B0HL794K8Z",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -60,7 +60,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-24T16:58:01.187Z",
+        "checkedAt": "2026-10-24T19:28:55.554Z",
         "url": "https://www.amazon.com/dp/B0HKT3GKM",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -83,7 +83,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-24T16:58:01.229Z",
+        "checkedAt": "2026-10-24T19:28:55.654Z",
         "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -106,7 +106,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-24T16:58:01.267Z",
+        "checkedAt": "2026-10-24T19:28:55.745Z",
         "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -129,7 +129,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-24T16:58:01.314Z",
+        "checkedAt": "2026-10-24T19:28:55.836Z",
         "url": "https://www.amazon.com/dp/B0HM6LY91G",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
