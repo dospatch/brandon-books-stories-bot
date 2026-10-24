@@ -2,13 +2,13 @@
 .changelog-page{min-height:70vh}.changelog-hero{padding-bottom:45px}.changelog-hero h1{font-size:clamp(48px,7vw,78px);line-height:1.02;font-weight:500;margin:0 0 24px}.changelog-hero h1 em{color:var(--accent);font-style:italic}.live-status{display:flex;align-items:center;gap:10px;margin-bottom:28px;font-family:Arial,sans-serif;font-size:13px;font-weight:bold}.live-status small{margin-left:auto;color:var(--muted);font-weight:normal}.status-dot{width:9px;height:9px;border-radius:0;background:#3b8f5a;box-shadow:0 0 0 5px #3b8f5a18}.changelog-day{margin-bottom:48px}.changelog-date{font-family:Arial,sans-serif;font-size:12px;font-weight:bold;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:14px}.changelog-items{display:grid;gap:12px}.changelog-item{display:flex;gap:18px;background:white;border:1px solid var(--line);padding:22px}.changelog-icon{font-size:25px}.changelog-item-body{min-width:0}.change-type{font-family:Arial,sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);font-weight:bold}.changelog-item h3{font-size:19px;margin:5px 0 7px}.changelog-item a{font-family:Arial,sans-serif;font-size:11px;color:var(--muted)}.loading-card{background:white;border:1px solid var(--line);padding:30px;color:var(--muted)}@media(max-width:800px){.update-panel{display:block}.update-panel .button{margin-top:22px}.live-status{align-items:flex-start;flex-wrap:wrap}.live-status small{margin-left:0;width:100%}}@media(max-width:520px){.footer-links{width:100%}.changelog-hero h1{font-size:45px}}
 
 /* Five-book series refresh */
-.five-book-grid{grid-template-columns:1fr 1fr;max-width:var(--max)}
+.seven-book-grid{grid-template-columns:1fr 1fr;max-width:var(--max)}
 .cover-three{background:linear-gradient(145deg,#6f4d59,#1f242c)}
 .cover-four{background:linear-gradient(145deg,#66824e,#20291f)}
 .cover-five{background:linear-gradient(145deg,#765039,#2a211c)}
 .book-card strong{color:white}
 .book-info h3{line-height:1.15}
-@media(max-width:800px){.five-book-grid{grid-template-columns:1fr}}
+@media(max-width:800px){.seven-book-grid{grid-template-columns:1fr}}
 
 
 /* Official Amazon cover artwork */
@@ -40,7 +40,7 @@
 .filter-button{padding:9px 13px;border:1px solid #75695e;background:transparent;color:#e7e1d9;font:700 12px Arial,sans-serif;cursor:pointer}
 .filter-button.is-active,.filter-button:hover{background:#c99b63;color:#201d1a;border-color:#c99b63}
 .book-results-count{margin:0;color:#bdb8b1!important;font:12px Arial,sans-serif}
-.five-book-grid .book-card[hidden]{display:none}
+.seven-book-grid .book-card[hidden]{display:none}
 .faq-section{padding-top:65px}
 .faq-list{display:grid;gap:12px;max-width:900px;margin:auto}
 .faq-list details{background:white;border:1px solid var(--line);padding:0 22px}
@@ -64,3 +64,6 @@
   .back-to-top span{display:none}
   .filter-button{flex:1 1 auto}
 }
+
+.cover-six{background:linear-gradient(145deg,#476b80,#202832)}
+.cover-seven{background:linear-gradient(145deg,#8a6a36,#2c2418)}
