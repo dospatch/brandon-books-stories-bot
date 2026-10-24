@@ -351,7 +351,9 @@
         info.appendChild(actions);
       }
       const check=book.amazonCheck||{};
-      if(check.availability==="available" && book.amazon?.url){
+      if(book.status==="upcoming"){
+        actions.innerHTML="<span class='text-link'>📚 Publishing status: To be announced.</span>";
+      }else if(check.availability==="available" && book.amazon?.url){
         actions.innerHTML="<a class='button primary' href='"+book.amazon.url+"' target='_blank' rel='noopener'>🛒 View on Amazon</a>";
       }else{
         actions.innerHTML="<span class='text-link'>🕐 Amazon listing not detected yet — checking automatically.</span>";
