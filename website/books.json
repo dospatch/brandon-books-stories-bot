@@ -134,6 +134,30 @@
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
       }
+    },
+    {
+      "id": "book-6",
+      "title": "THE PAGES STILL WAITING",
+      "subtitle": "Book 6: The Pages Still Waiting: Picking Up Where the Memories Left Off",
+      "formats": {
+        "kindle": "to be announced",
+        "paperback": "to be announced",
+        "hardcover": "to be announced"
+      },
+      "status": "upcoming",
+      "note": "Upcoming title. Publication dates and retail links have not been announced."
+    },
+    {
+      "id": "book-7",
+      "title": "SAME KID, BIGGER DREAMS",
+      "subtitle": "Book 7: Same Kid, Bigger Dreams: Growing Up, Growing Forward, and Building What Comes Next",
+      "formats": {
+        "kindle": "to be announced",
+        "paperback": "to be announced",
+        "hardcover": "to be announced"
+      },
+      "status": "upcoming",
+      "note": "Upcoming title. Publication dates and retail links have not been announced."
     }
   ],
   "monitor": {
@@ -142,5 +166,5 @@
     "source": "Amazon public product pages",
     "behavior": "When an Amazon listing is detected, the website can automatically surface its direct Amazon link."
   },
-  "lastUpdated": "2026-10-08T20:50:00.000Z"
+  "lastUpdated": "2026-10-24T20:32:00.000Z"
 }
