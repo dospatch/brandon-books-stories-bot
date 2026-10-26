@@ -49,6 +49,7 @@ function isStaff(i) {
   if (isOwner(i)) return true;
   return Boolean(i.member?.roles?.cache?.some(r => ["👑 Owner", "🛠️ Administrator", "🛡️ Moderator", "✍️ Author Team"].includes(r.name)));
 }
+function isHttpsUrl(value) { try { return new URL(value).protocol === "https:"; } catch { return false; } }
 function embed(title, description) {
   return new EmbedBuilder().setColor(0x5865F2).setTitle(title).setDescription(description).setFooter({text:"Brandon Books & Stories • 📖 Real Stories • Bigger Purpose"});
 }
@@ -145,7 +146,7 @@ client.on("interactionCreate", async i => {
     if (n === "amazonreview") {
       if (!isOwner(i)) return i.reply({content:"🔒 Owner only.",flags:MessageFlags.Ephemeral});
       const book=i.options.getString("book",true), rating=i.options.getInteger("rating",true), url=i.options.getString("url",true);
-      if (!/^https:\\/\\/\\S+$/i.test(url)) return i.reply({content:"Please provide a public HTTPS URL.",flags:MessageFlags.Ephemeral});
+      if (!isHttpsUrl(url)) return i.reply({content:"Please provide a public HTTPS URL.",flags:MessageFlags.Ephemeral});
       const ch=i.guild.channels.cache.find(c=>c.type===ChannelType.GuildText&&c.name==="⭐・amazon-reviews");
       if (!ch) return i.reply({content:"Channel ⭐・amazon-reviews not found. Run /setup-author-server first.",flags:MessageFlags.Ephemeral});
       const details=i.options.getString("details")||"No additional details provided.";
@@ -173,7 +174,7 @@ const server = http.createServer(async (req,res) => {
     try {
       let body=""; for await (const chunk of req) { body+=chunk.toString(); if(body.length>100000) throw new Error("Payload too large."); }
       const d=JSON.parse(body||"{}"), rating=Number(d.rating), book=String(d.book||"").trim(), link=String(d.url||"").trim();
-      if(!book||!Number.isInteger(rating)||rating<1||rating>5||!/^https:\\/\\/\\S+$/i.test(link)) { res.writeHead(400,{"Content-Type":"application/json"}); return res.end(JSON.stringify({ok:false,error:"Required fields: book, rating 1-5, and HTTPS url."})); }
+      if(!book||!Number.isInteger(rating)||rating<1||rating>5||!isHttpsUrl(link)) { res.writeHead(400,{"Content-Type":"application/json"}); return res.end(JSON.stringify({ok:false,error:"Required fields: book, rating 1-5, and HTTPS url."})); }
       const results=[];
       for(const g of client.guilds.cache.values()) {
         const ch=g.channels.cache.find(c=>c.type===ChannelType.GuildText&&c.name==="⭐・amazon-reviews");
