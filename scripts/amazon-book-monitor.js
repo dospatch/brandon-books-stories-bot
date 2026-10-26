@@ -5,7 +5,7 @@ const path = require("node:path");
 const DATA_FILE = path.join(process.cwd(), "website", "books.json");
 
 function clean(value) {
-  return String(value || "").replace(/\\s+/g, " ").trim();
+  return String(value || "").replace(/\s+/g, " ").trim();
 }
 
 function parseBetween(html, start, end) {
@@ -23,7 +23,7 @@ function stripTags(value) {
 function extractFirst(html, patterns) {
   for (const pattern of patterns) {
     const match = html.match(pattern);
-    if (match?.[1]) return clean(match[1].replace(/\\u0026/g, "&"));
+    if (match?.[1]) return clean(match[1].replace(/\u0026/g, "&"));
   }
   return "";
 }
@@ -115,7 +115,11 @@ async function checkAmazon(book) {
   const now = new Date().toISOString();
 
   for (const book of data.books || []) {
-    if (book.amazon?.asin) {
+    // Some book records may not have Amazon metadata yet. Initialize it
+    // before writing listingDetected or a discovered listing URL.
+    book.amazon ??= {};
+
+    if (book.amazon.asin) {
       console.log(`Checking ${book.id} (${book.amazon.asin})...`);
       book.amazonCheck = await checkAmazon(book);
       if (book.amazonCheck.availability === "available") {
