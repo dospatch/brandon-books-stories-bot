@@ -1,5 +1,5 @@
 {
-  "lastChecked": "2026-10-27T14:28:50.634Z",
+  "lastChecked": "2026-10-27T19:38:45.914Z",
   "source": "Amazon public listings",
   "books": [
     {
@@ -9,7 +9,7 @@
       "amazon": {
         "asin": "B0HL794K8Z",
         "url": "https://www.amazon.com/dp/B0HL794K8Z",
-        "listingDetected": true
+        "listingDetected": false
       },
       "formats": {
         "kindle": "published",
@@ -18,15 +18,11 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "available",
-        "checkedAt": "2026-10-27T14:28:50.638Z",
+        "availability": "temporarily blocked",
+        "checkedAt": "2026-10-27T19:38:45.918Z",
         "url": "https://www.amazon.com/dp/B0HL794K8Z",
         "httpStatus": 200,
-        "title": "My Life Story with Grandma",
-        "price": "20 .",
-        "image": null,
-        "amazonAvailabilityText": "In Stock",
-        "note": "Amazon listing detected automatically."
+        "note": "Amazon requested a verification page. The next scheduled check will try again."
       },
       "editions": {
         "kindle": {
@@ -64,7 +60,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-27T14:28:51.592Z",
+        "checkedAt": "2026-10-27T19:38:46.223Z",
         "url": "https://www.amazon.com/dp/B0HKT3GKM",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -77,7 +73,7 @@
       "amazon": {
         "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
         "asin": "B0HLB7P2ZS",
-        "listingDetected": true
+        "listingDetected": false
       },
       "formats": {
         "kindle": "published",
@@ -86,15 +82,11 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "available",
-        "checkedAt": "2026-10-27T14:28:51.679Z",
+        "availability": "temporarily blocked",
+        "checkedAt": "2026-10-27T19:38:46.366Z",
         "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
         "httpStatus": 200,
-        "title": "My life story with Grandma : Book 3: The Journey Continues — Growing, Building, Remembering, and Looking Ahead",
-        "price": "5 .",
-        "image": null,
-        "amazonAvailabilityText": null,
-        "note": "Amazon listing detected automatically."
+        "note": "Amazon requested a verification page. The next scheduled check will try again."
       }
     },
     {
@@ -114,7 +106,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-27T14:28:52.570Z",
+        "checkedAt": "2026-10-27T19:38:46.448Z",
         "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -137,7 +129,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-27T14:28:52.659Z",
+        "checkedAt": "2026-10-27T19:38:46.549Z",
         "url": "https://www.amazon.com/dp/B0HM6LY91G",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -159,7 +151,7 @@
       },
       "amazonCheck": {
         "availability": "not configured",
-        "checkedAt": "2026-10-27T14:28:52.750Z",
+        "checkedAt": "2026-10-27T19:38:46.645Z",
         "note": "No Amazon ASIN has been configured yet."
       }
     },
@@ -179,7 +171,7 @@
       },
       "amazonCheck": {
         "availability": "not configured",
-        "checkedAt": "2026-10-27T14:28:52.750Z",
+        "checkedAt": "2026-10-27T19:38:46.645Z",
         "note": "No Amazon ASIN has been configured yet."
       }
     }
