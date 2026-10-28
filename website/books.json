@@ -1,5 +1,5 @@
 {
-  "lastChecked": "2026-10-28T08:28:58.975Z",
+  "lastChecked": "2026-10-28T15:27:07.885Z",
   "source": "Amazon public listings",
   "books": [
     {
@@ -19,7 +19,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-28T08:28:58.979Z",
+        "checkedAt": "2026-10-28T15:27:07.888Z",
         "url": "https://www.amazon.com/dp/B0HL794K8Z",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -60,7 +60,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-28T08:28:59.171Z",
+        "checkedAt": "2026-10-28T15:27:08.029Z",
         "url": "https://www.amazon.com/dp/B0HKT3GKM",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -73,7 +73,7 @@
       "amazon": {
         "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
         "asin": "B0HLB7P2ZS",
-        "listingDetected": true
+        "listingDetected": false
       },
       "formats": {
         "kindle": "published",
@@ -82,15 +82,11 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "available",
-        "checkedAt": "2026-10-28T08:28:59.213Z",
+        "availability": "temporarily blocked",
+        "checkedAt": "2026-10-28T15:27:08.073Z",
         "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
         "httpStatus": 200,
-        "title": "My life story with Grandma : Book 3: The Journey Continues — Growing, Building, Remembering, and Looking Ahead",
-        "price": "5 .",
-        "image": null,
-        "amazonAvailabilityText": null,
-        "note": "Amazon listing detected automatically."
+        "note": "Amazon requested a verification page. The next scheduled check will try again."
       }
     },
     {
@@ -110,7 +106,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-28T08:28:59.856Z",
+        "checkedAt": "2026-10-28T15:27:08.111Z",
         "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -133,7 +129,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-28T08:28:59.887Z",
+        "checkedAt": "2026-10-28T15:27:08.145Z",
         "url": "https://www.amazon.com/dp/B0HM6LY91G",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -155,7 +151,7 @@
       },
       "amazonCheck": {
         "availability": "not configured",
-        "checkedAt": "2026-10-28T08:28:59.922Z",
+        "checkedAt": "2026-10-28T15:27:08.181Z",
         "note": "No Amazon ASIN has been configured yet."
       }
     },
@@ -175,7 +171,7 @@
       },
       "amazonCheck": {
         "availability": "not configured",
-        "checkedAt": "2026-10-28T08:28:59.922Z",
+        "checkedAt": "2026-10-28T15:27:08.181Z",
         "note": "No Amazon ASIN has been configured yet."
       }
     }
