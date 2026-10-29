@@ -1,5 +1,5 @@
 {
-  "lastChecked": "2026-10-28T20:33:34.052Z",
+  "lastChecked": "2026-10-29T00:24:34.192Z",
   "source": "Amazon public listings",
   "books": [
     {
@@ -19,7 +19,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-28T20:33:34.054Z",
+        "checkedAt": "2026-10-29T00:24:34.195Z",
         "url": "https://www.amazon.com/dp/B0HL794K8Z",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -60,7 +60,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-28T20:33:34.296Z",
+        "checkedAt": "2026-10-29T00:24:34.360Z",
         "url": "https://www.amazon.com/dp/B0HKT3GKM",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -83,7 +83,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-28T20:33:34.404Z",
+        "checkedAt": "2026-10-29T00:24:34.425Z",
         "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -106,7 +106,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-28T20:33:34.504Z",
+        "checkedAt": "2026-10-29T00:24:34.475Z",
         "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -129,7 +129,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-28T20:33:34.595Z",
+        "checkedAt": "2026-10-29T00:24:34.517Z",
         "url": "https://www.amazon.com/dp/B0HM6LY91G",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -151,7 +151,7 @@
       },
       "amazonCheck": {
         "availability": "not configured",
-        "checkedAt": "2026-10-28T20:33:34.692Z",
+        "checkedAt": "2026-10-29T00:24:34.561Z",
         "note": "No Amazon ASIN has been configured yet."
       }
     },
@@ -171,7 +171,7 @@
       },
       "amazonCheck": {
         "availability": "not configured",
-        "checkedAt": "2026-10-28T20:33:34.692Z",
+        "checkedAt": "2026-10-29T00:24:34.562Z",
         "note": "No Amazon ASIN has been configured yet."
       }
     }
