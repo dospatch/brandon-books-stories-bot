@@ -1,5 +1,5 @@
 {
-  "lastChecked": "2026-10-31T00:46:25.681Z",
+  "lastChecked": "2026-10-31T06:20:35.396Z",
   "source": "Amazon public listings",
   "books": [
     {
@@ -19,7 +19,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-31T00:46:25.684Z",
+        "checkedAt": "2026-10-31T06:20:35.398Z",
         "url": "https://www.amazon.com/dp/B0HL794K8Z",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -60,7 +60,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-10-31T00:46:25.805Z",
+        "checkedAt": "2026-10-31T06:20:35.552Z",
         "url": "https://www.amazon.com/dp/B0HKT3GKM",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -73,7 +73,7 @@
       "amazon": {
         "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
         "asin": "B0HLB7P2ZS",
-        "listingDetected": false
+        "listingDetected": true
       },
       "formats": {
         "kindle": "published",
@@ -82,11 +82,15 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "temporarily blocked",
-        "checkedAt": "2026-10-31T00:46:25.834Z",
+        "availability": "available",
+        "checkedAt": "2026-10-31T06:20:35.639Z",
         "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
         "httpStatus": 200,
-        "note": "Amazon requested a verification page. The next scheduled check will try again."
+        "title": "My life story with Grandma : Book 3: The Journey Continues — Growing, Building, Remembering, and Looking Ahead",
+        "price": "5 .",
+        "image": null,
+        "amazonAvailabilityText": null,
+        "note": "Amazon listing detected automatically."
       }
     },
     {
@@ -96,7 +100,7 @@
       "amazon": {
         "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
         "asin": "B0HM5DTQ3K",
-        "listingDetected": false
+        "listingDetected": true
       },
       "formats": {
         "kindle": "published",
@@ -105,11 +109,15 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "temporarily blocked",
-        "checkedAt": "2026-10-31T00:46:25.864Z",
+        "availability": "available",
+        "checkedAt": "2026-10-31T06:20:36.318Z",
         "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
         "httpStatus": 200,
-        "note": "Amazon requested a verification page. The next scheduled check will try again."
+        "title": "MY LIFE STORY WITH GRANDMA: Part 4: The Memories We Carry Forward",
+        "price": "5 .",
+        "image": null,
+        "amazonAvailabilityText": null,
+        "note": "Amazon listing detected automatically."
       }
     },
     {
@@ -119,7 +127,7 @@
       "amazon": {
         "url": "https://www.amazon.com/dp/B0HM6LY91G",
         "asin": "B0HM6LY91G",
-        "listingDetected": false
+        "listingDetected": true
       },
       "formats": {
         "kindle": "published",
@@ -128,11 +136,15 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "temporarily blocked",
-        "checkedAt": "2026-10-31T00:46:25.906Z",
+        "availability": "available",
+        "checkedAt": "2026-10-31T06:20:37.054Z",
         "url": "https://www.amazon.com/dp/B0HM6LY91G",
         "httpStatus": 200,
-        "note": "Amazon requested a verification page. The next scheduled check will try again."
+        "title": "MY LIFE STORY WITH GRANDMA: PART 5: THE JOURNEY CONTINUES — More Memories, More Lessons, and the Story Still Being Written",
+        "price": "5 .",
+        "image": null,
+        "amazonAvailabilityText": null,
+        "note": "Amazon listing detected automatically."
       }
     },
     {
@@ -151,7 +163,7 @@
       },
       "amazonCheck": {
         "availability": "not configured",
-        "checkedAt": "2026-10-31T00:46:25.969Z",
+        "checkedAt": "2026-10-31T06:20:37.768Z",
         "note": "No Amazon ASIN has been configured yet."
       }
     },
@@ -171,7 +183,7 @@
       },
       "amazonCheck": {
         "availability": "not configured",
-        "checkedAt": "2026-10-31T00:46:25.969Z",
+        "checkedAt": "2026-10-31T06:20:37.768Z",
         "note": "No Amazon ASIN has been configured yet."
       }
     }
