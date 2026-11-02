@@ -105,3 +105,16 @@ The free Render web-service plan may spin down when idle; continuous Discord ava
 ## Seven-book catalog
 
 The website catalog and Discord review selector include all seven titles. Books 6 and 7 are marked as published on Amazon based on the author's update; verified ASINs and direct listing links still need to be added before the catalog can link directly to those listings.
+
+
+### Website environment variables
+
+In the Vercel project settings, configure:
+- `BBS_BOT_REVIEW_WEBHOOK_URL`: the Render service URL followed by `/reviews/webhook`.
+- `BBS_BOT_REVIEW_WEBHOOK_SECRET`: the same private value as Render's `SOCIAL_WEBHOOK_SECRET`.
+
+In GitHub repository Actions secrets, configure:
+- `BOOK_UPDATES_WEBHOOK_URL`: the Render service URL followed by `/social/webhook`.
+- `SOCIAL_WEBHOOK_SECRET`: the same private value configured in Render.
+
+These values are intentionally not committed to the repository. Add them after Render provides the deployed service URL.
