@@ -13,3 +13,7 @@ services:
         sync: false
       - key: WEBSITE_URL
         value: https://brandon-books-stories-bot-website.vercel.app/
+      - key: SOCIAL_WEBHOOK_SECRET
+        sync: false
+      - key: AMAZON_REVIEW_WEBHOOK_SECRET
+        sync: false
