@@ -1,0 +1,29 @@
+name: Project Checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install
+      - name: Check bot JavaScript syntax
+        run: |
+          for file in src/*.js api/*.js website/api/*.js website/changelog.js; do
+            if [ -f "$file" ]; then
+              node --check "$file"
+            fi
+          done
+      - name: Validate book catalog JSON
+        run: node -e "JSON.parse(require('node:fs').readFileSync('website/books.json','utf8')); console.log('Book catalog JSON is valid.')"
