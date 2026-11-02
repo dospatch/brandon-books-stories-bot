@@ -15,9 +15,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
       - name: Check Amazon listings
         env:
-          BOOK_UPDATES_WEBHOOK_URL: https://brandon-books-stories.fadehost.app/social/webhook\n          SOCIAL_WEBHOOK_SECRET: ${{ secrets.SOCIAL_WEBHOOK_SECRET }}
+          BOOK_UPDATES_WEBHOOK_URL: ${{ secrets.BOOK_UPDATES_WEBHOOK_URL }}
+          SOCIAL_WEBHOOK_SECRET: ${{ secrets.SOCIAL_WEBHOOK_SECRET }}
         run: node scripts/check-amazon-books.mjs
 
       - name: Commit updated book data
