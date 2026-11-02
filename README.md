@@ -36,7 +36,7 @@ brandon-books-stories-bot/
 
 - `/help` — View available bot commands.
 - `/ping` — Check bot response.
-- `/books` — Browse the five-book series and official purchase information.
+- `/books` — Browse all seven books and official purchase information.
 - `/recommend` — Get a reading recommendation by theme.
 - `/about` — Learn about Brandon and the creative project.
 - `/aboutmedia` — Show official media links.
@@ -88,3 +88,20 @@ The production bot registers its slash commands directly to the Brandon Books & 
 - The `POST /amazon-reviews/webhook` endpoint accepts a JSON review notification when the request includes the `x-amazon-review-secret` header matching `AMAZON_REVIEW_WEBHOOK_SECRET`.
 - Required payload fields: `book`, `rating` (integer 1–5), and `url` (HTTPS). Optional fields: `review`, `title`, `reviewerName`, `asin`, `date`, and `id`.
 - This endpoint delivers notifications; it does not itself discover reviews. Amazon's Customer Feedback API provides review-topic insights rather than a general real-time feed of individual public reviews. Connect a permitted monitoring provider or submit verified reviews with `/amazonreview`.
+
+
+## Social publishing bridge
+
+The bot exposes an authenticated `POST /social/webhook` endpoint. Configure `SOCIAL_WEBHOOK_SECRET` in the Render environment and send it in the `x-social-webhook-secret` header. Supported sources include Instagram, Facebook, TikTok, YouTube, website, books, and music. Social updates are routed to the matching community channels and duplicate messages are suppressed.
+
+The optional Metricool polling bridge starts automatically when `METRICOOL_API_TOKEN`, `METRICOOL_USER_ID`, and `METRICOOL_BLOG_ID` are configured. YouTube RSS updates can also be forwarded to Discord.
+
+## Render deployment
+
+The repository includes a Render Blueprint at `render.yaml`. Connect the repository using **New → Blueprint** and add the private environment values when prompted. Required: `DISCORD_TOKEN`. The review and social webhook secrets are optional until their respective integrations are used. Never commit real tokens or webhook secrets.
+
+The free Render web-service plan may spin down when idle; continuous Discord availability is therefore not guaranteed on the free tier.
+
+## Seven-book catalog
+
+The website catalog and Discord review selector include all seven titles. Books 6 and 7 are marked as published on Amazon based on the author's update; verified ASINs and direct listing links still need to be added before the catalog can link directly to those listings.
