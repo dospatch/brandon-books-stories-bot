@@ -3,6 +3,9 @@ const http = require("node:http");
 const { Client, GatewayIntentBits, REST, Routes, SlashCommandBuilder, EmbedBuilder, ChannelType, MessageFlags } = require("discord.js");
 const { applicationMenu, handleApplicationInteraction } = require("./applications");
 const { reviewMenu, feedbackModal, handleReviewInteraction, handleReviewWebhook } = require("./reviews");
+const { handleAmazonReviewWebhook } = require("./amazonReviews");
+const { handleSocialWebhook } = require("./socialFeed");
+const { startMetricoolBridge } = require("./metricoolBridge");
 const { logStaffEvent, logServerEvent, upsertStaffDashboard } = require("./staff");
 
 const TOKEN = process.env.DISCORD_TOKEN;
@@ -10,7 +13,6 @@ const OWNER_ID = process.env.OWNER_ID || "";
 const WEBSITE_URL = process.env.WEBSITE_URL || "https://brandon-books-stories-bot-website.vercel.app/";
 const PORT = Number(process.env.PORT || process.env.SERVER_PORT || 3000);
 const GUILD_ID = process.env.DISCORD_GUILD_ID || process.env.GUILD_ID || "";
-const AMAZON_SECRET = process.env.AMAZON_REVIEW_WEBHOOK_SECRET || "";
 
 if (!TOKEN || TOKEN === "your_bot_token_here") {
   console.error("Missing DISCORD_TOKEN. Add it privately in your hosting panel environment variables.");
@@ -75,7 +77,7 @@ async function setupServer(guild) {
   const community = await ensureCategory(guild,"📖 BOOKS & STORIES");
   const staff = await ensureCategory(guild,"🔒 STAFF");
   const logs = await ensureCategory(guild,"📋 LOGS");
-  for (const n of ["👋・welcome","📢・announcements","📚・book-discussion","⭐・reader-reviews","💡・reader-feedback","📋・bot-updates","⭐・amazon-reviews"]) await ensureChannel(guild,n,community);
+  for (const n of ["👋・welcome","📢・announcements","📚・book-discussion","⭐・reader-reviews","💡・reader-feedback","📋・bot-updates","⭐・amazon-reviews","📱・social-media","📸・instagram","📘・facebook","▶️・youtube","🛒・where-to-buy","🎵・music-projects"]) await ensureChannel(guild,n,community);
   await ensureChannel(guild,"🔒・staff",staff);
   await ensureChannel(guild,"🛠️・staff-logs",logs);
   await ensureChannel(guild,"📊・server-logs",logs);
@@ -92,6 +94,7 @@ client.once("ready", async () => {
     console.log("Registered " + commandList.length + " slash commands.");
   } catch (e) { console.error("Command registration failed:",e); }
   for (const g of client.guilds.cache.values()) await logServerEvent(g,"🤖 Bot Online","Brandon Books & Stories bot is online.",0x57F287);
+  startMetricoolBridge(client);
 });
 
 client.on("interactionCreate", async i => {
@@ -102,7 +105,7 @@ client.on("interactionCreate", async i => {
     const n = i.commandName;
     if (n === "ping") return i.reply({content:"🏓 Pong! Gateway latency: " + client.ws.ping + " ms.",flags:MessageFlags.Ephemeral});
     if (n === "help") return i.reply({embeds:[embed("📖 Brandon Books & Stories — Help","**Reader:** /books, /recommend, /about, /aboutmedia, /community, /website, /serverinfo, /review, /feedback, /apply, /ping\\n\\n**Staff:** /staff, /readerprompt\\n\\n**Owner:** /announce, /authorupdate, /giveaway, /promotion, /publishingupdate, /amazonreview, /setup-author-server")] ,flags:MessageFlags.Ephemeral});
-    if (n === "books") return i.reply({embeds:[embed("📚 My Life Story With Grandma","**Book 1:** Foundations\\n**Part 2:** Continuing the Journey\\n**Book 3:** The Journey Continues\\n**Part 4:** The Memories We Carry Forward\\n**Part 5:** The Journey Continues\\n\\nOfficial information and links: " + WEBSITE_URL)]});
+    if (n === "books") return i.reply({embeds:[embed("📚 My Life Story With Grandma","**Book 1:** Foundations\\n**Book 2:** Part 2 — Continuing the Journey\\n**Book 3:** The Journey Continues\\n**Book 4:** The Memories We Carry Forward\\n**Book 5:** The Journey Continues\\n**Book 6:** The Pages Still Waiting\\n**Book 7:** Same Kid, Bigger Dreams\\n\\nBrowse the seven-book collection and official links: " + WEBSITE_URL)]});
     if (n === "recommend") {
       const t=i.options.getString("theme")||"family";
       const m={family:"Start with **Book 1: Foundations**, the beginning of the family story and memories.",growth:"Try **Book 3: The Journey Continues**, about growing, building, remembering, and looking ahead.",future:"Try **Part 4: The Memories We Carry Forward**, about carrying love and memories into the road ahead."};
@@ -168,23 +171,8 @@ const server = http.createServer(async (req,res) => {
     return res.end(JSON.stringify({ok:true,service:"Brandon Books & Stories Discord Bot",botReady:client.isReady(),uptimeSeconds:Math.floor(process.uptime())}));
   }
   if (req.method==="POST" && url.pathname==="/reviews/webhook") return handleReviewWebhook(req,res,client.guilds.cache);
-  if (req.method==="POST" && url.pathname==="/amazon-reviews/webhook") {
-    if (!AMAZON_SECRET) { res.writeHead(503,{"Content-Type":"application/json"}); return res.end(JSON.stringify({ok:false,error:"AMAZON_REVIEW_WEBHOOK_SECRET is not configured"})); }
-    if (req.headers["x-amazon-review-secret"]!==AMAZON_SECRET) { res.writeHead(401,{"Content-Type":"application/json"}); return res.end(JSON.stringify({ok:false,error:"Unauthorized"})); }
-    try {
-      let body=""; for await (const chunk of req) { body+=chunk.toString(); if(body.length>100000) throw new Error("Payload too large."); }
-      const d=JSON.parse(body||"{}"), rating=Number(d.rating), book=String(d.book||"").trim(), link=String(d.url||"").trim();
-      if(!book||!Number.isInteger(rating)||rating<1||rating>5||!isHttpsUrl(link)) { res.writeHead(400,{"Content-Type":"application/json"}); return res.end(JSON.stringify({ok:false,error:"Required fields: book, rating 1-5, and HTTPS url."})); }
-      const results=[];
-      for(const g of client.guilds.cache.values()) {
-        const ch=g.channels.cache.find(c=>c.type===ChannelType.GuildText&&c.name==="⭐・amazon-reviews");
-        if(!ch){results.push({guild:g.id,ok:false,error:"Review channel not found"});continue;}
-        try { const e=embed("⭐ Amazon Review Alert",String(d.review||d.title||"A review notification was received.").slice(0,4000)).addFields({name:"📚 Book",value:book.slice(0,1024)},{name:"⭐ Rating",value:"⭐".repeat(rating)+"☆".repeat(5-rating)+" ("+rating+"/5)",inline:true},{name:"🔗 Public Link",value:link.slice(0,1024)}).setTimestamp(); await ch.send({embeds:[e]}); results.push({guild:g.id,ok:true,channelId:ch.id}); }
-        catch(e){results.push({guild:g.id,ok:false,error:e.message||String(e)});}
-      }
-      const ok=results.some(x=>x.ok); res.writeHead(ok?200:400,{"Content-Type":"application/json"}); return res.end(JSON.stringify({ok,results}));
-    } catch(e) { res.writeHead(400,{"Content-Type":"application/json"}); return res.end(JSON.stringify({ok:false,error:e.message||"Invalid JSON payload"})); }
-  }
+  if (req.method==="POST" && url.pathname==="/amazon-reviews/webhook") return handleAmazonReviewWebhook(req,res,client.guilds.cache);
+  if (req.method==="POST" && url.pathname==="/social/webhook") return handleSocialWebhook(req,res,client.guilds.cache);
   res.writeHead(404,{"Content-Type":"application/json"}); res.end(JSON.stringify({ok:false,error:"Not found"}));
 });
 server.listen(PORT,"0.0.0.0",()=>console.log("Health/webhook server listening on port "+PORT));
