@@ -148,15 +148,15 @@
         "paperback": "to be announced",
         "hardcover": "to be announced"
       },
-      "status": "upcoming",
-      "note": "Upcoming title. Publication dates and retail links have not been announced.",
+      "status": "published",
+      "note": "Published on Amazon. Direct listing and format-specific details are being updated; no ASIN has been configured in this catalog yet.",
       "amazon": {
         "listingDetected": false
       },
       "amazonCheck": {
         "availability": "not configured",
-        "checkedAt": "2026-11-02T17:02:06.111Z",
-        "note": "No Amazon ASIN has been configured yet."
+        "checkedAt": "2026-11-02T17:57:02.864Z",
+        "note": "The title is published on Amazon; a verified direct listing/ASIN still needs to be added to this catalog."
       }
     },
     {
@@ -168,15 +168,15 @@
         "paperback": "to be announced",
         "hardcover": "to be announced"
       },
-      "status": "upcoming",
-      "note": "Upcoming title. Publication dates and retail links have not been announced.",
+      "status": "published",
+      "note": "Published on Amazon. Direct listing and format-specific details are being updated; no ASIN has been configured in this catalog yet.",
       "amazon": {
         "listingDetected": false
       },
       "amazonCheck": {
         "availability": "not configured",
-        "checkedAt": "2026-11-02T17:02:06.111Z",
-        "note": "No Amazon ASIN has been configured yet."
+        "checkedAt": "2026-11-02T17:57:03.119Z",
+        "note": "The title is published on Amazon; a verified direct listing/ASIN still needs to be added to this catalog."
       }
     }
   ],
@@ -186,5 +186,5 @@
     "source": "Amazon public product pages",
     "behavior": "When an Amazon listing is detected, the website can automatically surface its direct Amazon link."
   },
-  "lastUpdated": "2026-10-24T20:32:00.000Z"
+  "lastUpdated": "2026-11-02T17:57:03.119Z"
 }
