@@ -311,8 +311,8 @@
     container.innerHTML="";
     for(const book of data.books||[]){
       const check=book.amazonCheck||{};
-      const availability=book.status==="upcoming"?"to be announced":(check.availability||"not checked");
-      const label=availability==="available"?"🟢 Available":availability==="unavailable"?"🔴 Unavailable":"🕐 "+availability;
+      const availability=book.status==="published"&&!book.amazon?.url?"published — direct link pending":book.status==="upcoming"?"to be announced":(check.availability||"not checked");
+      const label=availability==="available"?"🟢 Available":availability==="unavailable"?"🔴 Unavailable":availability.startsWith("published")?"🟢 Published — direct link pending":"🕐 "+availability;
       const article=document.createElement("article");
       article.innerHTML=
         "<span>📚</span>"+
@@ -353,6 +353,8 @@
       const check=book.amazonCheck||{};
       if(book.status==="upcoming"){
         actions.innerHTML="<span class='text-link'>📚 Publishing status: To be announced.</span>";
+      }else if(book.status==="published" && !book.amazon?.url){
+        actions.innerHTML="<span class='text-link'>📚 Published on Amazon — direct listing link is being added.</span>";
       }else if(check.availability==="available" && book.amazon?.url){
         actions.innerHTML="<a class='button primary' href='"+book.amazon.url+"' target='_blank' rel='noopener'>🛒 View on Amazon</a>";
       }else{
@@ -422,7 +424,7 @@
     let visible = 0;
     cards.forEach(card => {
       const matchesText = !query || ((card.dataset.bookSearch || "") + " " + card.textContent).toLowerCase().includes(query);
-      const matchesFilter = activeFilter === "all" || (activeFilter === "published" ? card.dataset.bookStatus === "published" : card.dataset.bookStatus === "progress");
+      const matchesFilter = activeFilter === "all" || (activeFilter === "published" ? card.dataset.bookStatus !== "upcoming" : card.dataset.bookStatus === "progress");
       const show = matchesText && matchesFilter;
       card.hidden = !show;
       if(show) visible++;
