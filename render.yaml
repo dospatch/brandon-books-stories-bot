@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: brandon-books-stories-bot
+    runtime: node
+    plan: free
+    region: ohio
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: DISCORD_TOKEN
+        sync: false
+      - key: WEBSITE_URL
+        value: https://brandon-books-stories-bot-website.vercel.app/
