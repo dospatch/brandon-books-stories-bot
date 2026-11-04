@@ -1,5 +1,5 @@
 {
-  "lastChecked": "2026-11-03T23:25:58.034Z",
+  "lastChecked": "2026-11-04T00:53:44.328Z",
   "source": "Amazon public listings",
   "books": [
     {
@@ -18,12 +18,11 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-03T23:25:58.034Z",
+        "availability": "temporarily blocked",
+        "checkedAt": "2026-11-04T00:53:44.331Z",
+        "url": "https://www.amazon.com/dp/B0HL794K8Z",
         "httpStatus": 200,
-        "finalUrl": "https://www.amazon.com/Life-Story-Grandma-brandon-coleman/dp/B0HL794K8Z",
-        "title": "My Life Story with Grandma: coleman, brandon: 9798177434117: Amazon.com: Books",
-        "price": "19",
-        "availability": "available"
+        "note": "Amazon requested a verification page. The next scheduled check will try again."
       },
       "editions": {
         "kindle": {
@@ -60,12 +59,11 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-03T23:25:58.034Z",
-        "httpStatus": 503,
-        "finalUrl": "https://www.amazon.com/dp/B0HKT3GKM",
-        "title": "Amazon.com",
-        "price": null,
-        "availability": "unknown"
+        "availability": "temporarily blocked",
+        "checkedAt": "2026-11-04T00:53:44.459Z",
+        "url": "https://www.amazon.com/dp/B0HKT3GKM",
+        "httpStatus": 200,
+        "note": "Amazon requested a verification page. The next scheduled check will try again."
       }
     },
     {
@@ -84,12 +82,11 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-03T23:25:58.034Z",
-        "httpStatus": 500,
-        "finalUrl": "https://www.amazon.com/dp/B0HLB7P2ZS",
-        "title": "503 - Service Unavailable Error",
-        "price": null,
-        "availability": "unknown"
+        "availability": "temporarily blocked",
+        "checkedAt": "2026-11-04T00:53:44.549Z",
+        "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
+        "httpStatus": 200,
+        "note": "Amazon requested a verification page. The next scheduled check will try again."
       }
     },
     {
@@ -108,12 +105,11 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-03T23:25:58.034Z",
+        "availability": "temporarily blocked",
+        "checkedAt": "2026-11-04T00:53:44.599Z",
+        "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
         "httpStatus": 200,
-        "finalUrl": "https://www.amazon.com/MY-LIFE-STORY-GRANDMA-Memories-ebook/dp/B0HM5DTQ3K",
-        "title": "Amazon.com: MY LIFE STORY WITH GRANDMA: Part 4: The Memories We Carry Forward eBook : Coleman JR, Brandon D.: Kindle Store",
-        "price": null,
-        "availability": "available"
+        "note": "Amazon requested a verification page. The next scheduled check will try again."
       }
     },
     {
@@ -132,12 +128,11 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-03T23:25:58.034Z",
-        "httpStatus": 500,
-        "finalUrl": "https://www.amazon.com/dp/B0HM6LY91G",
-        "title": "503 - Service Unavailable Error",
-        "price": null,
-        "availability": "unknown"
+        "availability": "temporarily blocked",
+        "checkedAt": "2026-11-04T00:53:44.647Z",
+        "url": "https://www.amazon.com/dp/B0HM6LY91G",
+        "httpStatus": 200,
+        "note": "Amazon requested a verification page. The next scheduled check will try again."
       }
     },
     {
@@ -156,7 +151,7 @@
       },
       "amazonCheck": {
         "availability": "not configured",
-        "checkedAt": "2026-11-03T20:39:02.565Z",
+        "checkedAt": "2026-11-04T00:53:44.688Z",
         "note": "No Amazon ASIN has been configured yet."
       }
     },
@@ -176,7 +171,7 @@
       },
       "amazonCheck": {
         "availability": "not configured",
-        "checkedAt": "2026-11-03T20:39:02.565Z",
+        "checkedAt": "2026-11-04T00:53:44.688Z",
         "note": "No Amazon ASIN has been configured yet."
       }
     }
