@@ -1,5 +1,5 @@
 {
-  "lastChecked": "2026-11-04T00:53:44.328Z",
+  "lastChecked": "2026-11-04T06:28:59.811Z",
   "source": "Amazon public listings",
   "books": [
     {
@@ -18,11 +18,12 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "temporarily blocked",
-        "checkedAt": "2026-11-04T00:53:44.331Z",
-        "url": "https://www.amazon.com/dp/B0HL794K8Z",
+        "checkedAt": "2026-11-04T06:28:59.811Z",
         "httpStatus": 200,
-        "note": "Amazon requested a verification page. The next scheduled check will try again."
+        "finalUrl": "https://www.amazon.com/Life-Story-Grandma-brandon-coleman/dp/B0HL794K8Z",
+        "title": "My Life Story with Grandma: coleman, brandon: 9798177434117: Amazon.com: Books",
+        "price": null,
+        "availability": "available"
       },
       "editions": {
         "kindle": {
@@ -59,11 +60,12 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "temporarily blocked",
-        "checkedAt": "2026-11-04T00:53:44.459Z",
-        "url": "https://www.amazon.com/dp/B0HKT3GKM",
-        "httpStatus": 200,
-        "note": "Amazon requested a verification page. The next scheduled check will try again."
+        "checkedAt": "2026-11-04T06:28:59.811Z",
+        "httpStatus": 404,
+        "finalUrl": "https://www.amazon.com/dp/B0HKT3GKM",
+        "title": "Page Not Found",
+        "price": null,
+        "availability": "unknown"
       }
     },
     {
@@ -82,11 +84,12 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "temporarily blocked",
-        "checkedAt": "2026-11-04T00:53:44.549Z",
-        "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
+        "checkedAt": "2026-11-04T06:28:59.811Z",
         "httpStatus": 200,
-        "note": "Amazon requested a verification page. The next scheduled check will try again."
+        "finalUrl": "https://www.amazon.com/life-story-Grandma-Continues-Remembering-ebook/dp/B0HLB7P2ZS",
+        "title": "Amazon.com: My life story with Grandma : Book 3: The Journey Continues — Growing, Building, Remembering, and Looking Ahead eBook : Coleman, Brandon: Books",
+        "price": null,
+        "availability": "available"
       }
     },
     {
@@ -105,11 +108,12 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "temporarily blocked",
-        "checkedAt": "2026-11-04T00:53:44.599Z",
-        "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
+        "checkedAt": "2026-11-04T06:28:59.811Z",
         "httpStatus": 200,
-        "note": "Amazon requested a verification page. The next scheduled check will try again."
+        "finalUrl": "https://www.amazon.com/MY-LIFE-STORY-GRANDMA-Memories-ebook/dp/B0HM5DTQ3K",
+        "title": "Amazon.com: MY LIFE STORY WITH GRANDMA: Part 4: The Memories We Carry Forward eBook : Coleman JR, Brandon D.: Kindle Store",
+        "price": null,
+        "availability": "available"
       }
     },
     {
@@ -128,11 +132,12 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "temporarily blocked",
-        "checkedAt": "2026-11-04T00:53:44.647Z",
-        "url": "https://www.amazon.com/dp/B0HM6LY91G",
+        "checkedAt": "2026-11-04T06:28:59.811Z",
         "httpStatus": 200,
-        "note": "Amazon requested a verification page. The next scheduled check will try again."
+        "finalUrl": "https://www.amazon.com/MY-LIFE-STORY-GRANDMA-CONTINUES-ebook/dp/B0HM6LY91G",
+        "title": "Amazon.com: MY LIFE STORY WITH GRANDMA: PART 5: THE JOURNEY CONTINUES — More Memories, More Lessons, and the Story Still Being Written eBook : Coleman Jr , Brandon D.: Books",
+        "price": null,
+        "availability": "available"
       }
     },
     {
