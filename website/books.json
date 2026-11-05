@@ -1,5 +1,5 @@
 {
-  "lastChecked": "2026-11-05T17:38:59.797Z",
+  "lastChecked": "2026-11-05T19:59:17.494Z",
   "source": "Amazon public listings",
   "books": [
     {
@@ -18,11 +18,12 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "temporarily blocked",
-        "checkedAt": "2026-11-05T17:38:59.801Z",
-        "url": "https://www.amazon.com/dp/B0HL794K8Z",
-        "httpStatus": 200,
-        "note": "Amazon requested a verification page. The next scheduled check will try again."
+        "checkedAt": "2026-11-05T19:59:17.494Z",
+        "httpStatus": 500,
+        "finalUrl": "https://www.amazon.com/dp/B0HL794K8Z",
+        "title": "503 - Service Unavailable Error",
+        "price": null,
+        "availability": "unknown"
       },
       "editions": {
         "kindle": {
@@ -59,15 +60,12 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "not detected",
-        "checkedAt": "2026-11-05T17:39:00.004Z",
-        "url": "https://www.amazon.com/dp/B0HKT3GKM",
-        "httpStatus": 404,
-        "title": null,
+        "checkedAt": "2026-11-05T19:59:17.494Z",
+        "httpStatus": 503,
+        "finalUrl": "https://www.amazon.com/dp/B0HKT3GKM",
+        "title": "Amazon.com",
         "price": null,
-        "image": null,
-        "amazonAvailabilityText": null,
-        "note": "Amazon listing was not confidently detected yet."
+        "availability": "unknown"
       }
     },
     {
@@ -86,11 +84,12 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "temporarily blocked",
-        "checkedAt": "2026-11-05T17:39:00.092Z",
-        "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
-        "httpStatus": 200,
-        "note": "Amazon requested a verification page. The next scheduled check will try again."
+        "checkedAt": "2026-11-05T19:59:17.494Z",
+        "httpStatus": 500,
+        "finalUrl": "https://www.amazon.com/life-story-Grandma-Continues-Remembering-ebook/dp/B0HLB7P2ZS",
+        "title": "503 - Service Unavailable Error",
+        "price": null,
+        "availability": "unknown"
       }
     },
     {
@@ -109,11 +108,12 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "temporarily blocked",
-        "checkedAt": "2026-11-05T17:39:00.113Z",
-        "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
-        "httpStatus": 200,
-        "note": "Amazon requested a verification page. The next scheduled check will try again."
+        "checkedAt": "2026-11-05T19:59:17.494Z",
+        "httpStatus": 500,
+        "finalUrl": "https://www.amazon.com/dp/B0HM5DTQ3K",
+        "title": "503 - Service Unavailable Error",
+        "price": null,
+        "availability": "unknown"
       }
     },
     {
@@ -132,11 +132,12 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "temporarily blocked",
-        "checkedAt": "2026-11-05T17:39:00.173Z",
-        "url": "https://www.amazon.com/dp/B0HM6LY91G",
-        "httpStatus": 200,
-        "note": "Amazon requested a verification page. The next scheduled check will try again."
+        "checkedAt": "2026-11-05T19:59:17.494Z",
+        "httpStatus": 500,
+        "finalUrl": "https://www.amazon.com/dp/B0HM6LY91G",
+        "title": "503 - Service Unavailable Error",
+        "price": null,
+        "availability": "unknown"
       }
     },
     {
