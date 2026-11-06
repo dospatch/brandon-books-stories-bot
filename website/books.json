@@ -1,5 +1,5 @@
 {
-  "lastChecked": "2026-11-05T22:51:31.581Z",
+  "lastChecked": "2026-11-06T03:25:18.747Z",
   "source": "Amazon public listings",
   "books": [
     {
@@ -19,7 +19,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "available",
-        "checkedAt": "2026-11-05T22:51:31.585Z",
+        "checkedAt": "2026-11-06T03:25:18.751Z",
         "url": "https://www.amazon.com/dp/B0HL794K8Z",
         "httpStatus": 200,
         "title": "My Life Story with Grandma",
@@ -64,7 +64,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "not detected",
-        "checkedAt": "2026-11-05T22:51:33.364Z",
+        "checkedAt": "2026-11-06T03:25:20.739Z",
         "url": "https://www.amazon.com/dp/B0HKT3GKM",
         "httpStatus": 404,
         "title": null,
@@ -91,7 +91,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "available",
-        "checkedAt": "2026-11-05T22:51:33.506Z",
+        "checkedAt": "2026-11-06T03:25:21.078Z",
         "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
         "httpStatus": 200,
         "title": "My life story with Grandma : Book 3: The Journey Continues — Growing, Building, Remembering, and Looking Ahead",
@@ -118,7 +118,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "available",
-        "checkedAt": "2026-11-05T22:51:34.987Z",
+        "checkedAt": "2026-11-06T03:25:22.940Z",
         "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
         "httpStatus": 200,
         "title": "MY LIFE STORY WITH GRANDMA: Part 4: The Memories We Carry Forward",
@@ -145,7 +145,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "available",
-        "checkedAt": "2026-11-05T22:51:36.450Z",
+        "checkedAt": "2026-11-06T03:25:24.497Z",
         "url": "https://www.amazon.com/dp/B0HM6LY91G",
         "httpStatus": 200,
         "title": "MY LIFE STORY WITH GRANDMA: PART 5: THE JOURNEY CONTINUES — More Memories, More Lessons, and the Story Still Being Written",
@@ -171,7 +171,7 @@
       },
       "amazonCheck": {
         "availability": "not configured",
-        "checkedAt": "2026-11-05T22:51:37.941Z",
+        "checkedAt": "2026-11-06T03:25:26.144Z",
         "note": "No Amazon ASIN has been configured yet."
       }
     },
@@ -191,7 +191,7 @@
       },
       "amazonCheck": {
         "availability": "not configured",
-        "checkedAt": "2026-11-05T22:51:37.941Z",
+        "checkedAt": "2026-11-06T03:25:26.144Z",
         "note": "No Amazon ASIN has been configured yet."
       }
     }
