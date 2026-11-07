@@ -1,5 +1,5 @@
 {
-  "lastChecked": "2026-11-07T21:53:50.286Z",
+  "lastChecked": "2026-11-07T23:57:43.232Z",
   "source": "Amazon public listings",
   "books": [
     {
@@ -18,12 +18,15 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-07T21:53:50.286Z",
-        "httpStatus": 500,
-        "finalUrl": "https://www.amazon.com/dp/B0HL794K8Z",
-        "title": "503 - Service Unavailable Error",
-        "price": null,
-        "availability": "unknown"
+        "availability": "available",
+        "checkedAt": "2026-11-07T23:57:43.236Z",
+        "url": "https://www.amazon.com/dp/B0HL794K8Z",
+        "httpStatus": 200,
+        "title": "My Life Story with Grandma",
+        "price": "20 .",
+        "image": null,
+        "amazonAvailabilityText": "In Stock",
+        "note": "Amazon listing detected automatically."
       },
       "editions": {
         "kindle": {
@@ -60,12 +63,15 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-07T21:53:50.286Z",
-        "httpStatus": 503,
-        "finalUrl": "https://www.amazon.com/dp/B0HKT3GKM",
-        "title": "Amazon.com",
+        "availability": "not detected",
+        "checkedAt": "2026-11-07T23:57:44.909Z",
+        "url": "https://www.amazon.com/dp/B0HKT3GKM",
+        "httpStatus": 404,
+        "title": null,
         "price": null,
-        "availability": "unknown"
+        "image": null,
+        "amazonAvailabilityText": null,
+        "note": "Amazon listing was not confidently detected yet."
       }
     },
     {
@@ -84,12 +90,15 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-07T21:53:50.286Z",
-        "httpStatus": 500,
-        "finalUrl": "https://www.amazon.com/dp/B0HLB7P2ZS",
-        "title": "503 - Service Unavailable Error",
-        "price": null,
-        "availability": "unknown"
+        "availability": "available",
+        "checkedAt": "2026-11-07T23:57:44.995Z",
+        "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
+        "httpStatus": 200,
+        "title": "My life story with Grandma : Book 3: The Journey Continues — Growing, Building, Remembering, and Looking Ahead",
+        "price": "5 .",
+        "image": null,
+        "amazonAvailabilityText": null,
+        "note": "Amazon listing detected automatically."
       }
     },
     {
@@ -108,12 +117,15 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-07T21:53:50.286Z",
-        "httpStatus": 500,
-        "finalUrl": "https://www.amazon.com/dp/B0HM5DTQ3K",
-        "title": "503 - Service Unavailable Error",
-        "price": null,
-        "availability": "unknown"
+        "availability": "available",
+        "checkedAt": "2026-11-07T23:57:46.432Z",
+        "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
+        "httpStatus": 200,
+        "title": "MY LIFE STORY WITH GRANDMA: Part 4: The Memories We Carry Forward",
+        "price": "5 .",
+        "image": null,
+        "amazonAvailabilityText": null,
+        "note": "Amazon listing detected automatically."
       }
     },
     {
@@ -132,12 +144,15 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-07T21:53:50.286Z",
-        "httpStatus": 500,
-        "finalUrl": "https://www.amazon.com/dp/B0HM6LY91G",
-        "title": "503 - Service Unavailable Error",
-        "price": null,
-        "availability": "unknown"
+        "availability": "available",
+        "checkedAt": "2026-11-07T23:57:47.841Z",
+        "url": "https://www.amazon.com/dp/B0HM6LY91G",
+        "httpStatus": 200,
+        "title": "MY LIFE STORY WITH GRANDMA: PART 5: THE JOURNEY CONTINUES — More Memories, More Lessons, and the Story Still Being Written",
+        "price": "5 .",
+        "image": null,
+        "amazonAvailabilityText": null,
+        "note": "Amazon listing detected automatically."
       }
     },
     {
@@ -156,7 +171,7 @@
       },
       "amazonCheck": {
         "availability": "not configured",
-        "checkedAt": "2026-11-07T20:30:10.145Z",
+        "checkedAt": "2026-11-07T23:57:49.188Z",
         "note": "No Amazon ASIN has been configured yet."
       }
     },
@@ -176,7 +191,7 @@
       },
       "amazonCheck": {
         "availability": "not configured",
-        "checkedAt": "2026-11-07T20:30:10.145Z",
+        "checkedAt": "2026-11-07T23:57:49.188Z",
         "note": "No Amazon ASIN has been configured yet."
       }
     }
