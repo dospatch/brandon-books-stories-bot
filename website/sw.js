@@ -1,4 +1,4 @@
-const CACHE_NAME = "bbs-app-v2";
+const CACHE_NAME = "bbs-app-v3";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -82,7 +82,7 @@ self.addEventListener("fetch", event => {
         .then(response => {
           if (response.ok) {
             const copy = response.clone();
-            caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
+            cacheResponse(request, copy).catch(() => {});
           }
           return response;
         })
