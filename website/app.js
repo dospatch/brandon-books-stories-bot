@@ -49,7 +49,7 @@
     installHelp.textContent = "On iPhone or iPad: open the Share menu in Safari, then choose Add to Home Screen.";
   }
 
-  if ("serviceWorker" in navigator && location.protocol === "https:") {
+  if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
     window.addEventListener("load", () => {
       navigator.serviceWorker.register("./sw.js").catch(error => {
         console.warn("App offline support could not be registered.", error);
