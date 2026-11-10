@@ -1022,17 +1022,16 @@ client.on("interactionCreate",async i=>{
    await i.deferReply({flags:MessageFlags.Ephemeral});
    const embed=new EmbedBuilder()
     .setTitle("📚✨ BIG PUBLISHING UPDATE! ✨📚")
-    .setDescription("I’m excited to share the latest progress on my **My Life Story with Grandma** book series! ❤️📖\n\nMore editions are officially live and making their way out into the world. We are getting closer and closer to having the complete collection fully available across formats! 🙏🏾")
+    .setDescription("All seven books in my **My Life Story With Grandma** series are published on Amazon. ❤️📚")
     .addFields(
-     {name:"📕 BOOK 1 — Foundations",value:"🟢 Kindle eBook: **LIVE — $5.99** ✅\n🟢 Paperback: **LIVE — $20.00** ✅\n🟢 Hardcover: **LIVE** ✅\n📚 Kindle ASIN: `B0HJL27HKR`\n📚 Paperback ASIN: `B0HL794K8Z`"},
-     {name:"📗 BOOK 2 — New Horizons",value:"🟢 Kindle: **PUBLISHED!** ✅\n🟢 Paperback: **PUBLISHED!** ✅\n🕐 Hardcover: **DRAFT / SETUP**"},
-     {name:"📘 BOOK 3 — The Journey Continues",value:"🟢 Kindle: **PUBLISHED!** ✅\n🟢 Paperback: **PUBLISHED!** ✅\n🕐 Hardcover: **IN REVIEW**"},
-     {name:"📙 BOOK 4 — The Memories We Carry Forward",value:"🟢 Kindle: **PUBLISHED!** ✅\n🕐 Paperback: **IN REVIEW**\n🕐 Hardcover: **DRAFT**"},
-     {name:"📔 BOOK 5 — Part 5: The Journey Continues",value:"🟢 Kindle: **PUBLISHED!** ✅\n🟢 Paperback: **PUBLISHED!** ✅\n🕐 Hardcover: **COMING SOON**"},
-     {name:"📓 BOOK 6 — The Pages Still Waiting",value:"📚 Kindle eBook: **TO BE ANNOUNCED**\n📚 Paperback: **TO BE ANNOUNCED**\n📚 Hardcover: **TO BE ANNOUNCED**\n⏳ Upcoming title; release date and retail links have not been announced."},
-     {name:"📚 BOOK 7 — Same Kid, Bigger Dreams",value:"📚 Kindle eBook: **TO BE ANNOUNCED**\n📚 Paperback: **TO BE ANNOUNCED**\n📚 Hardcover: **TO BE ANNOUNCED**\n⏳ Upcoming title; release date and retail links have not been announced."},
-     {name:"⏳ NEXT STEPS",value:"The remaining editions are continuing through their publishing steps. Books 6 and 7 are upcoming; their release dates and retail links will be announced when confirmed."},
-     {name:"❤️ Why This Journey Matters",value:"These books are more than just stories — they are memories, family, growth, faith, and a way of honoring my Grandma’s legacy.\n\n🙏🏾 Thank you to everyone who has supported me, followed this journey, purchased a book, shared a post, or simply encouraged me along the way.\n\n📚 More books. More memories. More of the story.\n\n🔥 The journey continues..."}
+     {name:"📕 BOOK 1 — Foundations",value:"Published on Amazon.\\n📚 Kindle ASIN: `B0HJL27HKR`\\n📚 Paperback ASIN: `B0HL794K8Z`"},
+     {name:"📗 BOOK 2 — Continuing the Journey",value:"Published on Amazon."},
+     {name:"📘 BOOK 3 — The Journey Continues",value:"Published on Amazon."},
+     {name:"📙 BOOK 4 — The Memories We Carry Forward",value:"Published on Amazon."},
+     {name:"📔 BOOK 5 — The Journey Continues",value:"Published on Amazon."},
+     {name:"📓 BOOK 6 — The Pages Still Waiting",value:"Published on Amazon."},
+     {name:"📚 BOOK 7 — Same Kid, Bigger Dreams",value:"Published on Amazon."},
+     {name:"❤️ Why This Journey Matters",value:"These books are more than just stories — they are memories, family, growth, faith, and a way of honoring my Grandma’s legacy."}
     )
     .setFooter({text:"Brandon D. Coleman Jr. — Books & Stories • 📖 Real Stories • Bigger Purpose"});
    await channel.send({content:"📢 **BIG PUBLISHING UPDATE!**",embeds:[embed]});
