@@ -1,0 +1,23 @@
+{
+  "id": "./",
+  "name": "Brandon Books & Stories",
+  "short_name": "Brandon Books",
+  "description": "The official bookstore and author experience of Brandon D. Coleman Jr.",
+  "lang": "en-US",
+  "start_url": "./?source=installed-app",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "theme_color": "#171513",
+  "background_color": "#f7f4ef",
+  "categories": ["books", "shopping", "lifestyle"],
+  "icons": [
+    {
+      "src": "assets/bbs-app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
