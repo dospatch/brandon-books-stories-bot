@@ -1024,7 +1024,7 @@ client.on("interactionCreate",async i=>{
     .setTitle("📚✨ BIG PUBLISHING UPDATE! ✨📚")
     .setDescription("All seven books in my **My Life Story With Grandma** series are published on Amazon. ❤️📚")
     .addFields(
-     {name:"📕 BOOK 1 — Foundations",value:"Published on Amazon.\\n📚 Kindle ASIN: `B0HJL27HKR`\\n📚 Paperback ASIN: `B0HL794K8Z`"},
+     {name:"📕 BOOK 1 — Foundations",value:"Published on Amazon.\n📚 Kindle ASIN: `B0HJL27HKR`\n📚 Paperback ASIN: `B0HL794K8Z`"},
      {name:"📗 BOOK 2 — Continuing the Journey",value:"Published on Amazon."},
      {name:"📘 BOOK 3 — The Journey Continues",value:"Published on Amazon."},
      {name:"📙 BOOK 4 — The Memories We Carry Forward",value:"Published on Amazon."},
