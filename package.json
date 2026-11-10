@@ -5,7 +5,8 @@
   "description": "Discord bot for Brandon D. Coleman Jr. — Books & Stories.",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "verify:pwa": "node scripts/verify-pwa.mjs"
   },
   "engines": {
     "node": ">=20"
