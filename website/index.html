@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n<meta name="theme-color" content="#171513">\n<link rel="manifest" href="manifest.webmanifest">\n<link rel="icon" href="assets/bbs-app-icon.svg" type="image/svg+xml">\n<link rel="apple-touch-icon" href="assets/bbs-app-icon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#171513">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/bbs-app-icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/bbs-app-icon.svg">
 <meta name="description" content="Brandon D. Coleman Jr. — Books & Stories. Author, storyteller, creator. Real Stories • Bigger Purpose.">
 <title>Brandon D. Coleman Jr. — Books & Stories</title>
 <link rel="stylesheet" href="styles.css">
@@ -24,7 +28,12 @@
     <a href="#media">Media</a>
     <a href="#contact">Contact</a>
   </nav>
+  <div class="app-controls" aria-label="App controls">
+    <button id="theme-toggle" class="app-control" type="button" aria-pressed="false">🌙 Dark mode</button>
+    <button id="install-app" class="app-control install-control" type="button" hidden>＋ Install app</button>
+  </div>
 </header>
+<p id="install-help" class="install-help" aria-live="polite">Add Brandon Books &amp; Stories to your home screen for an app-like reading experience.</p>
 
 <main>
 <section id="home" class="hero">
@@ -353,12 +362,12 @@
       const check=book.amazonCheck||{};
       if(book.status==="upcoming"){
         actions.innerHTML="<span class='text-link'>📚 Publishing status: To be announced.</span>";
-      }else if(book.status==="published" && !book.amazon?.url){
+      }else if(book.amazon?.url){
+        actions.innerHTML="<a class='button primary' href='"+book.amazon.url+"' target='_blank' rel='noopener noreferrer'>🛒 View on Amazon</a><span class='text-link'>Availability is not confirmed by the automatic checker.</span>";
+      }else if(book.status==="published"){
         actions.innerHTML="<span class='text-link'>📚 Published on Amazon — direct listing link is being added.</span>";
-      }else if(check.availability==="available" && book.amazon?.url){
-        actions.innerHTML="<a class='button primary' href='"+book.amazon.url+"' target='_blank' rel='noopener'>🛒 View on Amazon</a>";
       }else{
-        actions.innerHTML="<span class='text-link'>🕐 Amazon listing not detected yet — checking automatically.</span>";
+        actions.innerHTML="<span class='text-link'>Retail listing details are being updated.</span>";
       }
     }
   }catch(error){
@@ -458,5 +467,6 @@
 })();
 </script>
 
+<script src="app.js" defer></script>
 </body>
 </html>
