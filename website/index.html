@@ -30,7 +30,7 @@
   </nav>
   <div class="app-controls" aria-label="App controls">
     <button id="theme-toggle" class="app-control" type="button" aria-pressed="false">🌙 Dark mode</button>
-    <button id="install-app" class="app-control install-control" type="button" hidden>＋ Install app</button>
+    <button id="install-app" class="app-control install-control" type="button" hidden>＋ Install app</button>\n    <button id="update-app" class="app-control" type="button" hidden>↻ Update app</button>
   </div>
 </header>
 <p id="install-help" class="install-help" aria-live="polite">Add Brandon Books &amp; Stories to your home screen for an app-like reading experience.</p>
@@ -430,7 +430,17 @@
   const filters = Array.from(document.querySelectorAll("[data-book-filter]"));
   const count = document.getElementById("book-results-count");
   let activeFilter = "all";
-  const favorites = new Set(JSON.parse(localStorage.getItem("bbs-favorites") || "[]"));
+  const readFavorites = () => {
+    try {
+      const parsed = JSON.parse(window.localStorage.getItem("bbs-favorites") || "[]");
+      return new Set(Array.isArray(parsed) ? parsed.filter(value => typeof value === "string") : []);
+    } catch { return new Set(); }
+  };
+  const favorites = readFavorites();
+  const saveFavorites = () => {
+    try { window.saveFavorites(); }
+    catch { if(count) count.textContent = "Favorites could not be saved in this browser. Check your storage settings."; }
+  };
   cards.forEach(card => {
     const id = card.dataset.bookId;
     const info = card.querySelector(".book-info");
