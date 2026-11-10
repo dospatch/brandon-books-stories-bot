@@ -438,7 +438,7 @@
   };
   const favorites = readFavorites();
   const saveFavorites = () => {
-    try { window.saveFavorites(); }
+    try { window.localStorage.setItem("bbs-favorites", JSON.stringify([...favorites])); }
     catch { if(count) count.textContent = "Favorites could not be saved in this browser. Check your storage settings."; }
   };
   cards.forEach(card => {
