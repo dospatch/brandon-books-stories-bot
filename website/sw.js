@@ -5,7 +5,10 @@ const APP_SHELL = [
   "./styles.css",
   "./app.js",
   "./manifest.webmanifest",
-  "./assets/bbs-app-icon.svg",\n  "./assets/bbs-icon-192.png",\n  "./assets/bbs-icon-512.png",\n  "./assets/apple-touch-icon.png",
+  "./assets/bbs-app-icon.svg",
+  "./assets/bbs-icon-192.png",
+  "./assets/bbs-icon-512.png",
+  "./assets/apple-touch-icon.png",
   "./offline.html",
   "./books.json",
   "./changelog.html",
@@ -21,7 +24,11 @@ const APP_SHELL = [
   "./terms.html"
 ];
 
-self.addEventListener("message", event => {\n  if (event.data && event.data.type === "SKIP_WAITING") self.skipWaiting();\n});\n\nasync function cacheResponse(request, response) {
+self.addEventListener("message", event => {
+  if (event.data && event.data.type === "SKIP_WAITING") self.skipWaiting();
+});
+
+async function cacheResponse(request, response) {
   const cache = await caches.open(CACHE_NAME);
   await cache.put(request, response);
   const keys = await cache.keys();
