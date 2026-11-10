@@ -16,7 +16,7 @@ const APP_SHELL = [
   "./book-4.html",
   "./book-5.html",
   "./book-6.html",
-  "./book-7.html"
+  "./book-7.html",\n  "./privacy.html",\n  "./terms.html"
 ];
 
 self.addEventListener("install", event => {
