@@ -1,6 +1,7 @@
 (() => {
   const root = document.documentElement;
   const themeButton = document.getElementById("theme-toggle");
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
   const installButton = document.getElementById("install-app");
   const installHelp = document.getElementById("install-help");
   const updateButton = document.getElementById("update-app");
@@ -20,8 +21,9 @@
   if (savedTheme === "dark" || savedTheme === "light") root.dataset.theme = savedTheme;
 
   const updateThemeButton = () => {
-    if (!themeButton) return;
     const dark = root.dataset.theme === "dark";
+    if (themeMeta) themeMeta.content = dark ? "#171513" : "#f7f4ef";
+    if (!themeButton) return;
     themeButton.setAttribute("aria-pressed", String(dark));
     themeButton.textContent = dark ? "☀️ Light mode" : "🌙 Dark mode";
   };
