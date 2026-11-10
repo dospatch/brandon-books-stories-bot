@@ -3,12 +3,21 @@
   const themeButton = document.getElementById("theme-toggle");
   const installButton = document.getElementById("install-app");
   const installHelp = document.getElementById("install-help");
+  const updateButton = document.getElementById("update-app");
   let installPrompt = null;
+  let refreshing = false;
 
-  const savedTheme = localStorage.getItem("bbs-theme");
-  if (savedTheme === "dark" || savedTheme === "light") {
-    root.dataset.theme = savedTheme;
-  }
+  const storage = {
+    get(key) {
+      try { return window.localStorage.getItem(key); } catch { return null; }
+    },
+    set(key, value) {
+      try { window.localStorage.setItem(key, value); return true; } catch { return false; }
+    }
+  };
+
+  const savedTheme = storage.get("bbs-theme");
+  if (savedTheme === "dark" || savedTheme === "light") root.dataset.theme = savedTheme;
 
   const updateThemeButton = () => {
     if (!themeButton) return;
@@ -21,22 +30,31 @@
   themeButton?.addEventListener("click", () => {
     const next = root.dataset.theme === "dark" ? "light" : "dark";
     root.dataset.theme = next;
-    localStorage.setItem("bbs-theme", next);
+    storage.set("bbs-theme", next);
     updateThemeButton();
   });
+
+  const standalone = window.matchMedia?.("(display-mode: standalone)").matches || window.navigator.standalone === true;
+  if (standalone && installButton) installButton.hidden = true;
 
   window.addEventListener("beforeinstallprompt", event => {
     event.preventDefault();
     installPrompt = event;
-    if (installButton) installButton.hidden = false;
+    if (installButton && !standalone) installButton.hidden = false;
   });
 
   installButton?.addEventListener("click", async () => {
     if (!installPrompt) return;
-    installPrompt.prompt();
-    await installPrompt.userChoice;
+    const promptEvent = installPrompt;
     installPrompt = null;
     installButton.hidden = true;
+    await promptEvent.prompt();
+    const choice = await promptEvent.userChoice;
+    if (installHelp) {
+      installHelp.textContent = choice?.outcome === "accepted"
+        ? "Thanks for installing Brandon Books & Stories."
+        : "You can install Brandon Books & Stories later from your browser menu.";
+    }
   });
 
   window.addEventListener("appinstalled", () => {
@@ -45,15 +63,43 @@
   });
 
   const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  if (isIOS && installHelp) {
-    installHelp.textContent = "On iPhone or iPad: open the Share menu in Safari, then choose Add to Home Screen.";
+  const isSafari = /safari/i.test(navigator.userAgent) && !/crios|fxios|edgios|opios/i.test(navigator.userAgent);
+  if (isIOS && isSafari && !standalone && installHelp) {
+    installHelp.textContent = "To install: tap Share in Safari, then choose Add to Home Screen.";
   }
 
   if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("./sw.js").catch(error => {
+    window.addEventListener("load", async () => {
+      try {
+        const registration = await navigator.serviceWorker.register("./sw.js");
+        const showUpdate = () => {
+          if (registration.waiting && navigator.serviceWorker.controller && updateButton) {
+            updateButton.hidden = false;
+          }
+        };
+        showUpdate();
+        registration.addEventListener("updatefound", () => {
+          const installing = registration.installing;
+          if (!installing) return;
+          installing.addEventListener("statechange", () => {
+            if (installing.state === "installed") showUpdate();
+          });
+        });
+        updateButton?.addEventListener("click", () => {
+          if (!registration.waiting) return;
+          updateButton.disabled = true;
+          updateButton.textContent = "Updating…";
+          registration.waiting.postMessage({ type: "SKIP_WAITING" });
+        });
+        navigator.serviceWorker.addEventListener("controllerchange", () => {
+          if (refreshing) return;
+          refreshing = true;
+          window.location.reload();
+        });
+        registration.update().catch(() => {});
+      } catch (error) {
         console.warn("App offline support could not be registered.", error);
-      });
+      }
     });
   }
 })();
