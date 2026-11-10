@@ -25,5 +25,7 @@ jobs:
               node --check "$file"
             fi
           done
+      - name: Verify PWA assets, app scripts, and catalog pages
+        run: npm run verify:pwa
       - name: Validate book catalog JSON
         run: node -e "JSON.parse(require('node:fs').readFileSync('website/books.json','utf8')); console.log('Book catalog JSON is valid.')"
