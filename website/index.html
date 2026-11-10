@@ -112,9 +112,9 @@
     <div class="book-filters" role="group" aria-label="Filter books">
       <button class="filter-button is-active" type="button" data-book-filter="all" aria-pressed="true">All books</button>
       <button class="filter-button" type="button" data-book-filter="published" aria-pressed="false">Published on Amazon</button>
-      <button class="filter-button" type="button" data-book-filter="progress" aria-pressed="false">Editions in progress</button>
+      <button class="filter-button" type="button" data-book-filter="progress" aria-pressed="false">Editions in progress</button>\n      <button class="filter-button" type="button" data-book-filter="favorites" aria-pressed="false">♥ My favorites</button>
     </div>
-    <p id="book-results-count" class="book-results-count" aria-live="polite">Showing all seven books.</p>
+    <p id="book-results-count" class="book-results-count" aria-live="polite">Showing all seven books.</p>\n    <p class="book-results-count">Your saved favorites stay on this device.</p>
   </div>
   <div class="book-grid seven-book-grid">
     <article class="book-card featured" data-book-id="book-1" data-book-status="published" data-book-search="book 1 foundations my life story with grandma family memories">
@@ -294,7 +294,7 @@
 <a class="back-to-top" href="#home" aria-label="Back to top">↑ <span>Back to top</span></a>
 <footer>
   <div><strong>Brandon D. Coleman Jr. — Books & Stories</strong><span>📖 Real Stories • Bigger Purpose</span></div>
-  <div class="footer-links"><a href="changelog.html">Changelog</a><a href="https://discord.gg/YN6AgpU9F5" target="_blank" rel="noopener">Discord</a></div>
+  <div class="footer-links"><a href="changelog.html">Changelog</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="https://discord.gg/YN6AgpU9F5" target="_blank" rel="noopener">Support / Discord</a></div>
   <p>© 2026 Brandon D. Coleman Jr. All rights reserved.</p>
 </footer>
 
@@ -428,12 +428,35 @@
   const filters = Array.from(document.querySelectorAll("[data-book-filter]"));
   const count = document.getElementById("book-results-count");
   let activeFilter = "all";
+  const favorites = new Set(JSON.parse(localStorage.getItem("bbs-favorites") || "[]"));
+  cards.forEach(card => {
+    const id = card.dataset.bookId;
+    const info = card.querySelector(".book-info");
+    if (!id || !info) return;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "favorite-toggle";
+    const refresh = () => {
+      const saved = favorites.has(id);
+      button.setAttribute("aria-pressed", String(saved));
+      button.textContent = saved ? "♥ Saved to favorites" : "♡ Save to favorites";
+    };
+    refresh();
+    button.addEventListener("click", () => {
+      if (favorites.has(id)) favorites.delete(id);
+      else favorites.add(id);
+      localStorage.setItem("bbs-favorites", JSON.stringify([...favorites]));
+      refresh();
+      update();
+    });
+    info.appendChild(button);
+  });
   function update(){
     const query = (input?.value || "").trim().toLowerCase();
     let visible = 0;
     cards.forEach(card => {
       const matchesText = !query || ((card.dataset.bookSearch || "") + " " + card.textContent).toLowerCase().includes(query);
-      const matchesFilter = activeFilter === "all" || (activeFilter === "published" ? card.dataset.bookStatus !== "upcoming" : card.dataset.bookStatus === "progress");
+      const matchesFilter = activeFilter === "all" || (activeFilter === "favorites" ? favorites.has(card.dataset.bookId) : (activeFilter === "published" ? card.dataset.bookStatus !== "upcoming" : card.dataset.bookStatus === "progress"));
       const show = matchesText && matchesFilter;
       card.hidden = !show;
       if(show) visible++;
