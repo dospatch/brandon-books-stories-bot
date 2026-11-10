@@ -67,3 +67,38 @@
 
 .cover-six{background:linear-gradient(145deg,#476b80,#202832)}
 .cover-seven{background:linear-gradient(145deg,#8a6a36,#2c2418)}
+
+/* PWA app controls and accessible install experience */
+.app-controls{display:flex;align-items:center;gap:8px}
+.app-control{padding:9px 12px;border:1px solid var(--line);background:var(--white);color:var(--ink);font:700 11px Arial,sans-serif;cursor:pointer;border-radius:4px}
+.app-control:hover{border-color:var(--accent);color:var(--accent)}
+.app-control[hidden]{display:none}
+.install-help{max-width:var(--max);margin:0 auto;padding:5px 24px 0;text-align:right;font:11px/1.5 Arial,sans-serif;color:var(--muted)}
+/* User-selected dark theme; the existing bookstore dark panels remain unchanged */
+:root[data-theme="dark"]{--ink:#f3eee7;--muted:#b8aea2;--paper:#171513;--white:#24211e;--line:#403a34;--accent:#d2a16b;--accent2:#e0bd91;--dark:#100f0e}
+:root[data-theme="dark"] .site-header{background:rgba(23,21,19,.96)}
+:root[data-theme="dark"] .section p,
+:root[data-theme="dark"] .hero-text{color:#c9c0b6}
+:root[data-theme="dark"] .quote-card,
+:root[data-theme="dark"] .story-grid article,
+:root[data-theme="dark"] .update-panel,
+:root[data-theme="dark"] .faq-list details,
+:root[data-theme="dark"] .changelog-item,
+:root[data-theme="dark"] .loading-card{background:#24211e;color:#f3eee7;border-color:var(--line)}
+:root[data-theme="dark"] .quote-card p,
+:root[data-theme="dark"] .story-grid h3,
+:root[data-theme="dark"] .update-panel h3,
+:root[data-theme="dark"] .faq-list summary,
+:root[data-theme="dark"] .changelog-item h3{color:#f3eee7}
+:root[data-theme="dark"] .media-section{background:#211e1a}
+:root[data-theme="dark"] .media-links a{background:#292520;color:#f3eee7;border-color:var(--line)}
+:root[data-theme="dark"] .detail-card{background:#24211e;border-color:var(--line)}
+:root[data-theme="dark"] .app-control{background:#24211e;color:#f3eee7;border-color:var(--line)}
+:root[data-theme="dark"] footer{background:#0d0c0b}
+@media(max-width:800px){
+  .app-controls{width:100%;order:4;justify-content:flex-end}
+  .install-help{text-align:center;padding:7px 16px}
+}
+@media(max-width:520px){
+  .app-control{flex:1}
+}
