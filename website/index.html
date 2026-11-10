@@ -122,7 +122,7 @@
   <div class="book-grid seven-book-grid">
     <article class="book-card featured" data-book-id="book-1" data-book-status="published" data-edition-status="complete" data-book-search="book 1 foundations my life story with grandma family memories">
       <div class="cover-placeholder" role="img" aria-label="Official Book 1 cover artwork has not been added"><strong>BOOK 1</strong><span>Official cover artwork not yet provided</span></div>
-      <div class="book-info"><span class="tag">BOOK 1 — FOUNDATIONS</span><h3>My Life Story With Grandma</h3><p>🟢 Kindle: <strong>LIVE — $5.99</strong> • 🟢 Paperback: <strong>LIVE — $20.00</strong> • 🟢 Hardcover: <strong>LIVE</strong></p><p class="note">Kindle ASIN: B0HJL27HKR • Paperback ASIN: B0HL794K8Z</p><p>The foundation of the journey, centered on family, memories, life experiences, and Grandma's lasting impact.</p><div class="book-actions"><a class="button primary" href="https://www.amazon.com/dp/B0HL794K8Z" target="_blank" rel="noopener">🛒 Buy Book 1</a></div></div>
+      <div class="book-info"><span class="tag">BOOK 1 — FOUNDATIONS</span><h3>My Life Story With Grandma</h3><p class="note">Kindle ASIN: B0HJL27HKR • Paperback ASIN: B0HL794K8Z</p><p>The foundation of the journey, centered on family, memories, life experiences, and Grandma's lasting impact.</p><div class="book-actions"><a class="button primary" href="https://www.amazon.com/dp/B0HL794K8Z" target="_blank" rel="noopener">🛒 Buy Book 1</a></div></div>
     </article>
     <article class="book-card" data-book-id="book-2" data-book-status="progress" data-edition-status="in-progress" data-book-search="book 2 part 2 continuing journey memories road ahead my life story with grandma">
       <div class="cover-placeholder" role="img" aria-label="Official Book 2 cover artwork has not been added"><strong>BOOK 2</strong><span>Official cover artwork not yet provided</span></div>
@@ -158,7 +158,7 @@
     <p>The latest publishing progress across the growing seven-book lineup.</p>
   </div>
   <div class="story-grid">
-    <article><span>📕</span><h3>Book 1 — Foundations</h3><p>🟢 Kindle eBook: <strong>LIVE — $5.99</strong> ✅<br>🟢 Paperback: <strong>LIVE — $20.00</strong> ✅<br>🟢 Hardcover: <strong>LIVE</strong> ✅</p><p class="note">Kindle ASIN: B0HJL27HKR • Paperback ASIN: B0HL794K8Z</p></article>
+    <article><span>📕</span><h3>Book 1 — Foundations</h3><p class="note">Kindle ASIN: B0HJL27HKR • Paperback ASIN: B0HL794K8Z</p></article>
     <article><span>📗</span><h3>Part 2 — Continuing the Journey, Memories, and the Road Ahead</h3><p>🟢 Kindle: <strong>PUBLISHED!</strong> ✅<br>🟢 Paperback: <strong>PUBLISHED!</strong> ✅<br>🕐 Hardcover: <strong>DRAFT / SETUP</strong></p></article>
     <article><span>📘</span><h3>Book 3 — The Journey Continues</h3><p>🟢 Kindle: <strong>PUBLISHED!</strong> ✅<br>🟢 Paperback: <strong>PUBLISHED!</strong> ✅<br>🕐 Hardcover: <strong>IN REVIEW</strong></p></article>
     <article><span>📙</span><h3>Book 4 — The Memories We Carry Forward</h3><p>🟢 Kindle: <strong>PUBLISHED!</strong> ✅<br>🕐 Paperback: <strong>IN REVIEW</strong><br>🕐 Hardcover: <strong>DRAFT</strong></p></article>
@@ -327,10 +327,6 @@
         "<span>📚</span>"+
         "<h3>"+book.subtitle+"</h3>"+
         "<p><strong>"+label+"</strong></p>"+
-        "<p>"+(check.price?"Amazon price: "+check.price+"<br>":"")+
-        (book.formats?.kindle?"Kindle: "+book.formats.kindle+"<br>":"")+
-        (book.formats?.paperback?"Paperback: "+book.formats.paperback+"<br>":"")+
-        (book.formats?.hardcover?"Hardcover: "+book.formats.hardcover:"")+"</p>"+
         (book.amazon?.url?"<a class='button secondary' href='"+book.amazon.url+"' target='_blank' rel='noopener'>View on Amazon</a>":"");
       container.appendChild(article);
     }
