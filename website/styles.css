@@ -133,3 +133,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 :root[data-theme="dark"] .settings-card{background:#24211e;border-color:var(--line)}
 :root[data-theme="dark"] .settings-card h2{color:#f3eee7}
 @media(max-width:700px){.settings-grid{grid-template-columns:1fr;gap:12px}.settings-card{padding:20px}}
+
+:root{color-scheme:light}
+:root[data-theme="dark"]{color-scheme:dark}
