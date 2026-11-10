@@ -2,7 +2,7 @@ name: Project Checks
 
 on:
   push:
-    branches: [main]
+    branches: [main, feature/official-mobile-pwa-v1]
   pull_request:
     branches: [main]
 
