@@ -27,6 +27,41 @@
   };
   updateThemeButton();
 
+  const readFavorites = () => {
+    try {
+      const value = JSON.parse(window.localStorage.getItem("bbs-favorites") || "[]");
+      return new Set(Array.isArray(value) ? value.filter(item => typeof item === "string") : []);
+    } catch {
+      return new Set();
+    }
+  };
+  const writeFavorites = favorites => {
+    try {
+      window.localStorage.setItem("bbs-favorites", JSON.stringify([...favorites]));
+      return true;
+    } catch {
+      return false;
+    }
+  };
+  const favorites = readFavorites();
+  document.querySelectorAll("[data-favorite-book]").forEach(button => {
+    const bookId = button.dataset.favoriteBook;
+    if (!bookId) return;
+    const render = () => {
+      const saved = favorites.has(bookId);
+      button.setAttribute("aria-pressed", String(saved));
+      button.textContent = saved ? "♥ Saved to favorites" : "♡ Save to favorites";
+    };
+    render();
+    button.addEventListener("click", () => {
+      if (favorites.has(bookId)) favorites.delete(bookId);
+      else favorites.add(bookId);
+      const saved = writeFavorites(favorites);
+      render();
+      if (!saved) button.setAttribute("title", "Your browser did not allow favorites to be saved.");
+    });
+  });
+
   themeButton?.addEventListener("click", () => {
     const next = root.dataset.theme === "dark" ? "light" : "dark";
     root.dataset.theme = next;
