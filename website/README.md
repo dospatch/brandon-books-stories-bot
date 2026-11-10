@@ -2,6 +2,8 @@
 
 The website is the public bookstore and author home for Brandon D. Coleman Jr.
 
+The mobile experience remains a PWA built on the existing static site; it does not introduce a paid app framework, payment processor, or subscription.
+
 ## Mobile app foundation
 
 This folder now includes the first Progressive Web App (PWA) foundation:
@@ -13,11 +15,12 @@ This folder now includes the first Progressive Web App (PWA) foundation:
 - `offline.html` provides a clear offline message.
 - `book-6.html` and `book-7.html` add detail pages for the final two published series installments.
 - `privacy.html` and `terms.html` describe the current app behavior and retailer handoff.
+- `settings.html` and `settings.js` provide theme, installation, update, and on-device favorites controls.
 
 ## Reader features
 
 - Search and filter the seven-book catalog.
-- Save favorites locally on the current device.
+- Save favorites locally on the current device and clear them from the dedicated settings page.
 - Switch between light and dark themes.
 - Open confirmed Amazon product links where present.
 - Use retailer search links for Books 6 and 7 while direct product listings are not yet verified.
