@@ -1,5 +1,5 @@
 {
-  "lastChecked": "2026-11-10T07:23:11.678Z",
+  "lastChecked": "2026-11-10T10:27:16.621Z",
   "source": "Amazon public listings",
   "books": [
     {
@@ -9,7 +9,7 @@
       "amazon": {
         "asin": "B0HL794K8Z",
         "url": "https://www.amazon.com/dp/B0HL794K8Z",
-        "listingDetected": false
+        "listingDetected": true
       },
       "formats": {
         "kindle": "published",
@@ -18,12 +18,15 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-10T07:23:11.678Z",
-        "httpStatus": 500,
-        "finalUrl": "https://www.amazon.com/dp/B0HL794K8Z",
-        "title": "503 - Service Unavailable Error",
-        "price": null,
-        "availability": "unknown"
+        "availability": "available",
+        "checkedAt": "2026-11-10T10:27:16.625Z",
+        "url": "https://www.amazon.com/dp/B0HL794K8Z",
+        "httpStatus": 200,
+        "title": "My Life Story with Grandma",
+        "price": "20 .",
+        "image": null,
+        "amazonAvailabilityText": "In Stock",
+        "note": "Amazon listing detected automatically."
       },
       "editions": {
         "kindle": {
@@ -60,12 +63,15 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-10T07:23:11.678Z",
-        "httpStatus": 503,
-        "finalUrl": "https://www.amazon.com/dp/B0HKT3GKM",
-        "title": "Amazon.com",
+        "availability": "not detected",
+        "checkedAt": "2026-11-10T10:27:18.420Z",
+        "url": "https://www.amazon.com/dp/B0HKT3GKM",
+        "httpStatus": 404,
+        "title": null,
         "price": null,
-        "availability": "unknown"
+        "image": null,
+        "amazonAvailabilityText": null,
+        "note": "Amazon listing was not confidently detected yet."
       }
     },
     {
@@ -75,7 +81,7 @@
       "amazon": {
         "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
         "asin": "B0HLB7P2ZS",
-        "listingDetected": false
+        "listingDetected": true
       },
       "formats": {
         "kindle": "published",
@@ -84,12 +90,15 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-10T07:23:11.678Z",
-        "httpStatus": 500,
-        "finalUrl": "https://www.amazon.com/dp/B0HLB7P2ZS",
-        "title": "503 - Service Unavailable Error",
-        "price": null,
-        "availability": "unknown"
+        "availability": "available",
+        "checkedAt": "2026-11-10T10:27:18.585Z",
+        "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
+        "httpStatus": 200,
+        "title": "My life story with Grandma : Book 3: The Journey Continues — Growing, Building, Remembering, and Looking Ahead",
+        "price": "5 .",
+        "image": null,
+        "amazonAvailabilityText": null,
+        "note": "Amazon listing detected automatically."
       }
     },
     {
@@ -108,12 +117,15 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-10T07:23:11.678Z",
-        "httpStatus": 500,
-        "finalUrl": "https://www.amazon.com/MY-LIFE-STORY-GRANDMA-Memories-ebook/dp/B0HM5DTQ3K",
-        "title": "503 - Service Unavailable Error",
-        "price": null,
-        "availability": "unknown"
+        "availability": "available",
+        "checkedAt": "2026-11-10T10:27:20.136Z",
+        "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
+        "httpStatus": 200,
+        "title": "MY LIFE STORY WITH GRANDMA: Part 4: The Memories We Carry Forward",
+        "price": "5 .",
+        "image": null,
+        "amazonAvailabilityText": null,
+        "note": "Amazon listing detected automatically."
       }
     },
     {
@@ -123,7 +135,7 @@
       "amazon": {
         "url": "https://www.amazon.com/dp/B0HM6LY91G",
         "asin": "B0HM6LY91G",
-        "listingDetected": false
+        "listingDetected": true
       },
       "formats": {
         "kindle": "published",
@@ -132,12 +144,15 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-10T07:23:11.678Z",
-        "httpStatus": 500,
-        "finalUrl": "https://www.amazon.com/dp/B0HM6LY91G",
-        "title": "503 - Service Unavailable Error",
-        "price": null,
-        "availability": "unknown"
+        "availability": "available",
+        "checkedAt": "2026-11-10T10:27:21.760Z",
+        "url": "https://www.amazon.com/dp/B0HM6LY91G",
+        "httpStatus": 200,
+        "title": "MY LIFE STORY WITH GRANDMA: PART 5: THE JOURNEY CONTINUES — More Memories, More Lessons, and the Story Still Being Written",
+        "price": "5 .",
+        "image": null,
+        "amazonAvailabilityText": null,
+        "note": "Amazon listing detected automatically."
       }
     },
     {
@@ -156,7 +171,7 @@
       },
       "amazonCheck": {
         "availability": "not configured",
-        "checkedAt": "2026-11-10T02:43:27.401Z",
+        "checkedAt": "2026-11-10T10:27:23.228Z",
         "note": "No Amazon ASIN has been configured yet."
       }
     },
@@ -176,7 +191,7 @@
       },
       "amazonCheck": {
         "availability": "not configured",
-        "checkedAt": "2026-11-10T02:43:27.401Z",
+        "checkedAt": "2026-11-10T10:27:23.228Z",
         "note": "No Amazon ASIN has been configured yet."
       }
     }
