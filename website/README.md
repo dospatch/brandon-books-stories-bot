@@ -36,6 +36,11 @@ Amazon's automated public-page checks may return service errors. A failed automa
 
 Barnes & Noble and TikTok Shop product links should only be promoted as purchase links after the specific product listing or shop URL is confirmed. Search results must be labeled as searches, not verified product pages.
 
+## QA and asset preparation
+
+- See `PWA-TESTING.md` for Android, iOS, offline, storefront, and release-gate checks.
+- See `BOOK_ASSETS.md` for the required official cover files and safe replacement process.
+
 ## Local testing
 
 Serve this directory over HTTPS or localhost. Open `index.html`, verify the app manifest and service worker in the browser's application/developer tools, test search and favorites, switch themes, and test offline navigation after the first successful load.
