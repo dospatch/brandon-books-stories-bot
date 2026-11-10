@@ -7,9 +7,9 @@ The website is the public bookstore and author home for Brandon D. Coleman Jr.
 This folder now includes the first Progressive Web App (PWA) foundation:
 
 - `manifest.webmanifest` defines the installable app identity and standalone display mode.
-- `sw.js` caches the public app shell and book detail pages, provides an offline fallback, and refreshes the book catalog from the network when online.
-- `app.js` registers the service worker, supports the Android install prompt when the browser offers it, provides iPhone/iPad Add to Home Screen guidance, and saves the selected color theme locally.
-- `assets/bbs-app-icon.svg` is the scalable app mark.
+- `sw.js` caches the public app shell and book detail pages, provides an offline fallback, refreshes the book catalog from the network when online, and limits runtime cache growth.
+- `app.js` registers the service worker, supports the Android install prompt when the browser offers it, provides iPhone/iPad Add to Home Screen guidance, saves the selected color theme locally, and offers a user-controlled update when a new app version is ready.
+- `assets/bbs-app-icon.svg` is the scalable app mark; optimized 192 px and 512 px PNG icons support Android install surfaces, and a 180 px Apple touch icon supports iPhone/iPad.
 - `offline.html` provides a clear offline message.
 - `book-6.html` and `book-7.html` add detail pages for the final two published series installments.
 - `privacy.html` and `terms.html` describe the current app behavior and retailer handoff.
