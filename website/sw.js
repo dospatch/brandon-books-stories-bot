@@ -1,4 +1,4 @@
-const CACHE_NAME = "bbs-app-v3";
+const CACHE_NAME = "bbs-app-v4";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -21,7 +21,9 @@ const APP_SHELL = [
   "./book-6.html",
   "./book-7.html",
   "./privacy.html",
-  "./terms.html"
+  "./terms.html",
+  "./settings.html",
+  "./settings.js"
 ];
 
 self.addEventListener("message", event => {
