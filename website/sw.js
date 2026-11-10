@@ -21,7 +21,7 @@ const APP_SHELL = [
   "./terms.html"
 ];
 
-self.addEventListener("install", event => {
+self.addEventListener("message", event => {\n  if (event.data && event.data.type === "SKIP_WAITING") self.skipWaiting();\n});\n\nself.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(APP_SHELL))
