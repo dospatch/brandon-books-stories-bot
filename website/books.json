@@ -11,11 +11,6 @@
         "url": "https://www.amazon.com/dp/B0HL794K8Z",
         "listingDetected": false
       },
-      "formats": {
-        "kindle": "published",
-        "paperback": "published",
-        "hardcover": "published"
-      },
       "status": "published",
       "amazonCheck": {
         "checkedAt": "2026-11-10T19:46:52.939Z",
@@ -34,11 +29,6 @@
         "url": "https://www.amazon.com/dp/B0HKT3GKM",
         "asin": "B0HKT3GKM",
         "listingDetected": false
-      },
-      "formats": {
-        "kindle": "published",
-        "paperback": "published",
-        "hardcover": "draft/setup"
       },
       "status": "published",
       "amazonCheck": {
@@ -59,11 +49,6 @@
         "asin": "B0HLB7P2ZS",
         "listingDetected": false
       },
-      "formats": {
-        "kindle": "published",
-        "paperback": "published",
-        "hardcover": "in review"
-      },
       "status": "published",
       "amazonCheck": {
         "checkedAt": "2026-11-10T19:46:52.939Z",
@@ -82,11 +67,6 @@
         "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
         "asin": "B0HM5DTQ3K",
         "listingDetected": false
-      },
-      "formats": {
-        "kindle": "published",
-        "paperback": "in review",
-        "hardcover": "draft"
       },
       "status": "published",
       "amazonCheck": {
@@ -107,11 +87,6 @@
         "asin": "B0HM6LY91G",
         "listingDetected": false
       },
-      "formats": {
-        "kindle": "published",
-        "paperback": "published",
-        "hardcover": "coming soon"
-      },
       "status": "published",
       "amazonCheck": {
         "checkedAt": "2026-11-10T19:46:52.939Z",
@@ -126,11 +101,6 @@
       "id": "book-6",
       "title": "THE PAGES STILL WAITING",
       "subtitle": "Book 6: The Pages Still Waiting: Picking Up Where the Memories Left Off",
-      "formats": {
-        "kindle": "to be announced",
-        "paperback": "to be announced",
-        "hardcover": "to be announced"
-      },
       "status": "published",
       "note": "Published on Amazon. Direct listing and format-specific details are being updated; no ASIN has been configured in this catalog yet.",
       "amazon": {
@@ -146,11 +116,6 @@
       "id": "book-7",
       "title": "SAME KID, BIGGER DREAMS",
       "subtitle": "Book 7: Same Kid, Bigger Dreams: Growing Up, Growing Forward, and Building What Comes Next",
-      "formats": {
-        "kindle": "to be announced",
-        "paperback": "to be announced",
-        "hardcover": "to be announced"
-      },
       "status": "published",
       "note": "Published on Amazon. Direct listing and format-specific details are being updated; no ASIN has been configured in this catalog yet.",
       "amazon": {
