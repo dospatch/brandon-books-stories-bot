@@ -24,24 +24,6 @@
         "title": "503 - Service Unavailable Error",
         "price": null,
         "availability": "unknown"
-      },
-      "editions": {
-        "kindle": {
-          "asin": "B0HJL27HKR",
-          "status": "live",
-          "submitted": "2026-09-12",
-          "price": "$5.99 USD"
-        },
-        "paperback": {
-          "asin": "B0HL794K8Z",
-          "status": "live",
-          "submitted": "2026-09-27",
-          "price": "$20.00 USD"
-        },
-        "hardcover": {
-          "status": "live",
-          "submitted": "2026-10-06"
-        }
       }
     },
     {
