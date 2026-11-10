@@ -1,11 +1,11 @@
-const CACHE_NAME = "bbs-app-v1";
+const CACHE_NAME = "bbs-app-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
   "./app.js",
   "./manifest.webmanifest",
-  "./assets/bbs-app-icon.svg",
+  "./assets/bbs-app-icon.svg",\n  "./assets/bbs-icon-192.png",\n  "./assets/bbs-icon-512.png",\n  "./assets/apple-touch-icon.png",
   "./offline.html",
   "./books.json",
   "./changelog.html",
@@ -21,7 +21,18 @@ const APP_SHELL = [
   "./terms.html"
 ];
 
-self.addEventListener("message", event => {\n  if (event.data && event.data.type === "SKIP_WAITING") self.skipWaiting();\n});\n\nself.addEventListener("install", event => {
+self.addEventListener("message", event => {\n  if (event.data && event.data.type === "SKIP_WAITING") self.skipWaiting();\n});\n\nasync function cacheResponse(request, response) {
+  const cache = await caches.open(CACHE_NAME);
+  await cache.put(request, response);
+  const keys = await cache.keys();
+  const shellUrls = APP_SHELL.map(path => new URL(path, self.location.href).href);
+  const runtimeKeys = keys.filter(key => !shellUrls.includes(key.url));
+  if (runtimeKeys.length > 80) {
+    await Promise.all(runtimeKeys.slice(0, runtimeKeys.length - 80).map(key => cache.delete(key)));
+  }
+}
+
+self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(APP_SHELL))
@@ -49,7 +60,7 @@ self.addEventListener("fetch", event => {
         .then(response => {
           if (response.ok) {
             const copy = response.clone();
-            caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
+            cacheResponse(request, copy).catch(() => {});
           }
           return response;
         })
