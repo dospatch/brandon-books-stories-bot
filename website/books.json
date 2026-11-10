@@ -1,5 +1,5 @@
 {
-  "lastChecked": "2026-11-09T22:24:33.581Z",
+  "lastChecked": "2026-11-10T02:43:26.262Z",
   "source": "Amazon public listings",
   "books": [
     {
@@ -18,12 +18,11 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-09T22:24:33.581Z",
-        "httpStatus": 500,
-        "finalUrl": "https://www.amazon.com/dp/B0HL794K8Z",
-        "title": "503 - Service Unavailable Error",
-        "price": null,
-        "availability": "unknown"
+        "availability": "temporarily blocked",
+        "checkedAt": "2026-11-10T02:43:26.265Z",
+        "url": "https://www.amazon.com/dp/B0HL794K8Z",
+        "httpStatus": 200,
+        "note": "Amazon requested a verification page. The next scheduled check will try again."
       },
       "editions": {
         "kindle": {
@@ -60,12 +59,11 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-09T22:24:33.581Z",
-        "httpStatus": 404,
-        "finalUrl": "https://www.amazon.com/dp/B0HKT3GKM",
-        "title": "Page Not Found",
-        "price": null,
-        "availability": "unknown"
+        "availability": "temporarily blocked",
+        "checkedAt": "2026-11-10T02:43:26.578Z",
+        "url": "https://www.amazon.com/dp/B0HKT3GKM",
+        "httpStatus": 200,
+        "note": "Amazon requested a verification page. The next scheduled check will try again."
       }
     },
     {
@@ -84,12 +82,11 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-09T22:24:33.581Z",
-        "httpStatus": 500,
-        "finalUrl": "https://www.amazon.com/dp/B0HLB7P2ZS",
-        "title": "503 - Service Unavailable Error",
-        "price": null,
-        "availability": "unknown"
+        "availability": "temporarily blocked",
+        "checkedAt": "2026-11-10T02:43:26.652Z",
+        "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
+        "httpStatus": 200,
+        "note": "Amazon requested a verification page. The next scheduled check will try again."
       }
     },
     {
@@ -99,7 +96,7 @@
       "amazon": {
         "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
         "asin": "B0HM5DTQ3K",
-        "listingDetected": false
+        "listingDetected": true
       },
       "formats": {
         "kindle": "published",
@@ -108,12 +105,15 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-09T22:24:33.581Z",
-        "httpStatus": 500,
-        "finalUrl": "https://www.amazon.com/dp/B0HM5DTQ3K",
-        "title": "503 - Service Unavailable Error",
-        "price": null,
-        "availability": "unknown"
+        "availability": "available",
+        "checkedAt": "2026-11-10T02:43:26.697Z",
+        "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
+        "httpStatus": 200,
+        "title": "MY LIFE STORY WITH GRANDMA: Part 4: The Memories We Carry Forward",
+        "price": "5 .",
+        "image": null,
+        "amazonAvailabilityText": null,
+        "note": "Amazon listing detected automatically."
       }
     },
     {
@@ -132,12 +132,11 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-09T22:24:33.581Z",
-        "httpStatus": 500,
-        "finalUrl": "https://www.amazon.com/dp/B0HM6LY91G",
-        "title": "503 - Service Unavailable Error",
-        "price": null,
-        "availability": "unknown"
+        "availability": "temporarily blocked",
+        "checkedAt": "2026-11-10T02:43:27.357Z",
+        "url": "https://www.amazon.com/dp/B0HM6LY91G",
+        "httpStatus": 200,
+        "note": "Amazon requested a verification page. The next scheduled check will try again."
       }
     },
     {
@@ -156,7 +155,7 @@
       },
       "amazonCheck": {
         "availability": "not configured",
-        "checkedAt": "2026-11-09T20:09:09.094Z",
+        "checkedAt": "2026-11-10T02:43:27.401Z",
         "note": "No Amazon ASIN has been configured yet."
       }
     },
@@ -176,7 +175,7 @@
       },
       "amazonCheck": {
         "availability": "not configured",
-        "checkedAt": "2026-11-09T20:09:09.094Z",
+        "checkedAt": "2026-11-10T02:43:27.401Z",
         "note": "No Amazon ASIN has been configured yet."
       }
     }
