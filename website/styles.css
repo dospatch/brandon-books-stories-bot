@@ -121,3 +121,15 @@ button,a,input,textarea,select{touch-action:manipulation}
 button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--accent2);outline-offset:3px}
 [hidden]{display:none!important}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* Dedicated app settings layout */
+.settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:30px 0}
+.settings-card{padding:24px;background:var(--white);border:1px solid var(--line);border-radius:8px;display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.settings-card h2{margin:0;color:var(--ink);font-family:Georgia,serif;font-size:23px;font-weight:500}
+.settings-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.7}
+.settings-card .button{margin-top:6px}
+.settings-icon{font-size:25px}
+.settings-card .book-actions{display:flex;flex-wrap:wrap;gap:8px}
+:root[data-theme="dark"] .settings-card{background:#24211e;border-color:var(--line)}
+:root[data-theme="dark"] .settings-card h2{color:#f3eee7}
+@media(max-width:700px){.settings-grid{grid-template-columns:1fr;gap:12px}.settings-card{padding:20px}}
