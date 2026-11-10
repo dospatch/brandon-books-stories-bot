@@ -71,7 +71,7 @@ self.addEventListener("fetch", event => {
           }
           return response;
         })
-        .catch(async () => (await caches.match(request, { ignoreSearch: true })) || (await caches.match("./offline.html")))
+        .catch(async () => (await caches.match(request, { ignoreSearch: true })) || (await caches.match(new URL("./offline.html", self.location.href).href)))
     );
     return;
   }
