@@ -30,7 +30,7 @@ Favorites and theme preferences are stored in browser local storage; they are no
 
 ## Publishing data rules
 
-Do not invent titles, book descriptions, covers, ISBNs, ASINs, prices, format status, release dates, or direct retailer product URLs. The author confirmed all seven series books are published on Amazon. Direct listing and edition-specific details for Books 6 and 7 still need to be verified. Their detail pages therefore use retailer search links and explicitly identify the missing official cover artwork.
+Do not invent titles, book descriptions, covers, ISBNs, ASINs, prices, format status, release dates, or direct retailer product URLs. The author confirmed all seven series books are published on Amazon. Direct listing and edition-specific details for Books 6 and 7 still need to be verified. Their detail pages therefore use retailer search links. No official cover image files were present in the website assets, so all seven book cards and detail pages now use honest cover-art placeholders. Replace these only with author-supplied cover images.
 
 Amazon's automated public-page checks may return service errors. A failed automated check is not proof that a listing is unavailable and must not remove a previously configured purchase link.
 
