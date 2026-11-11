@@ -102,14 +102,16 @@
       "title": "THE PAGES STILL WAITING",
       "subtitle": "Book 6: The Pages Still Waiting: Picking Up Where the Memories Left Off",
       "status": "published",
-      "note": "Published on Amazon. Direct listing and format-specific details are being updated; no ASIN has been configured in this catalog yet.",
+      "note": "Published on Amazon. Amazon search link provided until the exact product listing is verified.",
       "amazon": {
+        "url": "https://www.amazon.com/s?k=The+Pages+Still+Waiting+Brandon+D.+Coleman+Jr.",
+        "linkType": "search",
         "listingDetected": false
       },
       "amazonCheck": {
-        "availability": "not configured",
+        "availability": "search link",
         "checkedAt": "2026-11-10T18:15:51.008Z",
-        "note": "No Amazon ASIN has been configured yet."
+        "note": "Search Amazon by the confirmed book title and author; direct ASIN has not been configured."
       }
     },
     {
@@ -117,14 +119,16 @@
       "title": "SAME KID, BIGGER DREAMS",
       "subtitle": "Book 7: Same Kid, Bigger Dreams: Growing Up, Growing Forward, and Building What Comes Next",
       "status": "published",
-      "note": "Published on Amazon. Direct listing and format-specific details are being updated; no ASIN has been configured in this catalog yet.",
+      "note": "Published on Amazon. Amazon search link provided until the exact product listing is verified.",
       "amazon": {
+        "url": "https://www.amazon.com/s?k=Same+Kid+Bigger+Dreams+Brandon+D.+Coleman+Jr.",
+        "linkType": "search",
         "listingDetected": false
       },
       "amazonCheck": {
-        "availability": "not configured",
+        "availability": "search link",
         "checkedAt": "2026-11-10T18:15:51.008Z",
-        "note": "No Amazon ASIN has been configured yet."
+        "note": "Search Amazon by the confirmed book title and author; direct ASIN has not been configured."
       }
     }
   ],
@@ -134,5 +138,5 @@
     "source": "Amazon public product pages",
     "behavior": "When an Amazon listing is detected, the website can automatically surface its direct Amazon link."
   },
-  "lastUpdated": "2026-11-02T17:57:03.119Z"
+  "lastUpdated": "2026-11-10T19:46:52.939Z"
 }
