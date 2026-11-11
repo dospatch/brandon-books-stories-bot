@@ -358,7 +358,7 @@
       if(book.status==="upcoming"){
         actions.innerHTML="<span class='text-link'>📚 Publishing status: To be announced.</span>";
       }else if(book.amazon?.url){
-        actions.innerHTML="<a class='button primary' href='"+book.amazon.url+"' target='_blank' rel='noopener noreferrer'>🛒 View on Amazon</a><span class='text-link'>Availability is not confirmed by the automatic checker.</span>";
+        actions.innerHTML="<a class='button primary' href='"+book.amazon.url+"' target='_blank' rel='noopener noreferrer'>"+(book.amazon.linkType==="search"?"🔎 Search Amazon":"🛒 View on Amazon")+"</a><span class='text-link'>"+(book.amazon.linkType==="search"?"Search results may include other editions or titles.":"Availability is not confirmed by the automatic checker.")+"</span>";
       }else if(book.status==="published"){
         actions.innerHTML="<span class='text-link'>📚 Published on Amazon — direct listing link is being added.</span>";
       }else{
