@@ -1,4 +1,4 @@
-const CACHE_NAME = "bbs-site-shell-v2";
+const CACHE_NAME = "bbs-site-shell-v3";
 const SHELL = [
   "/",
   "/index.html",
@@ -19,7 +19,7 @@ self.addEventListener("install", event => {
 self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(keys.filter(key => key === "bbs-site-shell-v1").map(key => caches.delete(key))))
+      .then(keys => Promise.all(keys.filter(key => key === "bbs-site-shell-v1" || key === "bbs-site-shell-v2").map(key => caches.delete(key))))
       .then(() => self.clients.claim())
   );
 });
