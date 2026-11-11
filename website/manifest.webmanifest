@@ -4,7 +4,7 @@
   "short_name": "Brandon Books",
   "description": "The official books and author experience of Brandon D. Coleman Jr.",
   "lang": "en-US",
-  "start_url": "/?source=android-app",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "display_override": [
