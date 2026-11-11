@@ -547,7 +547,9 @@ async function setup(guild){
     {name:"📕 Part 2 — Continuing the Journey",value:process.env.PART_2_URL||bookWebsite},
     {name:"📘 Book 3 — The Journey Continues",value:process.env.BOOK_3_URL||bookWebsite},
     {name:"📙 Part 4 — The Memories We Carry Forward",value:process.env.BOOK_4_URL||bookWebsite},
-    
+    {name:"📔 Part 5 — The Journey Continues",value:process.env.BOOK_5_URL||bookWebsite},
+    {name:"📓 Book 6 — The Pages Still Waiting",value:"Published on Amazon. Direct listing link is being updated."},
+    {name:"📚 Book 7 — Same Kid, Bigger Dreams",value:"Published on Amazon. Direct listing link is being updated."}
    ]
   },
   "⭐・reader-reviews":{
