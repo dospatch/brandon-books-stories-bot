@@ -1,0 +1,29 @@
+{
+  "packageId": "com.brandonbooksandstories.app",
+  "host": "brandon-books-stories-bot-website.vercel.app",
+  "name": "Brandon Books & Stories",
+  "launcherName": "Brandon Books",
+  "display": "standalone",
+  "themeColor": "#171513",
+  "themeColorDark": "#171513",
+  "navigationColor": "#171513",
+  "navigationColorDark": "#171513",
+  "navigationDividerColor": "#171513",
+  "navigationDividerColorDark": "#171513",
+  "backgroundColor": "#f7f4ef",
+  "enableNotifications": false,
+  "startUrl": "/?source=android-app",
+  "iconUrl": "https://brandon-books-stories-bot-website.vercel.app/assets/bbs-icon-512.png",
+  "maskableIconUrl": "https://brandon-books-stories-bot-website.vercel.app/assets/bbs-icon-512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./android.keystore",
+    "alias": "android"
+  },
+  "appVersionCode": 1,
+  "appVersion": "1.0.0",
+  "webManifestUrl": "https://brandon-books-stories-bot-website.vercel.app/manifest.webmanifest",
+  "orientation": "any",
+  "minSdkVersion": 23,
+  "fingerprints": []
+}
