@@ -512,7 +512,7 @@ async function setup(guild){
    marker:"BBS_BOOK_1_STARTER",
    title:"📖 Book 1 — Foundations",
    description:"**My Life Story With Grandma**\n\nWelcome to the beginning of the series. This book lays the foundation for the family memories and the special bond at the heart of the journey. Start here, then continue through the seven-book series in reading order.",
-   fields:[{name:"🛒 Read / Buy",value:"Kindle eBook: https://www.amazon.com/dp/B0HJL27HKR\nPaperback: https://www.amazon.com/dp/B0HL794K8Z\nHardcover and other editions: "+bookWebsite}]
+   fields:[{name:"🛒 Read / Buy",value:"Published on Amazon. Visit the official website for book information: "+bookWebsite}]
   },
   "📕・part-2":{
    marker:"BBS_BOOK_2_STARTER",
@@ -736,7 +736,7 @@ async function setup(guild){
   const whereToBuy=guild.channels.cache.find(x=>x.type===ChannelType.GuildText&&x.name==="🛒・where-to-buy");
   const aboutMediaEmbed=new EmbedBuilder()
    .setTitle("📖 About Media — Brandon Books & Stories")
-   .setDescription("Follow Brandon D. Coleman Jr. across the five-book **My Life Story With Grandma** series, social media, videos, music, tributes, and creative projects.\\n\\n**📖 Real Stories • Bigger Purpose**")
+   .setDescription("Follow Brandon D. Coleman Jr. across the seven-book **My Life Story With Grandma** series, social media, videos, music, tributes, and creative projects.\\n\\n**📖 Real Stories • Bigger Purpose**")
    .addFields(
     {name:"🌐 Official Website",value:"https://brandon-books-stories-bot-website.vercel.app/"},
     {name:"📚 Book Series",value:"All seven books are published on Amazon. The website and media channels provide current book information and verified purchase links."},
