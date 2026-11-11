@@ -20,7 +20,7 @@ jobs:
         run: npm install
       - name: Check bot JavaScript syntax
         run: |
-          for file in src/*.js api/*.js website/api/*.js website/changelog.js; do
+          for file in index.js src/*.js api/*.js website/api/*.js website/changelog.js; do
             if [ -f "$file" ]; then
               node --check "$file"
             fi
