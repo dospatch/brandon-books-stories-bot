@@ -338,21 +338,14 @@
         actions.className="book-actions";
         info.appendChild(actions);
       }
-      const check=book.amazonCheck||{};
-      if(book.status==="upcoming"){
-        actions.innerHTML="<span class='text-link'>📚 Publishing status: To be announced.</span>";
-      }else if(book.status==="published" && !book.amazon?.url){
-        actions.innerHTML="<span class='text-link'>📚 Published on Amazon — direct listing link is being added.</span>";
-      }else if(check.availability==="available" && book.amazon?.url){
-        actions.innerHTML="<a class='button primary' href='"+book.amazon.url+"' target='_blank' rel='noopener'>🛒 View on Amazon</a>";
-      }else{
-        actions.innerHTML="<span class='text-link'>🕐 Amazon listing not detected yet — checking automatically.</span>";
+      if(book.amazon?.url){
+        actions.innerHTML="<a class='button primary' href='"+book.amazon.url+"' target='_blank' rel='noopener'>🛒 Find on Amazon</a>";
       }
     }
   }catch(error){
-    console.warn("Automatic Amazon link update unavailable.",error);
+    console.warn("Amazon book links could not be refreshed.",error);
   }
-})();
+})();;
 </script>
 <script>
 (function addBookDetailLinks(){
