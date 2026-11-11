@@ -1,4 +1,4 @@
-const CACHE_NAME = "bbs-android-shell-v1";
+const CACHE_NAME = "bbs-site-shell-v2";
 const SHELL = [
   "/",
   "/index.html",
