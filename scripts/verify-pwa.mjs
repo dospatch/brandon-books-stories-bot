@@ -74,9 +74,10 @@ pass("Homepage inline scripts compile");
 if ((index.match(/class="book-card/g) || []).length !== 7) fail("Homepage must display seven book cards.");
 else pass("Seven book cards are present");
 if (!index.includes('data-book-filter="favorites"') ||
-    !index.includes('card.dataset.editionStatus === "in-progress"')) {
-  fail("Catalog favorite or edition-progress filters are missing.");
-} else pass("Catalog search filters and favorites");
+    !index.includes('data-book-filter="published"') ||
+    index.includes("data-edition-status") || index.includes("editionStatus")) {
+  fail("Catalog filters must use published status and favorites, without edition-progress metadata.");
+} else pass("Catalog search, published filter, and favorites without edition-status metadata");
 if (!index.includes('href="settings.html"')) fail("Homepage is missing the App Settings link.");
 else pass("App Settings navigation");
 if (index.includes('class="cover cover-')) fail("Unverified mock cover artwork remains on the homepage.");
