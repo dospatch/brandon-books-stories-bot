@@ -51,6 +51,17 @@ for (const file of ["website/app.js", "website/sw.js", "website/settings.js"]) {
   else pass(file + " syntax");
 }
 
+const catalog = JSON.parse(read("website/books.json"));
+if (catalog.books.length !== 7) fail("Book catalog must contain all seven titles.");
+if (catalog.books.some(book => book.formats || book.editions)) {
+  fail("Edition-specific format status and pricing metadata must not be stored in the public catalog.");
+} else pass("Catalog contains no edition-specific format status or pricing metadata");
+
+const botSource = read("index.js");
+if (/Kindle ASIN|Paperback ASIN|LIVE — \\$5\\.99|LIVE — \\$20\\.00/.test(botSource)) {
+  fail("Discord publishing announcement still contains removed Book 1 edition details.");
+} else pass("Discord publishing announcement has no removed edition prices or ASIN details");
+
 const index = read("website/index.html");
 const inlineScripts = [...index.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)]
   .map(match => match[1]).filter(code => code.trim());
