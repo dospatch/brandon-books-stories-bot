@@ -511,7 +511,7 @@ async function setup(guild){
   "📖・my-life-story-with-grandma":{
    marker:"BBS_BOOK_1_STARTER",
    title:"📖 Book 1 — Foundations",
-   description:"**My Life Story With Grandma**\n\nWelcome to the beginning of the series. This book lays the foundation for the family memories and the special bond at the heart of the journey. Start here, then continue with Parts 2–5.",
+   description:"**My Life Story With Grandma**\n\nWelcome to the beginning of the series. This book lays the foundation for the family memories and the special bond at the heart of the journey. Start here, then continue through the seven-book series in reading order.",
    fields:[{name:"🛒 Read / Buy",value:"Kindle eBook: https://www.amazon.com/dp/B0HJL27HKR\nPaperback: https://www.amazon.com/dp/B0HL794K8Z\nHardcover and other editions: "+bookWebsite}]
   },
   "📕・part-2":{
@@ -541,13 +541,13 @@ async function setup(guild){
   "🛒・where-to-buy":{
    marker:"BBS_WHERE_TO_BUY_STARTER",
    title:"🛒 Where to Buy — My Life Story With Grandma",
-   description:"Welcome! Use the links below to find the series and current editions. Read the books in order, from Book 1 through Part 5.",
+   description:"Welcome! Use the links below to find the series and current editions. Read the books in order, from Book 1 through Book 7.",
    fields:[
-    {name:"📖 Book 1 — Foundations",value:"Kindle: https://www.amazon.com/dp/B0HJL27HKR\nPaperback: https://www.amazon.com/dp/B0HL794K8Z\nOther editions: "+bookWebsite},
+    {name:"📖 Book 1 — Foundations",value:"Published on Amazon. Visit the official website for book information: "+bookWebsite},
     {name:"📕 Part 2 — Continuing the Journey",value:process.env.PART_2_URL||bookWebsite},
     {name:"📘 Book 3 — The Journey Continues",value:process.env.BOOK_3_URL||bookWebsite},
     {name:"📙 Part 4 — The Memories We Carry Forward",value:process.env.BOOK_4_URL||bookWebsite},
-    {name:"📔 Part 5 — The Journey Continues",value:process.env.BOOK_5_URL||bookWebsite}
+    
    ]
   },
   "⭐・reader-reviews":{
@@ -675,7 +675,7 @@ async function setup(guild){
   },
   "▶️・youtube":{
    title:"▶️ YouTube — Books, Stories & Creative Media",
-   description:"🎥 **The existing YouTube channel will remain the official video home for Brandon Books & Stories.**\n\n▶️ https://youtube.com/@chieifthebcfamily-dispatcher\n\n📚 Planned book-focused content includes:\n• My Life Story With Grandma — Books 1–5\n• Book and cover updates\n• Publishing progress\n• Reading and storytelling videos\n• Grandma and family memories\n• Writing journey updates\n• I Miss You Grandma music\n• Real Talk with Brandon\n\n📌 The goal is to keep one strong YouTube audience instead of splitting the community across multiple channels."
+   description:"🎥 **The existing YouTube channel will remain the official video home for Brandon Books & Stories.**\n\n▶️ https://youtube.com/@chieifthebcfamily-dispatcher\n\n📚 Planned book-focused content includes:\n• My Life Story With Grandma — Books 1–7\n• Book and cover updates\n• Publishing progress\n• Reading and storytelling videos\n• Grandma and family memories\n• Writing journey updates\n• I Miss You Grandma music\n• Real Talk with Brandon\n\n📌 The goal is to keep one strong YouTube audience instead of splitting the community across multiple channels."
   },
   "📸・instagram":{
    title:"📸 Instagram — Brandon Books & Stories",
@@ -683,7 +683,7 @@ async function setup(guild){
   },
   "📘・facebook":{
    title:"📘 Facebook — My Books & Stories",
-   description:"Follow the official **Brandon D. Coleman Jr. — My Books & Stories** Facebook Page.\n\n📘 https://www.facebook.com/brandon.d.coleman.books\n\n📚 This channel will highlight the five-book series, new editions, book covers, publishing updates, stories, memories, announcements, and community news."
+   description:"Follow the official **Brandon D. Coleman Jr. — My Books & Stories** Facebook Page.\n\n📘 https://www.facebook.com/brandon.d.coleman.books\n\n📚 This channel will highlight the seven-book series, new editions, book covers, publishing updates, stories, memories, announcements, and community news."
   },
   "🎵・music-projects":{
    title:"🎵 Music & Creative Projects",
@@ -737,7 +737,7 @@ async function setup(guild){
    .setDescription("Follow Brandon D. Coleman Jr. across the five-book **My Life Story With Grandma** series, social media, videos, music, tributes, and creative projects.\\n\\n**📖 Real Stories • Bigger Purpose**")
    .addFields(
     {name:"🌐 Official Website",value:"https://brandon-books-stories-bot-website.vercel.app/"},
-    {name:"📚 Book Series",value:"Books 1–5 are now part of the current series lineup. The website and media channels are being updated to feature the latest covers and publishing status."},
+    {name:"📚 Book Series",value:"All seven books are published on Amazon. The website and media channels provide current book information and verified purchase links."},
     {name:"📸 Instagram",value:"https://www.instagram.com/brandonbooksandstories/"},
     {name:"📘 Facebook",value:"https://www.facebook.com/brandon.d.coleman.books"},
     {name:"▶️ YouTube",value:"https://youtube.com/@chieifthebcfamily-dispatcher"},
@@ -886,22 +886,22 @@ client.on("interactionCreate",async i=>{
    }
    return;
   }
-  if(i.commandName==="help")return i.reply({embeds:[new EmbedBuilder().setTitle("📖 Brandon Books & Stories").setDescription("**Books & Author**\n📚 `/books` — Browse the five-book series and official purchase information\n💡 `/recommend` — Get a recommendation by theme\n🌐 `/website` — Open the author website\n📖 `/about` — Learn about Brandon & Books & Stories\n📱 `/aboutmedia` — Official media links\n💬 `/community` — Community activities\n\n**Reader Community**\n⭐ `/review` — Submit a reader review\n💡 `/feedback` — Send private feedback to staff\n📋 `/apply` — Submit a private application\n🎲 `/giveaway` — Official giveaway announcement *(owner only)*\n\n**Updates & Staff**\n📢 `/authorupdate` — Share an author or creative-project update *(owner only)*\n📢 `/announce` — Post a general announcement *(owner only)*\n📚 `/promotion` — Post the Book 1 promotion *(owner only)*\n📰 `/publishingupdate` — Post publishing progress *(owner only)*\n🔒 `/staff` — Private staff dashboard\n📚 `/readerprompt` — Post a discussion starter *(staff only)*\n🛠️ `/setup-author-server` — Repair server structure *(owner only)*\n\n**Reliability**\n🏓 `/ping` — Check that the bot is responding\n🖥️ `/serverinfo` — View server information\n❓ `/help` — Show this help menu").setFooter({text:"📖 Real Stories • Bigger Purpose"})],flags:MessageFlags.Ephemeral});
+  if(i.commandName==="help")return i.reply({embeds:[new EmbedBuilder().setTitle("📖 Brandon Books & Stories").setDescription("**Books & Author**\n📚 `/books` — Browse all seven books and official purchase information\n💡 `/recommend` — Get a recommendation by theme\n🌐 `/website` — Open the author website\n📖 `/about` — Learn about Brandon & Books & Stories\n📱 `/aboutmedia` — Official media links\n💬 `/community` — Community activities\n\n**Reader Community**\n⭐ `/review` — Submit a reader review\n💡 `/feedback` — Send private feedback to staff\n📋 `/apply` — Submit a private application\n🎲 `/giveaway` — Official giveaway announcement *(owner only)*\n\n**Updates & Staff**\n📢 `/authorupdate` — Share an author or creative-project update *(owner only)*\n📢 `/announce` — Post a general announcement *(owner only)*\n📚 `/promotion` — Post the Book 1 promotion *(owner only)*\n📰 `/publishingupdate` — Post publishing progress *(owner only)*\n🔒 `/staff` — Private staff dashboard\n📚 `/readerprompt` — Post a discussion starter *(staff only)*\n🛠️ `/setup-author-server` — Repair server structure *(owner only)*\n\n**Reliability**\n🏓 `/ping` — Check that the bot is responding\n🖥️ `/serverinfo` — View server information\n❓ `/help` — Show this help menu").setFooter({text:"📖 Real Stories • Bigger Purpose"})],flags:MessageFlags.Ephemeral});
   if(i.commandName==="books"){
     const website=(process.env.WEBSITE_URL||"https://brandon-books-stories-bot-website.vercel.app").replace(/\/$/,"");
     const purchase=(key)=>process.env[key]||website;
     const embed=new EmbedBuilder()
      .setTitle("📚 Brandon D. Coleman Jr. — My Life Story With Grandma (Books 1–7)")
-     .setDescription("Explore the growing seven-book journey in reading order. Books 1–5 have current publishing updates; Books 6–7 are upcoming, with release dates and retail links to be announced.")
+     .setDescription("Explore all seven books in reading order. All seven titles are published on Amazon; direct purchase links for Books 6 and 7 are being updated.")
      .addFields(
-      {name:"📖 Book 1 — Foundations",value:"**My Life Story With Grandma**\n🟢 Kindle eBook: https://www.amazon.com/dp/B0HJL27HKR\n🟢 Paperback: https://www.amazon.com/dp/B0HL794K8Z\n🌐 Hardcover / other editions: "+website},
+      {name:"📖 Book 1 — Foundations",value:"**My Life Story With Grandma**\nPublished on Amazon. Visit the official website for book information: "+website},
       {name:"📕 Part 2 — Continuing the Journey",value:"**Continuing the Journey, Memories, and the Road Ahead**\n🛒 Purchase / edition links: "+purchase("PART_2_URL")},
       {name:"📘 Book 3 — The Journey Continues",value:"**Growing, Building, Remembering, and Looking Ahead**\n🛒 Purchase / edition links: "+purchase("BOOK_3_URL")},
       {name:"📙 Part 4 — The Memories We Carry Forward",value:"**A Continuing Journey of Love, Family, Memories, and the Road Ahead**\n🛒 Purchase / edition links: "+purchase("BOOK_4_URL")},
       {name:"📔 Part 5 — The Journey Continues",value:"**More Memories, More Lessons, and the Story Still Being Written**\n🛒 Purchase / edition links: "+purchase("BOOK_5_URL")},
-      {name:"📓 Book 6 — The Pages Still Waiting",value:"**Picking Up Where the Memories Left Off**\n📚 Kindle eBook: To be announced\n📚 Paperback: To be announced\n📚 Hardcover: To be announced"},
-      {name:"📚 Book 7 — Same Kid, Bigger Dreams",value:"**Growing Up, Growing Forward, and Building What Comes Next**\n📚 Kindle eBook: To be announced\n📚 Paperback: To be announced\n📚 Hardcover: To be announced"},
-      {name:"❤️ Reading the Series",value:"For the best reading order, start with Book 1 and continue through Parts 2, 3, 4, and 5. Books 6 and 7 are upcoming; release dates and retailer links will be announced when confirmed. Set the existing book URL environment variables to show verified retailer listings for Books 2–5; otherwise the official website is shown."}
+      {name:"📓 Book 6 — The Pages Still Waiting",value:"Published on Amazon. Direct listing link is being updated."},
+      {name:"📚 Book 7 — Same Kid, Bigger Dreams",value:"Published on Amazon. Direct listing link is being updated."},
+      {name:"❤️ Reading the Series",value:"For the best reading order, start with Book 1 and continue through all seven books. All seven titles are published on Amazon. Use the official website for current book information; direct listing links for Books 6 and 7 are being updated."}
      )
      .setFooter({text:"📖 Real Stories • Bigger Purpose"});
     return i.reply({embeds:[embed]});
@@ -912,7 +912,7 @@ client.on("interactionCreate",async i=>{
     family:{title:"📖 Start with Book 1 — Foundations",description:"A good starting point for readers interested in family, memories, and the bond between a grandson and his grandmother. Begin at the start of the series, then continue in order."},
     growth:{title:"📘 Explore Book 3 — The Journey Continues",description:"For readers drawn to growth, building, remembering, and looking ahead, Book 3 is described around those continuing-life themes. For the full story arc, read the series in order."},
     journey:{title:"📕 Continue with Part 2",description:"Part 2 continues the journey through memories, experiences, and the road ahead. It follows Book 1, so start with Foundations if you have not read it yet."},
-    any:{title:"❤️ A growing seven-book story journey",description:"Start with Book 1 — Foundations, then continue through Part 2, Book 3, Part 4, and Part 5. Books 6 — The Pages Still Waiting and 7 — Same Kid, Bigger Dreams are upcoming, with release dates and retail links to be announced."}
+    any:{title:"❤️ A growing seven-book story journey",description:"Start with Book 1 — Foundations, then continue through Part 2, Book 3, Part 4, and Part 5. Books 6 — The Pages Still Waiting and 7 — Same Kid, Bigger Dreams are also published on Amazon."}
    };
    const pick=picks[theme]||picks.any;
    const embed=new EmbedBuilder().setTitle(pick.title).setDescription(pick.description+"\n\n🌐 **Official website and current book links:** https://brandon-books-stories-bot-website.vercel.app/").setFooter({text:"Brandon D. Coleman Jr. — Books & Stories • 📖 Real Stories • Bigger Purpose"});
