@@ -1,5 +1,5 @@
 {
-  "lastChecked": "2026-11-12T00:59:33.845Z",
+  "lastChecked": "2026-11-12T07:16:17.857Z",
   "source": "Amazon public listings",
   "books": [
     {
@@ -18,11 +18,12 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "temporarily blocked",
-        "checkedAt": "2026-11-12T00:59:33.849Z",
-        "url": "https://www.amazon.com/dp/B0HL794K8Z",
-        "httpStatus": 200,
-        "note": "Amazon requested a verification page. The next scheduled check will try again."
+        "checkedAt": "2026-11-12T07:16:17.857Z",
+        "httpStatus": 500,
+        "finalUrl": "https://www.amazon.com/dp/B0HL794K8Z",
+        "title": "503 - Service Unavailable Error",
+        "price": null,
+        "availability": "unknown"
       },
       "editions": {
         "kindle": {
@@ -59,11 +60,12 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "temporarily blocked",
-        "checkedAt": "2026-11-12T00:59:33.959Z",
-        "url": "https://www.amazon.com/dp/B0HKT3GKM",
-        "httpStatus": 200,
-        "note": "Amazon requested a verification page. The next scheduled check will try again."
+        "checkedAt": "2026-11-12T07:16:17.857Z",
+        "httpStatus": 503,
+        "finalUrl": "https://www.amazon.com/dp/B0HKT3GKM",
+        "title": "Amazon.com",
+        "price": null,
+        "availability": "unknown"
       }
     },
     {
@@ -82,11 +84,12 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "temporarily blocked",
-        "checkedAt": "2026-11-12T00:59:33.988Z",
-        "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
-        "httpStatus": 200,
-        "note": "Amazon requested a verification page. The next scheduled check will try again."
+        "checkedAt": "2026-11-12T07:16:17.857Z",
+        "httpStatus": 500,
+        "finalUrl": "https://www.amazon.com/dp/B0HLB7P2ZS",
+        "title": "503 - Service Unavailable Error",
+        "price": null,
+        "availability": "unknown"
       }
     },
     {
@@ -105,11 +108,12 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "temporarily blocked",
-        "checkedAt": "2026-11-12T00:59:34.008Z",
-        "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
+        "checkedAt": "2026-11-12T07:16:17.857Z",
         "httpStatus": 200,
-        "note": "Amazon requested a verification page. The next scheduled check will try again."
+        "finalUrl": "https://www.amazon.com/MY-LIFE-STORY-GRANDMA-Memories-ebook/dp/B0HM5DTQ3K",
+        "title": "Amazon.com: MY LIFE STORY WITH GRANDMA: Part 4: The Memories We Carry Forward eBook : Coleman JR, Brandon D.: Kindle Store",
+        "price": null,
+        "availability": "available"
       }
     },
     {
@@ -128,11 +132,12 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "temporarily blocked",
-        "checkedAt": "2026-11-12T00:59:34.025Z",
-        "url": "https://www.amazon.com/dp/B0HM6LY91G",
-        "httpStatus": 200,
-        "note": "Amazon requested a verification page. The next scheduled check will try again."
+        "checkedAt": "2026-11-12T07:16:17.857Z",
+        "httpStatus": 500,
+        "finalUrl": "https://www.amazon.com/MY-LIFE-STORY-GRANDMA-CONTINUES-ebook/dp/B0HM6LY91G",
+        "title": "503 - Service Unavailable Error",
+        "price": null,
+        "availability": "unknown"
       }
     },
     {
