@@ -1,5 +1,5 @@
 {
-  "lastChecked": "2026-11-12T08:18:28.629Z",
+  "lastChecked": "2026-11-12T17:04:28.499Z",
   "source": "Amazon public listings",
   "books": [
     {
@@ -9,7 +9,7 @@
       "amazon": {
         "asin": "B0HL794K8Z",
         "url": "https://www.amazon.com/dp/B0HL794K8Z",
-        "listingDetected": true
+        "listingDetected": false
       },
       "formats": {
         "kindle": "published",
@@ -18,15 +18,11 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "available",
-        "checkedAt": "2026-11-12T08:18:28.633Z",
+        "availability": "temporarily blocked",
+        "checkedAt": "2026-11-12T17:04:28.502Z",
         "url": "https://www.amazon.com/dp/B0HL794K8Z",
         "httpStatus": 200,
-        "title": "My Life Story with Grandma",
-        "price": "20 .",
-        "image": null,
-        "amazonAvailabilityText": "In Stock",
-        "note": "Amazon listing detected automatically."
+        "note": "Amazon requested a verification page. The next scheduled check will try again."
       },
       "editions": {
         "kindle": {
@@ -64,7 +60,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-11-12T08:18:29.820Z",
+        "checkedAt": "2026-11-12T17:04:28.582Z",
         "url": "https://www.amazon.com/dp/B0HKT3GKM",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -87,7 +83,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-11-12T08:18:29.883Z",
+        "checkedAt": "2026-11-12T17:04:28.604Z",
         "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -109,11 +105,15 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "temporarily blocked",
-        "checkedAt": "2026-11-12T08:18:29.986Z",
+        "availability": "not detected",
+        "checkedAt": "2026-11-12T17:04:28.623Z",
         "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
-        "httpStatus": 200,
-        "note": "Amazon requested a verification page. The next scheduled check will try again."
+        "httpStatus": 503,
+        "title": null,
+        "price": null,
+        "image": null,
+        "amazonAvailabilityText": null,
+        "note": "Amazon listing was not confidently detected yet."
       }
     },
     {
@@ -133,7 +133,7 @@
       "status": "published",
       "amazonCheck": {
         "availability": "temporarily blocked",
-        "checkedAt": "2026-11-12T08:18:30.050Z",
+        "checkedAt": "2026-11-12T17:04:28.639Z",
         "url": "https://www.amazon.com/dp/B0HM6LY91G",
         "httpStatus": 200,
         "note": "Amazon requested a verification page. The next scheduled check will try again."
@@ -155,7 +155,7 @@
       },
       "amazonCheck": {
         "availability": "not configured",
-        "checkedAt": "2026-11-12T08:18:30.114Z",
+        "checkedAt": "2026-11-12T17:04:28.654Z",
         "note": "No Amazon ASIN has been configured yet."
       }
     },
@@ -175,7 +175,7 @@
       },
       "amazonCheck": {
         "availability": "not configured",
-        "checkedAt": "2026-11-12T08:18:30.114Z",
+        "checkedAt": "2026-11-12T17:04:28.654Z",
         "note": "No Amazon ASIN has been configured yet."
       }
     }
