@@ -1,5 +1,5 @@
 {
-  "lastChecked": "2026-11-12T17:04:28.499Z",
+  "lastChecked": "2026-11-12T19:58:07.687Z",
   "source": "Amazon public listings",
   "books": [
     {
@@ -18,11 +18,12 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "temporarily blocked",
-        "checkedAt": "2026-11-12T17:04:28.502Z",
-        "url": "https://www.amazon.com/dp/B0HL794K8Z",
-        "httpStatus": 200,
-        "note": "Amazon requested a verification page. The next scheduled check will try again."
+        "checkedAt": "2026-11-12T19:58:07.687Z",
+        "httpStatus": 500,
+        "finalUrl": "https://www.amazon.com/dp/B0HL794K8Z",
+        "title": "503 - Service Unavailable Error",
+        "price": null,
+        "availability": "unknown"
       },
       "editions": {
         "kindle": {
@@ -59,11 +60,12 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "temporarily blocked",
-        "checkedAt": "2026-11-12T17:04:28.582Z",
-        "url": "https://www.amazon.com/dp/B0HKT3GKM",
-        "httpStatus": 200,
-        "note": "Amazon requested a verification page. The next scheduled check will try again."
+        "checkedAt": "2026-11-12T19:58:07.687Z",
+        "httpStatus": 503,
+        "finalUrl": "https://www.amazon.com/dp/B0HKT3GKM",
+        "title": "Amazon.com",
+        "price": null,
+        "availability": "unknown"
       }
     },
     {
@@ -82,11 +84,12 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "temporarily blocked",
-        "checkedAt": "2026-11-12T17:04:28.604Z",
-        "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
-        "httpStatus": 200,
-        "note": "Amazon requested a verification page. The next scheduled check will try again."
+        "checkedAt": "2026-11-12T19:58:07.687Z",
+        "httpStatus": 500,
+        "finalUrl": "https://www.amazon.com/dp/B0HLB7P2ZS",
+        "title": "503 - Service Unavailable Error",
+        "price": null,
+        "availability": "unknown"
       }
     },
     {
@@ -105,15 +108,12 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "not detected",
-        "checkedAt": "2026-11-12T17:04:28.623Z",
-        "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
-        "httpStatus": 503,
-        "title": null,
+        "checkedAt": "2026-11-12T19:58:07.687Z",
+        "httpStatus": 500,
+        "finalUrl": "https://www.amazon.com/MY-LIFE-STORY-GRANDMA-Memories-ebook/dp/B0HM5DTQ3K",
+        "title": "503 - Service Unavailable Error",
         "price": null,
-        "image": null,
-        "amazonAvailabilityText": null,
-        "note": "Amazon listing was not confidently detected yet."
+        "availability": "unknown"
       }
     },
     {
@@ -132,11 +132,12 @@
       },
       "status": "published",
       "amazonCheck": {
-        "availability": "temporarily blocked",
-        "checkedAt": "2026-11-12T17:04:28.639Z",
-        "url": "https://www.amazon.com/dp/B0HM6LY91G",
-        "httpStatus": 200,
-        "note": "Amazon requested a verification page. The next scheduled check will try again."
+        "checkedAt": "2026-11-12T19:58:07.687Z",
+        "httpStatus": 500,
+        "finalUrl": "https://www.amazon.com/MY-LIFE-STORY-GRANDMA-CONTINUES-ebook/dp/B0HM6LY91G",
+        "title": "503 - Service Unavailable Error",
+        "price": null,
+        "availability": "unknown"
       }
     },
     {
