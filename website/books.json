@@ -1,5 +1,5 @@
 {
-  "lastChecked": "2026-11-20T07:20:50.172Z",
+  "lastChecked": "2026-11-20T16:07:29.494Z",
   "source": "Amazon public listings",
   "books": [
     {
@@ -18,12 +18,15 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-20T07:20:50.172Z",
-        "httpStatus": 500,
-        "finalUrl": "https://www.amazon.com/dp/B0HL794K8Z",
-        "title": "503 - Service Unavailable Error",
+        "availability": "not detected",
+        "checkedAt": "2026-11-20T16:07:29.496Z",
+        "url": "https://www.amazon.com/dp/B0HL794K8Z",
+        "httpStatus": 503,
+        "title": null,
         "price": null,
-        "availability": "unknown"
+        "image": null,
+        "amazonAvailabilityText": null,
+        "note": "Amazon listing was not confidently detected yet."
       },
       "editions": {
         "kindle": {
@@ -60,12 +63,15 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-20T07:20:50.172Z",
+        "availability": "not detected",
+        "checkedAt": "2026-11-20T16:07:29.684Z",
+        "url": "https://www.amazon.com/dp/B0HKT3GKM",
         "httpStatus": 503,
-        "finalUrl": "https://www.amazon.com/dp/B0HKT3GKM",
-        "title": "Amazon.com",
+        "title": null,
         "price": null,
-        "availability": "unknown"
+        "image": null,
+        "amazonAvailabilityText": null,
+        "note": "Amazon listing was not confidently detected yet."
       }
     },
     {
@@ -84,12 +90,15 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-20T07:20:50.172Z",
-        "httpStatus": 500,
-        "finalUrl": "https://www.amazon.com/dp/B0HLB7P2ZS",
-        "title": "503 - Service Unavailable Error",
+        "availability": "not detected",
+        "checkedAt": "2026-11-20T16:07:29.783Z",
+        "url": "https://www.amazon.com/dp/B0HLB7P2ZS",
+        "httpStatus": 503,
+        "title": null,
         "price": null,
-        "availability": "unknown"
+        "image": null,
+        "amazonAvailabilityText": null,
+        "note": "Amazon listing was not confidently detected yet."
       }
     },
     {
@@ -108,12 +117,11 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-20T07:20:50.172Z",
-        "httpStatus": 500,
-        "finalUrl": "https://www.amazon.com/MY-LIFE-STORY-GRANDMA-Memories-ebook/dp/B0HM5DTQ3K",
-        "title": "503 - Service Unavailable Error",
-        "price": null,
-        "availability": "unknown"
+        "availability": "temporarily blocked",
+        "checkedAt": "2026-11-20T16:07:29.863Z",
+        "url": "https://www.amazon.com/dp/B0HM5DTQ3K",
+        "httpStatus": 200,
+        "note": "Amazon requested a verification page. The next scheduled check will try again."
       }
     },
     {
@@ -132,12 +140,11 @@
       },
       "status": "published",
       "amazonCheck": {
-        "checkedAt": "2026-11-20T07:20:50.172Z",
-        "httpStatus": 500,
-        "finalUrl": "https://www.amazon.com/dp/B0HM6LY91G",
-        "title": "503 - Service Unavailable Error",
-        "price": null,
-        "availability": "unknown"
+        "availability": "temporarily blocked",
+        "checkedAt": "2026-11-20T16:07:29.944Z",
+        "url": "https://www.amazon.com/dp/B0HM6LY91G",
+        "httpStatus": 200,
+        "note": "Amazon requested a verification page. The next scheduled check will try again."
       }
     },
     {
@@ -156,7 +163,7 @@
       },
       "amazonCheck": {
         "availability": "not configured",
-        "checkedAt": "2026-11-20T07:10:16.367Z",
+        "checkedAt": "2026-11-20T16:07:30.020Z",
         "note": "No Amazon ASIN has been configured yet."
       }
     },
@@ -176,7 +183,7 @@
       },
       "amazonCheck": {
         "availability": "not configured",
-        "checkedAt": "2026-11-20T07:10:16.367Z",
+        "checkedAt": "2026-11-20T16:07:30.020Z",
         "note": "No Amazon ASIN has been configured yet."
       }
     }
